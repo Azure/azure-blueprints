@@ -7,6 +7,21 @@ Last edited: 4-1-19
 #### !! Disclaimer !!
 This doc is based on a powershell script that is managed by the community and is not officially supported by Microsoft. The Blueprints team is fast at work finishing official powershell cmdlets and azure cli commands. This doc will be updated once that happens.
 
+## Table of Contents
+
+* [Prerequisites]()
+* [How to use this guide]()
+* [Structure of blueprint artifacts]()
+    - [Blueprint folder]()
+    - [Functions]()
+    - [Blueprint]()
+    - [Resource group properties]()
+    - [Artifacts]()
+    - [How parameters work]()
+    - [Passing values between artifacts]()
+* [Push the blueprint definition to azure]()
+* [Contributing]()
+
 ## Prerequisites
 
 This doc assumes you have a basic understanding of how blueprints work. If you've never used Blueprints before, this will be a little overwhelming. We recommend you build your first blueprint with the UI to understand how everything works. You can try it at [aka.ms/getblueprints](https://aka.ms/getblueprints) and learn more about it in the [docs](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) or watch this [10 minute overview](https://youtu.be/grt6uB9XxvU?t=1543).
@@ -205,7 +220,7 @@ Then in some other artifact, use the vnet id like so:
 }
 ```
 
-### Push the Blueprint definition to Azure
+## Push the Blueprint definition to Azure
 Now we’ll take advantage of the [Manage-AzureRMBlueprint]() script and push it to Azure. We can do so by running the following command. You should be in the directory of where your blueprint artifacts are saved.
 ```powershell
 Manage-AzureRMBlueprint -mode Import -ImportDir ".\" -ManagementGroupID "ManagementGroupId"
@@ -222,12 +237,12 @@ You might run into some issues. Here are some common ones:
 * **```parameters``` in an artifact are not found in the main blueprint file.** Make sure all parameter references are complete. If you are using a parameter in an artifact, make sure it is defined in the main `blueprint.json`
 * **```policyDefinitionId``` or ```roleDefinitionId``` does not exist.** If you are referencing a custom policy make sure that custom policy exists at or above the management group where the blueprint is saved. Custom role definitions are currently not supported for management groups.
 	
-### Next steps
+## Next steps
 From here you will need to [publish the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#publish-a-blueprint) and then [assign the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#assign-a-blueprint) which you can do with either the azure portal or the rest API.
 
 Let us know in the comments if you have any issues!
 
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

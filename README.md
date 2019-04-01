@@ -8,19 +8,20 @@ Last edited: 4-1-19
 This doc is based on a powershell script that is managed by the community and is not officially supported by Microsoft. The Blueprints team is fast at work finishing official powershell cmdlets and azure cli commands. This doc will be updated once that happens.
 
 ## Table of Contents
-
-* [Prerequisites]()
-* [How to use this guide]()
-* [Structure of blueprint artifacts]()
-    - [Blueprint folder]()
-    - [Functions]()
-    - [Blueprint]()
-    - [Resource group properties]()
-    - [Artifacts]()
-    - [How parameters work]()
-    - [Passing values between artifacts]()
-* [Push the blueprint definition to azure]()
-* [Contributing]()
+  - [Prerequisites](#prerequisites)
+  - [How to use this guide](#how-to-use-this-guide)
+  - [Structure of blueprint artifacts](#structure-of-blueprint-artifacts)
+    - [Blueprint folder](#blueprint-folder)
+    - [Functions](#functions)
+    - [Blueprint](#blueprint)
+    - [Resource Group properties](#resource-group-properties)
+    - [Artifacts](#artifacts)
+    - [How Parameters work](#how-parameters-work)
+    - [Passing values between artifacts](#passing-values-between-artifacts)
+    - [Sequencing the deployment of artifacts](#sequencing-the-deployment-of-artifacts)
+  - [Push the Blueprint definition to Azure](#push-the-blueprint-definition-to-azure)
+  - [Next steps](#next-steps)
+  - [Contributing](#contributing)
 
 ## Prerequisites
 
@@ -213,6 +214,18 @@ For example you may do something like this in a template artifact for a vnet:
 ```
 
 Then in some other artifact, use the vnet id like so:
+
+```json
+{
+    // todo
+}
+```
+
+
+### Sequencing the deployment of artifacts
+todo
+
+example of artifact 2 that should run after artifact 1:
 
 ```json
 {

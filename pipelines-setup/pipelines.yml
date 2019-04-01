@@ -1,0 +1,32 @@
+# pool: 'Hosted Ubuntu 1604'
+pool: 'Hosted VS2017'
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - LICENSE
+    - .gitignore
+    - .github/*
+
+steps:
+
+ - task: PowerShell@2
+   displayName: 'Push new draft definition, publish -test version'
+   inputs:
+     targetType: 'filePath'
+     filePath: '.\build.ps1'
+     arguments: '-mgId root -BlueprintFolder "$(Build.SourcesDirectory)\Boilerplate" -BlueprintModulesDirectory "$(Build.SourcesDirectory)\BlueprintPSModules"'
+     errorActionPreference: 'stop'
+
+ - task: PowerShell@2
+   displayName: 'Assign test version, validate, and publish .stable version [INCOMPLETE]'
+   inputs:
+     targetType: 'filePath'
+     filePath: '.\release.ps1'
+     arguments: '-mgId root -BlueprintFolder "$(Build.SourcesDirectory)\Boilerplate" -BlueprintModulesDirectory "$(Build.SourcesDirectory)\BlueprintPSModules"'
+     errorActionPreference: 'stop'
+

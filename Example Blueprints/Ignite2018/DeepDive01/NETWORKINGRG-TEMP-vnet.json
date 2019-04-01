@@ -1,0 +1,45 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "variables": {},
+            "resources": [
+              {
+                "apiVersion": "2015-06-15",
+                "type": "Microsoft.Network/virtualNetworks",
+                "name": "[concat('vnet-sh360-', substring( subscription().subscriptionId, 0, 5))]",
+                "location": "[resourceGroup().location]",
+                "properties": {
+                  "addressSpace": {
+                    "addressPrefixes": [
+                      "10.0.0.0/16"
+                    ]
+                  },
+                  "subnets": [
+                    {
+                      "name": "[concat('subnet-24-01-sh360-', substring(subscription().subscriptionId, 0, 5))]",
+                      "properties": {
+                        "addressPrefix": "10.0.0.0/24"
+                      }
+                    },
+                    {
+                      "name": "[concat('subnet-24-02-sh360-', substring(subscription().subscriptionId, 0, 5))]",
+                      "properties": {
+                        "addressPrefix": "10.0.1.0/24"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+        },
+        "displayName": "VNET",
+        "resourceGroup": "Networking",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/deep-dive-01/artifacts/vnet",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

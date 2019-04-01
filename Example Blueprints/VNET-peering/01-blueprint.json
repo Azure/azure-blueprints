@@ -1,0 +1,27 @@
+{
+    "properties": {
+        "description": "Testing VNET peering scenario",
+        "targetScope": "subscription",
+        "parameters": {
+            "newVnetName": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Spoke VNET Name"
+                }
+            },
+            "hubVnetName": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Existing Hub VNET Name"
+                }
+            }
+        },
+        "resourceGroups": {
+            "Network": {
+                "description": "Spoke Networking",
+                "location": "eastus"
+            }
+        }
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/test-vnet-peering"
+}

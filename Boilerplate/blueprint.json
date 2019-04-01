@@ -1,0 +1,26 @@
+{
+    "properties": {
+        "description": "This will be displayed in the essentials, so make it good",
+        "targetScope": "subscription",
+        "parameters": { 
+            "principalIds": {
+                "type": "string", 
+                "metadata": {
+                    "displayName": "Principal IDs",
+                    "description": "This is a blueprint parameter that any artifact can reference. We'll display these descriptions for you in the info bubble. Supply principal IDs for the users, groups or service principals for the RBAC assignment",
+                    "strongType": "PrincipalId"
+                }
+            },
+            "genericBlueprintParameter": {
+                "type": "string",
+                "defaultValue": "MyDefaultParamValue"
+            }
+        },
+        "resourceGroups": {
+            "SingleRG": {
+                "description": "An optional description for your RG artifact. FYI location and name properties can be left out and we will assume they are assignment-time parameters"
+            }
+        }
+    },
+    "type": "Microsoft.Blueprint/blueprints" 
+}

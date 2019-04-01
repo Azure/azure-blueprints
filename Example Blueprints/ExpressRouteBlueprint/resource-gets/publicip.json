@@ -1,0 +1,30 @@
+{
+  "value": [
+    {
+      "name": "SEALSNZ-SVC-WUS2-PIP-8171",
+      "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/publicIPAddresses/SEALSNZ-SVC-WUS2-PIP-8171",
+      "etag": "W/\"58f9ab60-cc63-4b97-9c2f-b09f4351b745\"",
+      "location": "westus2",
+      "tags": {
+        "RequestID": "8171"
+      },
+      "properties": {
+        "provisioningState": "Succeeded",
+        "resourceGuid": "0384740c-87d9-4812-9e32-6ad9b62de7ac",
+        "ipAddress": "52.175.255.9",
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Dynamic",
+        "idleTimeoutInMinutes": 4,
+        "ipTags": [],
+        "ipConfiguration": {
+          "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/virtualNetworkGateways/SEALSNZ-SVC-WUS2-GW-8171/ipConfigurations/SEALSNZ-IPCFG-8171"
+        }
+      },
+      "type": "Microsoft.Network/publicIPAddresses",
+      "sku": {
+        "name": "Basic",
+        "tier": "Regional"
+      }
+    }
+  ]
+}

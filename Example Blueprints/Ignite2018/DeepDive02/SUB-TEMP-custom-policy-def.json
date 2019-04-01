@@ -1,0 +1,35 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "variables": {},
+            "resources": [{
+                "type": "Microsoft.Authorization/policyDefinitions",
+                "name": "my-custom-policy-definition",
+                "apiVersion": "2018-03-01",
+                "properties": {
+                    "policyType": "Custom",
+                    "mode": "All",
+                    "parameters": {},
+                    "policyRule": {
+                        "if": {
+                            "field": "location",
+                            "in": ["eastasia", "southeastasia"]
+                        },
+                        "then": {
+                            "effect": "deny"
+                        }
+                    }
+                }
+            }],
+            "outputs": {}
+        },
+        "displayName": "Deep Dive Custom Policy Definition",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/deep-dive-02/artifacts/custom-policy-def-1",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

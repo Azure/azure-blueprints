@@ -1,0 +1,15 @@
+{
+    "properties": {
+        "policyDefinitionId": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/providers/Microsoft.Authorization/policyDefinitions/my-custom-policy-definition",
+        "parameters": {},
+        "dependsOn": [],
+        "displayName": "My Policy Definition that will be assigned ()",
+        "metadata": {
+            "COMMENT": "specify the policy definition ID. Can be either custom or built-in. This boilerplate example points to the built-in 'allowed locations' policy"
+        }
+    },
+    "kind": "policyAssignment",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}
+
+

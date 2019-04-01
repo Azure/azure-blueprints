@@ -1,0 +1,43 @@
+{
+    "properties": {
+        "description": "Deploys foundational resources including Secret Management (Key Vault), Networking (App Gateway, Express Route, Virtual Network), and Management (Log Analytics)",
+        "targetScope": "subscription",
+        "parameters": { 
+            "costCenter": {
+                "type": "string",
+                "allowedValues": [
+                    "sh360-app",
+                    "sh360-infra",
+                    "sh360-security"
+                ],
+                "metadata": {
+                    "displayName": "Cost Center"
+                }
+            }
+        },
+        "resourceGroups": {
+            "Management": {
+                "description": "Log Analytics workspace",
+                "location": "eastus",
+                "name":"Management-resource-group"
+            },
+            "Networking": {
+                "description": "App Gateway, Express Route, Virtual Network",
+                "location": "eastus",
+                "name":"Networking-resource-group"
+            },
+            "Security": {
+                "description": "Includes Key Vault",
+                "location": "eastus",
+                "name":"Security-resource-group"
+            },
+            "Application": {
+                "description": "App team resources",
+                "location": "eastus",
+                "name":"Application-resource-group"
+            }
+        }
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint",
+    "type": "Microsoft.Blueprint/blueprints" 
+}

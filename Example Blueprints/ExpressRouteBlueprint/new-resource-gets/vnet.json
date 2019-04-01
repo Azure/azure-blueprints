@@ -1,0 +1,65 @@
+{
+    "name": "MSIT-VNET",
+    "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworks/MSIT-VNET",
+    "etag": "W/\"d67bbfd3-9f14-42b8-9717-7ddfbf4ab9c8\"",
+    "type": "Microsoft.Network/virtualNetworks",
+    "location": "westus2",
+    "tags": {
+      "comment": "ajf - what is this tag for?",
+      "RequestID": "12345",
+      "businessowner": "",
+      "compositeApp": "",
+      "costCode": ""
+    },
+    "properties": {
+      "provisioningState": "Succeeded",
+      "resourceGuid": "794a63a8-af81-4614-812d-0f03a0b33e6e",
+      "addressSpace": {
+        "addressPrefixes": [
+          "10.69.145.16/28",
+          "10.69.159.176/28"
+        ]
+      },
+      "dhcpOptions": {
+        "dnsServers": [
+          "10.50.50.50",
+          "10.50.10.50"
+        ]
+      },
+      "subnets": [
+        {
+          "name": "GatewaySubnet",
+          "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworks/MSIT-VNET/subnets/GatewaySubnet",
+          "etag": "W/\"d67bbfd3-9f14-42b8-9717-7ddfbf4ab9c8\"",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "addressPrefix": "10.69.159.176/28",
+            "ipConfigurations": [
+              {
+                "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworkGateways/MSIT-VNET-GATEWAY/ipConfigurations/SEALSNZ-IPCFG-8171"
+              }
+            ],
+            "delegations": []
+          },
+          "type": "Microsoft.Network/virtualNetworks/subnets"
+        },
+        {
+          "name": "MSIT-SUBNET",
+          "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworks/MSIT-VNET/subnets/MSIT-SUBNET",
+          "etag": "W/\"d67bbfd3-9f14-42b8-9717-7ddfbf4ab9c8\"",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "addressPrefix": "10.69.145.16/28",
+            "networkSecurityGroup": {
+              "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/networkSecurityGroups/MSIT-NSG"
+            },
+            "delegations": []
+          },
+          "type": "Microsoft.Network/virtualNetworks/subnets"
+        }
+      ],
+      "virtualNetworkPeerings": [],
+      "enableDdosProtection": false,
+      "enableVmProtection": false
+    }
+  }

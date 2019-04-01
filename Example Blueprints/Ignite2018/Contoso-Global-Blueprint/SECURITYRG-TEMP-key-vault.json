@@ -1,0 +1,39 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "resources": [{
+                "type": "Microsoft.KeyVault/vaults",
+                "name": "[concat('sh360-vault-', substring( subscription().subscriptionId, 0, 5))]",
+                "apiVersion": "2016-10-01",
+                "location": "[resourceGroup().location]",
+                "properties": {
+                    "enabledForDeployment": "true",
+                    "enabledForDiskEncryption": "true",
+                    "enabledForTemplateDeployment": "true",
+                    "tenantId": "[subscription().tenantId]",
+                    "accessPolicies": [{
+                        "tenantId": "[subscription().tenantId]",
+                        "objectId": "11c26ffb-c635-4971-b10e-cb32760bd60b",
+                        "permissions": {
+                            "keys": "list",
+                            "secrets": "list"
+                        }
+                    }],
+                    "sku": {
+                        "name": "Standard",
+                        "family": "A"
+                    }
+                }
+            }]
+        },
+        "displayName": "Key Vault",
+        "resourceGroup": "Security",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/key-vault",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

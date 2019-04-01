@@ -1,0 +1,11 @@
+{
+    "kind": "roleAssignment",
+    "properties": {
+        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+        "principalIds": ["00a807e2-5db8-4945-a0fe-ad3e215c34b2"],
+        "displayName": "SH360 App Team : Owner",
+        "resourceGroup": "Application"
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/app-team-owner-at-rg",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

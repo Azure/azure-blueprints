@@ -1,0 +1,54 @@
+{
+  "value": [
+    {
+      "name": "SEALSNZ-SVC-WUS2-GW-8171",
+      "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/virtualNetworkGateways/SEALSNZ-SVC-WUS2-GW-8171",
+      "etag": "W/\"25c002c7-94c9-4db6-a817-cff8796d01b5\"",
+      "type": "Microsoft.Network/virtualNetworkGateways",
+      "location": "westus2",
+      "tags": {
+        "RequestID": "8171"
+      },
+      "properties": {
+        "provisioningState": "Succeeded",
+        "resourceGuid": "0e59f4b1-a919-4a65-8e48-b989fbc78104",
+        "ipConfigurations": [
+          {
+            "name": "SEALSNZ-IPCFG-8171",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/virtualNetworkGateways/SEALSNZ-SVC-WUS2-GW-8171/ipConfigurations/SEALSNZ-IPCFG-8171",
+            "etag": "W/\"25c002c7-94c9-4db6-a817-cff8796d01b5\"",
+            "type": "Microsoft.Network/virtualNetworkGateways/ipConfigurations",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/publicIPAddresses/SEALSNZ-SVC-WUS2-PIP-8171"
+              },
+              "subnet": {
+                "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/virtualNetworks/SEALSNZ-SVC-WUS2-VNET-8171/subnets/GatewaySubnet"
+              }
+            }
+          }
+        ],
+        "sku": {
+          "name": "Standard",
+          "tier": "Standard",
+          "capacity": 2
+        },
+        "gatewayType": "ExpressRoute",
+        "vpnType": "RouteBased",
+        "enableBgp": false,
+        "activeActive": false,
+        "vpnClientConfiguration": {
+          "vpnClientProtocols": [
+            "SSTP",
+            "IkeV2"
+          ],
+          "vpnClientRootCertificates": [],
+          "vpnClientRevokedCertificates": [],
+          "vpnClientIpsecPolicies": []
+        }
+      }
+    }
+  ]
+}

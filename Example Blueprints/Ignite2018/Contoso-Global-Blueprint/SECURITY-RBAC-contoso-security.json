@@ -1,0 +1,11 @@
+{
+    "kind": "roleAssignment",
+    "properties": {
+        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+        "principalIds": ["58b94342-80ea-454c-8c97-b100e83ee6b4"],
+        "displayName": "Contoso Global Security : Contributor",
+        "resourceGroup":"Security"
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/contoso-security-contributor",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

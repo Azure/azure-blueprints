@@ -1,0 +1,11 @@
+{
+    "kind": "roleAssignment",
+    "properties": {
+        "resourceGroup": "Networking",
+        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+        "principalIds": ["fc9ed964-8512-4f40-9b6b-c81766801f84"],
+        "displayName": "Contoso Networking Group : Owner"
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/networking-owner-at-rg",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

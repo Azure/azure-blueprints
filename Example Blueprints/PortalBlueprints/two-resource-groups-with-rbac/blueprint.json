@@ -1,0 +1,47 @@
+{
+    "properties": {
+        "parameters": {
+            "ContributorsProd": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Prod contributors - User or Group",
+                    "description": "The user or group to assign the role to in the production RG",
+                    "strongType": "PrincipalId"
+                }
+            },
+            "OwnersPreProd": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Pre-Prod owners - User or Group",
+                    "description": "The user or group to assign the role to in the pre-production RG",
+                    "strongType": "PrincipalId"
+                }
+            },
+            "ReadersPreProd": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Pre-Prod readers - User or group",
+                    "description": "The user or group that will get reader access to the pre-prod rg",
+                    "strongType": "PrincipalId"
+                }
+            }
+        },
+        "resourceGroups": {
+            "ProdRG": {
+                "dependsOn": [
+
+                ]
+            },
+            "PreProdRG": {
+                "dependsOn": [
+
+                ]
+            }
+        },
+        "targetScope": "subscription",
+        "displayName": "Resource Groups with RBAC",
+        "description": "Sets up two resource groups and configures a role assignment for each."
+    },
+    "type": "Microsoft.Blueprint/blueprints",
+    "name": "two-resource-groups-with-rbac"
+}

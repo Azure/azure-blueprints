@@ -1,0 +1,35 @@
+# pool: 'Hosted Ubuntu 1604'
+pool: 'Hosted VS2017'
+
+variables:
+- group: azureLoginDetails
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - LICENSE
+    - .gitignore
+    - .github/*
+
+steps:
+
+ - task: PowerShell@2
+   displayName: 'Push new draft definition, publish -test version'
+   inputs:
+     targetType: 'filePath'
+     filePath: '.\build.ps1'
+     arguments: '-mgId $(managementGroupId) -BlueprintFolder "$(Build.SourcesDirectory)\Example Blueprints\$(blueprintName)" -blueprintName $(blueprintName) -spnId $(spnId) -spnPass $(spnPass) -tenantId $(tenantId)'
+     errorActionPreference: 'stop'
+
+ - task: PowerShell@2
+   displayName: 'Assign test version, validate, and publish .stable version'
+   inputs:
+     targetType: 'filePath'
+     filePath: '.\release.ps1'
+     arguments: '-subId $(subscriptionId) -blueprintName $(blueprintName) -spnId $(spnId) -spnPass $(spnPass) -tenantId $(tenantId) -mgId $(managementGroupId)'
+     errorActionPreference: 'stop'
+

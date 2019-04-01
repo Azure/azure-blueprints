@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "pipName": {
+            "type": "string"
+        },
+        "subnetName": {
+            "type": "string"
+        },
+        "gatewaySubnetName": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "name": "MSIT-VNET-GATEWAY",
+            "apiVersion": "2018-08-01",
+            "location": "westus2",
+            "tags": {
+                "RequestID": "8171"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "SEALSNZ-IPCFG-8171",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('pipName'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnetName'), parameters('gatewaySubnetName'))]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "Standard",
+                    "tier": "Standard",
+                    "capacity": 2
+                },
+                "gatewayType": "ExpressRoute",
+                "vpnType": "RouteBased",
+                "enableBgp": false,
+                "activeActive": false,
+                "vpnClientConfiguration": {
+                    "vpnClientProtocols": [
+                        "SSTP",
+                        "IkeV2"
+                    ],
+                    "vpnClientRootCertificates": [],
+                    "vpnClientRevokedCertificates": [],
+                    "vpnClientIpsecPolicies": []
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('pipName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnetName'), parameters('gatewaySubnetName'))]"
+            ]
+        }
+    ]
+}

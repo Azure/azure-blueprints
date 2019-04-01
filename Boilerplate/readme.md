@@ -1,6 +1,6 @@
 <!-- 
-Version 1.0 
-Last edited: 4-1-19
+Version 0.1 
+Last edited: 11-29-18
 -->
 # Managing Blueprints as Code
 
@@ -16,8 +16,6 @@ Using the Blueprints in the Azure Portal is a great way to get started with Blue
 * Sharing blueprints
 * Keeping blueprints in source control
 * Putting blueprints in a CI/CD or release pipeline
-
-*There is an alternative powershell module for managing blueprints, AxAzureBlueprints, which you can [download here](https://www.powershellgallery.com/packages/AxAzureBlueprint/1.1.0). There are pros/cons to each one. I find that AxAzureBlueprints is a bit faster to push iterations because there are less parameters required for each push.* 
 
 ## How to use this guide
 This guide references the files in the Boilerplate directory and deploys the Boilerplate blueprint as a draft definition to Azure.
@@ -43,13 +41,6 @@ Create a folder or directory on your computer to store all of your blueprint fil
 At the time we support the following functions. They work exactly like they do in a regular ARM template.
 * [parameters()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-deployment#parameters)
 * [concat()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-array#concat)
-* [subscription()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-array#concat)
-* [resourceGroup()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-resource#resourcegroup)
-
-We also support functions that only exist in blueprints:
-
-* [artifacts()](#passing-values-between-artifacts)
-* [resourceGroups()](https://google.com)
 
 ### Blueprint
 This is your main Blueprint file. In order to be processed successfully, the blueprint must be created in Azure before any artifacts (policy, role, template) otherwise the calls to push those artifacts will fail. That's because the **artifacts are child resources of a blueprint**. The `Manage-AzureRmBlueprint` script takes care of this for you automatically. Typically, you will name this 01-blueprint.json so that it is sorted alphabetically first, but this name is up to you and doesn't affect anything.
@@ -134,8 +125,8 @@ Full spec for each artifact type:
 * [Template](https://docs.microsoft.com/en-us/rest/api/blueprints/artifacts/createorupdate#templateartifact)
 
 ### How Parameters work
-Nearly everything can be parameterized. The only things that can't be parameterized are the ```roleDefinitionId``` and ```policyDefinitionId``` in the ```rbacAssignment``` and ```policyAssignment``` artifacts respectively.
-Parameters are defined in the main blueprint file and can be referenced in any artifact. 
+Nearly everything can be parameterized. The only things that can't be parameterized are the ```roleDefinitionId``` and ```policyDefinitionId``` in the ```rbacAssignment``` and ```policyAssignment``` artifacts respectively. Some explanation for why this is, something about linked access checks.
+Parameters are set on the main blueprint file and can be referenced in any artifact. 
 
 Here's a simple parameter declaration which is a simplified version from ```blueprint.json```:
 ```json
@@ -167,8 +158,6 @@ First, in `template.json` we need to map the *blueprint* parameter to the *artif
 }
 ```
 
-This should look familiar if you've [passed parameters inline to a nested deployment](http://google.com). Instead of getting these parameter values from a file, we are getting them from the list of blueprint parameters.   
-
 And then you can reference that parameter within the `template` section in `template.json` like this:
 ```json
 "template": {
@@ -182,28 +171,7 @@ And then you can reference that parameter within the `template` section in `temp
 },
 ```
 
-This shouldn't require any modification of your arm templates.
-
 The [AxAzureBlueprint](https://www.powershellgallery.com/packages/AxAzureBlueprint/1.0.0) powershell module has a cmdlet called ```Import-AzureBlueprintArtifact``` that can automatically convert an ARM template into a blueprint template artifact and map all the parameter references for you. It's a good way to understand how everything works.
-
-### Passing values between artifacts
-There are many reasons you may want or need to pass the output from one artifact as the input to another artifact that is deployed later in the blueprint assignment sequence. If so, you can make use of the ```artifacts()``` function which lets you reference the details of a particular artifact.
-
-For example you may do something like this in a template artifact for a vnet:
-
-```json
-{
-    // todo
-}
-```
-
-Then in some other artifact, use the vnet id like so:
-
-```json
-{
-    // todo
-}
-```
 
 ### Push the Blueprint definition to Azure
 Now we’ll take advantage of the [Manage-AzureRMBlueprint]() script and push it to Azure. We can do so by running the following command. You should be in the directory of where your blueprint artifacts are saved.
@@ -225,19 +193,4 @@ You might run into some issues. Here are some common ones:
 ### Next steps
 From here you will need to [publish the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#publish-a-blueprint) and then [assign the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#assign-a-blueprint) which you can do with either the azure portal or the rest API.
 
-Let us know in the comments if you have any issues!
-
-# Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
+Let us know in the comments if you have any issues! 

@@ -1,0 +1,15 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+        "parameters": {
+            "listOfAllowedLocations": {
+                "value": ["eastus"]
+            }
+        },
+        "dependsOn": [],
+        "displayName": "Allowed locations"
+    },
+    "kind": "policyAssignment",
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/allowed-locations",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

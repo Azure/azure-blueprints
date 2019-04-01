@@ -1,0 +1,69 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "requestId": {
+            "type": "string"
+        },
+        "addressPrefixes": {
+            "type": "array",
+            "defaultValue": ["10.69.145.16/28", "10.69.159.176/28"]
+        },
+        "dnsServers": {
+            "type": "array",
+            "defaultValue": [
+                "10.50.50.50", 
+                "10.50.10.50"
+            ]
+        },
+        "gatewayAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.69.159.176/28"
+        },
+        "otherSubnetPrefix": {
+            "type": "string",
+            "defaultValue": "10.69.145.16/28"
+        },
+        "nsgName": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "MSIT-VNET",
+            "apiVersion": "2018-08-01",
+            "location": "westus2",
+            "tags": {
+                "comment": "ajf - what is this tag for?",
+                "RequestID": "[parameters('requestId')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                },
+                "dhcpOptions": {
+                    "dnsServers": "[parameters('dnsServers')]"
+                },
+                "subnets": [
+                    {
+                        "name": "GatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "[parameters('gatewayAddressPrefix')]"
+                        }
+                    },
+                    {
+                        "name": "Subnet-1",
+                        "properties": {
+                            "addressPrefix": "[parameters('otherSubnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
+                            }
+                        }
+                    }
+                ]                
+            }
+        }
+    ]
+}

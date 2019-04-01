@@ -1,0 +1,58 @@
+param(
+    [Parameter(Mandatory=$true)]$mgId, 
+    [Parameter(Mandatory=$true)]$BlueprintFolder,
+    [Parameter(Mandatory=$true)]$BlueprintModulesDirectory,
+    [Parameter(Mandatory=$true)]$spnId,
+    [Parameter(Mandatory=$true)]$spnPass,
+    [Parameter(Mandatory=$true)]$tenantId
+)
+
+$blueprintName = "Boilerplate"
+
+Write-Host "Start login with SPN"
+$pass = ConvertTo-SecureString $spnPass -AsPlainText -Force
+$cred = New-Object -TypeName pscredential -ArgumentList $spnId, $pass
+Login-AzAccount -Credential $cred -ServicePrincipal -TenantId $tenantId
+
+Write-Host "See which sub we've got with this SPN"
+Get-azContext
+
+# Get token for API requests
+Write-Host "Getting Azure token"
+$azContext = Get-AzContext
+$azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
+$profileClient = New-Object -TypeName Microsoft.Azure.Commands.ResourceManager.Common.RMProfileClient -ArgumentList ($azProfile)
+$token = $profileClient.AcquireAccessToken($azContext.Subscription.TenantId)
+$authHeader = @{
+    'Content-Type'='application/json'
+    'Authorization'='Bearer ' + $token.AccessToken
+}
+Write-Host "Got Token"
+
+Write-Host "Starting install of modules"
+Install-Script -Name Manage-AzureRMBlueprint -Force
+Write-Host "Finished installing modules"
+
+Write-Host "Start Blueprint import"
+Manage-AzureRMBlueprint.ps1 -Mode Import -ImportDir $BlueprintFolder -ManagementGroupID $mgId -Force
+
+# constructing a string for the blueprint version
+$date = Get-Date -UFormat %Y%m%d.%H%M%S
+$genVersion = "$date.TEST"
+
+# success
+if ($?) {
+    Write-Host "Imported successfully"
+    # Publish the blueprint with a -test version
+
+    $url = "https://management.azure.com/providers/Microsoft.Management/managementGroups/{0}/providers/Microsoft.Blueprint/blueprints/{1}/versions/{2}?api-version=2018-11-01-preview" -f $mgId, $blueprintName, $genVersion
+
+    # Invoke the REST API
+    $response = Invoke-RestMethod -Uri $url -Method Put -Headers $authHeader
+    Write-Host $response
+
+    # TODO - Clean up old test version(s)
+} else {
+    throw "Failed to import successfully"
+    exit 1
+}

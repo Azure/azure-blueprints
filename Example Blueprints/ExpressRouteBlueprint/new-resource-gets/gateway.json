@@ -1,0 +1,44 @@
+{
+    "name": "MSIT-VNET-GATEWAY",
+    "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworkGateways/MSIT-VNET-GATEWAY",
+    "etag": "W/\"0a02fea6-98eb-45bb-be5f-4e12d5d4e80a\"",
+    "type": "Microsoft.Network/virtualNetworkGateways",
+    "location": "westus2",
+    "tags": {
+      "RequestID": "8171",
+      "businessowner": "",
+      "compositeApp": "",
+      "costCode": ""
+    },
+    "properties": {
+      "provisioningState": "Succeeded",
+      "resourceGuid": "f9193e78-5ef6-4cb6-94d3-485ed40e9618",
+      "ipConfigurations": [
+        {
+          "name": "SEALSNZ-IPCFG-8171",
+          "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworkGateways/MSIT-VNET-GATEWAY/ipConfigurations/SEALSNZ-IPCFG-8171",
+          "etag": "W/\"0a02fea6-98eb-45bb-be5f-4e12d5d4e80a\"",
+          "type": "Microsoft.Network/virtualNetworkGateways/ipConfigurations",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "privateIPAllocationMethod": "Dynamic",
+            "publicIPAddress": {
+              "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/publicIPAddresses/MSIT-PIP"
+            },
+            "subnet": {
+              "id": "/subscriptions/0745e7d2-1e06-4d9e-9b9b-f42442b8b92f/resourceGroups/My-ER-TEST03/providers/Microsoft.Network/virtualNetworks/MSIT-VNET/subnets/GatewaySubnet"
+            }
+          }
+        }
+      ],
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard",
+        "capacity": 2
+      },
+      "gatewayType": "ExpressRoute",
+      "vpnType": "RouteBased",
+      "enableBgp": false,
+      "activeActive": false
+    }
+  }

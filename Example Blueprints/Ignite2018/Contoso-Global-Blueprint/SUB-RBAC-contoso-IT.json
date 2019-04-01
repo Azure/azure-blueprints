@@ -1,0 +1,10 @@
+{
+    "kind": "roleAssignment",
+    "properties": {
+        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+        "principalIds": ["0605ea6f-1fc7-4067-bdc9-a0694a6c17b5"],
+        "displayName": "Contoso IT : Owner"
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/contoso-it-owner",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

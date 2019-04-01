@@ -1,0 +1,18 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749",
+        "parameters": {
+            "listOfResourceTypesNotAllowed": {
+                "value":["Microsoft.DevTestLab/labs"],
+                "metadata": {
+                    "strongType":"resourceTypes"
+                }
+            }
+        },
+        "dependsOn": [],
+        "displayName": "Not allowed resource types"
+    },
+    "kind": "policyAssignment",
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/not-allowed-resource-types",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

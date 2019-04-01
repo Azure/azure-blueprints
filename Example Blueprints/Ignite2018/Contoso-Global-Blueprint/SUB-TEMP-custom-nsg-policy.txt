@@ -1,0 +1,80 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "variables": {},
+            "resources": [{
+                "type": "Microsoft.Authorization/policyDefinitions",
+                "name": "restrict-nsg-ports",
+                "apiVersion": "2018-03-01",
+                "properties": {
+                    "policyType": "Custom",
+                    "mode": "All",
+                    "parameters": {},
+                    "policyRule": {
+                        "if": {
+                            "allOf": [{
+                                "field": "type",
+                                "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                            },
+                            {
+                                "allOf": [{
+                                    "anyOf": [{
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+                                        "equals": "*"
+                                    },
+                                    {
+                                        "not": {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
+                                            "notEquals": "*"
+                                        }
+                                    }]
+                                },
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                                        "equals": "Allow"
+                                    },
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                                        "equals": "Inbound"
+                                    },
+                                    {
+                                    "anyOf": [{
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+                                            "in": [
+                                                "*",
+                                                "Internet"
+                                            ]
+                                        },
+                                        {
+                                            "not": {
+                                                "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefixes[*]",
+                                                "notIn": [
+                                                    "*",
+                                                    "Internet"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                                    ]
+                                }
+                            ]
+                        },
+                        "then": {
+                            "effect": "deny"
+                        }
+                    }
+                }
+            }],
+            "outputs": {}
+        },
+        "displayName": "Restrict NSG Inbound/Outbound Ports",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/ContosoGlobalBlueprint/artifacts/restrict-nsg-ports",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

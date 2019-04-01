@@ -1,0 +1,23 @@
+{
+    "properties": {
+        "description": "Creates and assigns a custom policy and custom rbac role to the assigned subscription",
+        "targetScope": "subscription",
+        "parameters": {
+            "rbacRoleName": {
+                "type": "string",
+                "defaultValue": "PirateCaptain",
+                "metadata": {
+                    "displayName": "Role Definition name"
+                }
+            },
+            "policyDefinitionName": {
+                "type": "string",
+                "defaultValue": "My Custom Policy",
+                "metadata": {
+                    "displayName": "Policy Definition name"
+                }
+            }
+        }
+    },
+    "type": "Microsoft.Blueprint/blueprints" 
+}

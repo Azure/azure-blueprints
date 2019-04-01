@@ -1,0 +1,18 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2a0e14a6-b0a6-4fab-991a-187a4f81c498",
+        "parameters": {
+            "tagName": {
+                "value": "costCenter"
+            },
+            "tagValue": {
+                "value": "[parameters('costCenter')]"
+            }
+        },
+        "dependsOn": [],
+        "displayName": "Apply tag and its default value"
+    },
+    "kind": "policyAssignment",
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/apply-tag-and-default-value",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

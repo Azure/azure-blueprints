@@ -1,0 +1,73 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "variables": {
+                "databaseAccountTier": "Standard",
+                "databaseAccountName": "[concat('sh360-app-dbaccount-', substring(subscription().subscriptionId, 0, 5))]",
+                "appSvcPlanName": "[concat('sh360-appsvc-', substring(subscription().subscriptionId, 0, 5))]",
+                "webAppName": "[concat('sh360-webapp-', substring(subscription().subscriptionId, 0, 5))]",
+                "location": "[resourceGroup().location]"
+            },
+            "resources": [{
+                    "apiVersion": "2015-04-08",
+                    "type": "Microsoft.DocumentDb/databaseAccounts",
+                    "name": "[variables('databaseAccountName')]",
+                    "location": "[variables('location')]",
+                    "properties": {
+                        "name": "[variables('databaseAccountName')]",
+                        "databaseAccountOfferType": "[variables('databaseAccountTier')]",
+                        "locations": [{
+                            "locationName": "[variables('location')]",
+                            "failoverPriority": 0
+                        }]
+                    }
+                },
+                {
+                    "type": "Microsoft.Web/serverfarms",
+                    "apiVersion": "2015-08-01",
+                    "name": "[variables('appSvcPlanName')]",
+                    "location": "[variables('location')]",
+                    "sku": {
+                        "name": "F1",
+                        "tier": "Free",
+                        "capacity": 1
+                    }
+                },
+                {
+                    "type": "Microsoft.Web/Sites",
+                    "apiVersion": "2015-08-01",
+                    "name": "[variables('webAppName')]",
+                    "location": "[variables('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/serverFarms/', variables('appSvcPlanName'))]"
+                    ],
+                    "properties": {
+                        "name": "[variables('webAppName')]",
+                        "serverFarmId": "[variables('appSvcPlanName')]",
+                        "siteConfig": {
+                            "phpVersion": "off",
+                            "appSettings": [{
+                                    "Name": "DOCUMENTDB_ENDPOINT",
+                                    "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', variables('databaseAccountName'))).documentEndpoint]"
+                                },
+                                {
+                                    "Name": "DOCUMENTDB_PRIMARY_KEY",
+                                    "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('databaseAccountName')), '2015-04-08').primaryMasterKey]"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "displayName": "Cosmos DB + Web App",
+        "resourceGroup": "Application",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/cosmos-db",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

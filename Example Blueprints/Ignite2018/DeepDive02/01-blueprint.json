@@ -1,0 +1,33 @@
+{
+    "properties": {
+        "description": "Demoing API usage by using API only features like Blueprint parameters, sequencing, and sub templates",
+        "targetScope": "subscription",
+        "parameters": {
+            "location": {
+                "type": "string",
+                "allowedValues": [
+                    "eastus",
+                    "westeu"
+                ],
+                "metadata": {
+                    "displayName": "Location"
+                }
+            }
+        },
+        "resourceGroups": {
+            "Management": {
+                "description": "Log Analytics workspace",
+                "location": "[parameters('location')]",
+                "name":"Management-resource-group",
+                "dependsOn": ["outbound-port-restriction"]
+            },
+            "Networking": {
+                "description": "App Gateway, Express Route, Virtual Network",
+                "location": "[parameters('location')]",
+                "name":"Networking-resource-group"
+            }
+        }
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/deep-dive-02",
+    "type": "Microsoft.Blueprint/blueprints"
+}

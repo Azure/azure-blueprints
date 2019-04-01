@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "assignmentName": {
+            "type": "string",
+            "defaultValue": "[concat('variables('assignmentNamePrefix'), '-', utcNow())]"
+        },
+        "definitionLocationMG": {
+            "type": "string",
+            "defaultValue": "ContosoRoot"
+        }
+    },
+    "variables": {
+        "blueprintId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('definitionLocationMG'), '/providers/Microsoft.Blueprint/blueprints/AppNetwork2/versions/1.0')]",
+        "assignmentNamePrefix": "Boilerplate"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprintAssignments",
+            "name": "[parameters('assignmentName')]",
+            "apiVersion": "2017-11-11-preview",
+            "identity": {
+                "type": "systemAssigned"
+            },
+            "location": "westus2",
+            "properties": {
+                "blueprintId": "[variables('blueprintId')]",
+                "resourceGroups": {},
+                "locks": {
+                    "mode": "none"
+                },
+                "parameters": {
+                    "contributors": {
+                        "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+                    }
+                }
+            }
+        }
+    ]
+}

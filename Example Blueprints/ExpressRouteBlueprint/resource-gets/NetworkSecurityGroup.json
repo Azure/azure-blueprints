@@ -1,0 +1,553 @@
+{
+  "value": [
+    {
+      "name": "SEALSNZ-SVC-WUS2-NSG-8171",
+      "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171",
+      "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "location": "westus2",
+      "properties": {
+        "provisioningState": "Succeeded",
+        "resourceGuid": "1e85782e-2f5c-4e32-8903-f1444c11af90",
+        "securityRules": [
+          {
+            "name": "Allow_Inbound_From_DB_PvtApp_In-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Allow_Inbound_From_DB_PvtApp_In-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow_Inbound_From_DB_PvtApp",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "destinationAddressPrefix": "10.69.145.16/28",
+              "access": "Allow",
+              "priority": 1000,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [
+                "5073",
+                "80",
+                "443"
+              ],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "Allow_Partners_TCP_Domain_Controllers_Access_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Allow_Partners_TCP_Domain_Controllers_Access_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow_Partners_Domain_Controllers_Access",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Allow",
+              "priority": 1001,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [
+                "53",
+                "389",
+                "636",
+                "3268-3269",
+                "88"
+              ],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.251.174.149",
+                "10.251.172.135",
+                "10.251.172.136",
+                "10.251.172.137",
+                "10.147.63.135",
+                "10.147.63.136",
+                "10.147.63.151",
+                "10.251.67.4",
+                "10.251.67.137",
+                "10.147.87.135",
+                "10.147.88.134",
+                "10.147.63.134",
+                "10.222.185.45",
+                "10.221.192.160"
+              ]
+            }
+          },
+          {
+            "name": "Allow_Partners_UDP_Domain_Controllers_Access_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Allow_Partners_UDP_Domain_Controllers_Access_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow_Partners_Domain_Controllers_Access",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Allow",
+              "priority": 1002,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [
+                "53",
+                "389",
+                "636",
+                "3268-3269",
+                "88"
+              ],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.251.174.149",
+                "10.251.172.135",
+                "10.251.172.136",
+                "10.251.172.137",
+                "10.147.63.135",
+                "10.147.63.136",
+                "10.147.63.151",
+                "10.251.67.4",
+                "10.251.67.137",
+                "10.147.87.135",
+                "10.147.88.134",
+                "10.147.63.134",
+                "10.222.185.45",
+                "10.221.192.160"
+              ]
+            }
+          },
+          {
+            "name": "Deny_Partners_TCP_Domain_Controllers_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_Partners_TCP_Domain_Controllers_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_Partners_Domain_Controllers",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 1003,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.251.174.149",
+                "10.251.172.135",
+                "10.251.172.136",
+                "10.251.172.137",
+                "10.147.63.135",
+                "10.147.63.136",
+                "10.147.63.151",
+                "10.251.67.4",
+                "10.251.67.137",
+                "10.147.87.135",
+                "10.147.88.134",
+                "10.147.63.134",
+                "10.222.185.45",
+                "10.221.192.160"
+              ]
+            }
+          },
+          {
+            "name": "Deny_Partners_UDP_Domain_Controllers_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_Partners_UDP_Domain_Controllers_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_Partners_Domain_Controllers",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 1004,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.251.174.149",
+                "10.251.172.135",
+                "10.251.172.136",
+                "10.251.172.137",
+                "10.147.63.135",
+                "10.147.63.136",
+                "10.147.63.151",
+                "10.251.67.4",
+                "10.251.67.137",
+                "10.147.87.135",
+                "10.147.88.134",
+                "10.147.63.134",
+                "10.222.185.45",
+                "10.221.192.160"
+              ]
+            }
+          },
+          {
+            "name": "Deny_All_TCP_Ports_In-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_All_TCP_Ports_In-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_All_TCP_Ports_IN",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 2000,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [
+                "10.60.0.0/16",
+                "10.69.0.0/17",
+                "10.104.0.0/16",
+                "10.105.0.0/16",
+                "10.106.0.0/16",
+                "10.69.128.0/17",
+                "10.249.240.0/20",
+                "10.144.112.0/20",
+                "10.249.112.0/20",
+                "10.169.112.0/20",
+                "10.169.240.0/20",
+                "10.136.112.0/20",
+                "10.158.240.0/20",
+                "10.158.112.0/20",
+                "10.128.240.0/20",
+                "10.139.240.0/20",
+                "10.136.184.0/21",
+                "10.247.0.0/16",
+                "10.251.0.0/16"
+              ],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "Deny_All_TCP_Ports_legacy_EBL_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_All_TCP_Ports_legacy_EBL_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_All_TCP_Ports_Out_legacy_EBL",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 2000,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.249.240.0/20",
+                "10.144.112.0/20",
+                "10.249.112.0/20",
+                "10.169.112.0/20",
+                "10.169.240.0/20",
+                "10.136.112.0/20",
+                "10.158.240.0/20",
+                "10.158.112.0/20",
+                "10.128.240.0/20",
+                "10.139.240.0/20",
+                "10.136.184.0/21",
+                "10.247.0.0/16",
+                "10.251.0.0/16"
+              ]
+            }
+          },
+          {
+            "name": "Deny_All_UDP_Ports_In-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_All_UDP_Ports_In-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_All_UDP_Ports_IN",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "destinationAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 2001,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [
+                "10.60.0.0/16",
+                "10.69.0.0/17",
+                "10.104.0.0/16",
+                "10.105.0.0/16",
+                "10.106.0.0/16",
+                "10.69.128.0/17",
+                "10.249.240.0/20",
+                "10.144.112.0/20",
+                "10.249.112.0/20",
+                "10.169.112.0/20",
+                "10.169.240.0/20",
+                "10.136.112.0/20",
+                "10.158.240.0/20",
+                "10.158.112.0/20",
+                "10.128.240.0/20",
+                "10.139.240.0/20",
+                "10.136.184.0/21",
+                "10.247.0.0/16",
+                "10.251.0.0/16"
+              ],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "Deny_All_UDP_Ports_legacy_EBL_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_All_UDP_Ports_legacy_EBL_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_All_UDP_Ports_Out_legacy_EBL",
+              "protocol": "UDP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "10.69.145.16/28",
+              "access": "Deny",
+              "priority": 2001,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": [
+                "10.249.240.0/20",
+                "10.144.112.0/20",
+                "10.249.112.0/20",
+                "10.169.112.0/20",
+                "10.169.240.0/20",
+                "10.136.112.0/20",
+                "10.158.240.0/20",
+                "10.158.112.0/20",
+                "10.128.240.0/20",
+                "10.139.240.0/20",
+                "10.136.184.0/21",
+                "10.247.0.0/16",
+                "10.251.0.0/16"
+              ]
+            }
+          },
+          {
+            "name": "AllowVnetOutBound-Allowed-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/AllowVnetOutBound-Allowed-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "AllowVnetOutBound-Allowed",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 4000,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "Deny_Internet_Out-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/Deny_Internet_Out-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny_Internet_Out",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "Internet",
+              "access": "Deny",
+              "priority": 4001,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "AllowAllOutBound-12447",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/securityRules/AllowAllOutBound-12447",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "AllowAllOutBound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 4002,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          }
+        ],
+        "defaultSecurityRules": [
+          {
+            "name": "AllowVnetInBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/AllowVnetInBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow inbound traffic from all VMs in VNET",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 65000,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "AllowAzureLoadBalancerInBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/AllowAzureLoadBalancerInBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow inbound traffic from azure load balancer",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "AzureLoadBalancer",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 65001,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "DenyAllInBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/DenyAllInBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny all inbound traffic",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 65500,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "AllowVnetOutBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/AllowVnetOutBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 65000,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "AllowInternetOutBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/AllowInternetOutBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Allow outbound traffic from all VMs to Internet",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "Internet",
+              "access": "Allow",
+              "priority": 65001,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "DenyAllOutBound",
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/networkSecurityGroups/SEALSNZ-SVC-WUS2-NSG-8171/defaultSecurityRules/DenyAllOutBound",
+            "etag": "W/\"6a5adb1a-b616-4c49-a492-aa1e2212b5db\"",
+            "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "description": "Deny all outbound traffic",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 65500,
+              "direction": "Outbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          }
+        ],
+        "subnets": [
+          {
+            "id": "/subscriptions/207040d9-ff6c-4c8e-be2c-d3faac0d8fbe/resourceGroups/ERNetwork-SVC/providers/Microsoft.Network/virtualNetworks/SEALSNZ-SVC-WUS2-VNET-8171/subnets/Subnet-1"
+          }
+        ]
+      }
+    }
+  ]
+}

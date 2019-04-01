@@ -1,0 +1,15 @@
+{
+    "properties": {
+        "description": "Basic Blueprint using all artifact types",
+        "targetScope": "subscription",
+        "parameters": {},
+        "resourceGroups": {
+            "Networking": {
+                "description": "App Gateway, Express Route, Virtual Network",
+                "location": "eastus",
+                "name":"Networking-resource-group"
+            }
+        }
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/deep-dive-01"
+}

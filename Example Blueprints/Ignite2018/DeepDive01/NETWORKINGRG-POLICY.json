@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Authorization/policyDefinitions/c78143b6-948c-44c5-9bc2-931e6cd77738",
+        "parameters": {},
+        "dependsOn": [],
+        "displayName": "Restrict NSG Inbound/Outbound Ports",
+        "resourceGroup": "Networking"
+    },
+    "kind": "policyAssignment",
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/deep-dive-01/artifacts/outbound-port-restriction",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

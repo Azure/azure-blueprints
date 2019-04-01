@@ -1,0 +1,31 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "resources": [
+                {
+                    "type": "Microsoft.OperationalInsights/workspaces",
+                    "name": "[concat('la-sh360-', substring( subscription().subscriptionId, 0, 5))]",
+                    "apiVersion": "2017-03-15-preview",
+                    "location": "eastus",
+                    "properties": {
+                        "sku": {
+                            "Name": "PerGB2018"
+                        },
+                        "features": {
+                            "searchVersion": 1
+                        }
+                    }
+                }
+            ]    
+        },
+        "displayName": "Central Log Analytics Workspace",
+        "resourceGroup": "Management",
+        "parameters": {}
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/la-workspace",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}

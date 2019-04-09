@@ -82,7 +82,7 @@ Let's look at our Boilerplate sample ```blueprint.json``` file:
                 "type": "string",
                 "metadata": {
                     "displayName": "Display Name for Blueprint parameter",
-                    "descripiton": "This is a blueprint parameter that any artifact can reference. We'll display these descriptions for you in the info bubble",
+                    "description": "This is a blueprint parameter that any artifact can reference. We'll display these descriptions for you in the info bubble",
                     "strongType": "PrincipalId"
                 }
             },

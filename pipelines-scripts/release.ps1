@@ -49,12 +49,7 @@ Write-Host "Got Token"
 
 # ------- assign the blueprint to a test subscription ---------
 $rgName = "TestRG" # rg that will be deleted for cleanup, then recreated
-
-# Clean out the relevant sub/rgs
-
-# todo - should check whether or not this RG exists
 $rgExists = Get-AzResourceGroup -Name $rgName -ErrorAction silentlycontinue
-
 if ($rgExists) {
     # For now, delete the SingleRG for Boilerplate
     Remove-AzResourceGroup -Name $rgName -Force
@@ -64,21 +59,10 @@ $userAssignedPrincipalId = "/subscriptions/d56e652e-758d-480a-8f0d-47f230264b4c/
 $myBlueprint = Get-AzBlueprint -ManagementGroupId $mgId -Name $blueprintName -LatestPublished
 
 # parameters for Boilerplate
-<#
-
 $rgHash = @{ name=$rgName; location = "eastus" } # single rg
 $rgArray = @{ SingleRG = $rgHash } # array of all rgs
-
 $principal = 'd3e063f7-09cb-4526-9021-4759a7ba179c' # specific to tenant
 $params = @{ principalIds=$principal; genericBlueprintParameter="test"}
-#>
-
-# parameters for appnetwork
-$rgHash = @{ name=$rgName; location = "eastus" } # single rg
-$rgArray = @{ AppNetwork = $rgHash } # array of all rgs
-
-$principal = 'd3e063f7-09cb-4526-9021-4759a7ba179c'
-$params = @{ contributors=$principal; }
 
 # $date = Get-Date -UFormat %Y%m%d%H%M%S # todo - use the version string from DevOps
 $generatedAssignmentName = "A-$blueprintName" 

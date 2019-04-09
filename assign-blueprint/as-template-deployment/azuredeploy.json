@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "assignmentName": {
+            "type": "string",
+            "defaultValue": "[concat('AppNetwork-', utcNow())]"
+        },
+        "definitionLocationMG": {
+            "type": "string",
+            "defaultValue": "ContosoRoot"
+        }
+    },
+    "variables": {
+        "blueprintId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('definitionLocationMG'), '/providers/Microsoft.Blueprint/blueprints/AppNetwork2/versions/1.0')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Blueprint/blueprintAssignments",
+            "apiVersion": "2017-11-11-preview",
+            "name": "[parameters('assignmentName')]",
+            "identity": {
+                "type": "systemAssigned",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            },
+            "location": "westus2",
+            "properties": {
+                "blueprintId": "[variables('blueprintId')]",
+                "resourceGroups": {},
+                "locks": {
+                    "mode": "none"
+                },
+                "parameters": {
+                    "contributors": {
+                        "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+                    },
+                    "AppNetwork_costCenter": {
+                        "value": "Contoso-App"
+                    },
+                    "AppNetwork_pipName": {
+                        "value": "PIP-Contoso"
+                    },
+                    "AppNetwork_otherSubnetPrefix": {
+                        "value": "10.69.145.16/28"
+                    },
+                    "AppNetwork_addressPrefixes": {
+                        "value": ["10.69.145.16/28", "10.69.159.176/28"]
+                    },
+                    "AppNetwork_dnsServers": {
+                        "value": ["10.50.50.50", "10.50.10.50"]
+                    },
+                    "AppNetwork_requestId": {
+                        "value": "12345"
+                    },
+                    "AppNetwork_subnetName": {
+                        "value": "Subnet-Contoso"
+                    },
+                    "AppNetwork_vnetName": {
+                        "value": "VNet-Contoso"
+                    },
+                    "AppNetwork_networkingRGName": {
+                        "value": "Networking-RG-Contoso"
+                    },
+                    "AppNetwork_nsgName": {
+                        "value": "Nsg-Contoso"
+                    }
+                }
+            }
+        }
+    ]
+}

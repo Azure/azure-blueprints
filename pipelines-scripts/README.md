@@ -12,7 +12,7 @@ This directory has two scripts - `build.ps1` and `release.ps1` that collectively
 While, this is more specific to Azure DevOps pipelines, the methodolgies and strategies apply just as well to any other release management tool.
 
 ## How to use this guide
-The `azure-pipelines.yml` build pipeline definition has variables set up to do a full release on teh `101-boilerplate` blueprint. If you want to test a different blueprint, change the varaibles at the top of that file and [change your parameters and test environment](#to-configure-your-release-test) accordingly
+The `azure-pipelines.yml` build pipeline definition has variables set up to do a full release on the `101-boilerplate` blueprint. If you want to test a different blueprint, change the varaibles at the top of that file and [change your parameters and test environment](#to-configure-your-release-test) accordingly
 
 ## build.ps1
 This does steps 1 and 2 above. For the most part, this script is pretty straightforward, just update the $(blueprintName) variable accordingly.

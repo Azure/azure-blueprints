@@ -9,10 +9,10 @@ When you reach a certain point of maturity, you will want to start running bluep
 
 This directory has two scripts - `build.ps1` and `release.ps1` that collectively do these four steps.
 
-While, this is more specific to Azure DevOps pipelines, the methodolgies and strategies apply just as well to any other release management tool.
+While this is more specific to Azure DevOps pipelines, **the methodolgies and strategies apply just as well to any other release management tool.**
 
 ## How to use this guide
-The `azure-pipelines.yml` build pipeline definition has variables set up to do a full release on teh `101-boilerplate` blueprint. If you want to test a different blueprint, change the varaibles at the top of that file and [change your parameters and test environment](#to-configure-your-release-test) accordingly
+The `azure-pipelines.yml` build pipeline definition has variables set up to do a full build & release on the `101-boilerplate` blueprint. If you want to test a different blueprint, change the variables at the top of that file and [change your parameters and test environment](#to-configure-your-release-test) accordingly.
 
 ## azure-pipelines.yml
 This simply executes the below two powershell scripts in sequence. A couple of things to note about this pipeline definition, which is located at the root of this repo:

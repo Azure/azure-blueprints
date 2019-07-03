@@ -1,15 +1,19 @@
 <!-- 
-Version 1.0 
-Last edited: 4-1-19
+Version 2.0 
+Last edited: 6-13-19
 -->
 # Managing Blueprints as Code
 
-#### !! Disclaimer !!
-This doc is based on a powershell script that is managed by the community and is not officially supported by Microsoft. The Blueprints team is fast at work finishing official powershell cmdlets and azure cli commands. This doc will be updated once that happens.
+Using the Blueprints in the Azure Portal is a great way to get started with Blueprints or to use Blueprints on a small-ish scale, but often you’ll want to manage your Blueprints as code for a variety of reasons, such as:
+* Sharing blueprints
+* Keeping blueprints in source control
+* Putting blueprints in a CI/CD or release pipeline
+
 
 ## Table of Contents
   - [Prerequisites](#prerequisites)
   - [How to use this guide](#how-to-use-this-guide)
+  - [Quickstart](#quickstart)
   - [Structure of blueprint artifacts](#structure-of-blueprint-artifacts)
     - [Blueprint folder](#blueprint-folder)
     - [Functions](#functions)
@@ -27,16 +31,47 @@ This doc is based on a powershell script that is managed by the community and is
 
 This doc assumes you have a basic understanding of how blueprints work. If you've never used Blueprints before, this will be a little overwhelming. We recommend you build your first blueprint with the UI to understand how everything works. You can try it at [aka.ms/getblueprints](https://aka.ms/getblueprints) and learn more about it in the [docs](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) or watch this [10 minute overview](https://youtu.be/grt6uB9XxvU?t=1543).
 
-Download the [Manage-AzureRMBlueprint script](https://powershellgallery.com/packages/Manage-AzureRMBlueprint) from the powershell gallery. At the time of this writing the latest is version 2.0. In addition to helping you manage your Blueprints as Code, this script is also helpful for moving a Blueprint between Management Groups or between Azure Tenants.
-Using the Blueprints in the Azure Portal is a great way to get started with Blueprints or to use Blueprints on a small-ish scale, but often you’ll want to manage your Blueprints as code for a variety of reasons, such as:
-* Sharing blueprints
-* Keeping blueprints in source control
-* Putting blueprints in a CI/CD or release pipeline
+Download the [Az.Blueprint module](https://powershellgallery.com/packages/Az.Blueprint/) from the powershell gallery:
 
-*There is an alternative powershell module for managing blueprints, AxAzureBlueprints, which you can [download here](https://www.powershellgallery.com/packages/AxAzureBlueprint/1.1.0). There are pros/cons to each one. I find that AxAzureBlueprints is a bit faster to push iterations because there are less parameters required for each push.* 
+```powershell
+Install-Module -Name Az.Blueprint
+```
 
 ## How to use this guide
-This guide references the files in the Boilerplate directory and deploys the Boilerplate blueprint as a draft definition to Azure.
+This guide references the files in the [samples/101-boilerplate directory](https://github.com/Azure/azure-blueprints/tree/master/samples/101-boilerplate) and deploys the Boilerplate blueprint as a draft definition to Azure.
+
+## Quickstart
+Push a sample blueprint definition to Azure:
+```powershell
+Import-AzBlueprintWithArtifact -Name Boilerplate -ManagementGroupId "DevMG" -InputPath  ".\samples\101-boilerplate"
+```
+
+Publish a new version of that definition so it can be assigned:
+```powershell
+# Get the blueprint we just created
+$bp = Get-AzBlueprint -Name Boilerplate -ManagementGroupId "DevMG"
+# Publish version 1.0
+Publish-AzBlueprint -Bluerpint $bp -Version 1.0
+```
+
+Assign the blueprint to a subscription:
+```powershell
+# Get the version of the blueprint you want to assign, which we will pas to New-AzBlueprintAssignment
+$publishedBp = Get-AzBlueprint -ManagementGroupId "DevMG" -Name "Boilerplate" -LatestPublished
+
+# Each resource group artifact in the blueprint will need a hashtable for the actual RG name and location
+$rgHash = @{ name="MyBoilerplateRG"; location = "eastus" }
+
+# all other (non-rg) parameters are listed in a single hashtable, with a key/value pair for each parameter
+$parameters = @{ principalIds="caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d" }
+
+# All of the resource group artifact hashtables are themselves grouped into a parent hashtable
+# the 'key' for each item in the table should match the RG placeholder name in the blueprint
+$rgArray = @{ SingleRG = $rgHash }
+
+# Assign the new blueprint to the specified subscription (Assignment updates should use Set-AzBlueprintAssignment
+New-AzBlueprintAssignment -Blueprint $publishedBp -Location eastus -SubscriptionId "00000000-1111-0000-1111-000000000000" -ResourceGroupParameter $rgArray -Parameter $parameters
+```
 
 ## Structure of blueprint artifacts
 A blueprint consists of the main blueprint json file and a series of artifact json files. Simple 😊
@@ -46,26 +81,17 @@ So you will always have something like the following:
 ```
 Blueprint directory (also the default blueprint name)
 * blueprint.json
-* artifact.json
-* ...
-* more-artifacts.json
+* artifacts
+    - artifact.json
+    - ...
+    - more-artifacts.json
 ```
-<!-- <img src="image of blueprint directory" /> -->
 
 ### Blueprint folder
 Create a folder or directory on your computer to store all of your blueprint files. **The name of this folder will be the default name of the blueprint** unless you specify a new name in the blueprint json file.
 
 ### Functions
-At the time we support the following functions. They work exactly like they do in a regular ARM template.
-* [parameters()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-deployment#parameters)
-* [concat()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-array#concat)
-* [subscription()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-array#concat)
-* [resourceGroup()](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-template-functions-resource#resourcegroup)
-
-We also support functions that only exist in blueprints:
-
-* [artifacts()](#passing-values-between-artifacts)
-* [resourceGroups()](https://google.com)
+We support a variety of expressions that can be used in either a blueprint defintion or artifact such as `concat()` and `parameters()`. For a full reference of functions and how to use them you can reference the [Functions for use with Azure Blueprints](https://docs.microsoft.com/en-us/azure/governance/blueprints/reference/blueprint-functions) doc.
 
 ### Blueprint
 This is your main Blueprint file. In order to be processed successfully, the blueprint must be created in Azure before any artifacts (policy, role, template) otherwise the calls to push those artifacts will fail. That's because the **artifacts are child resources of a blueprint**. The `Manage-AzureRmBlueprint` script takes care of this for you automatically. Typically, you will name this 01-blueprint.json so that it is sorted alphabetically first, but this name is up to you and doesn't affect anything.
@@ -200,7 +226,11 @@ And then you can reference that parameter within the `template` section in `temp
 
 This shouldn't require any modification of your arm templates.
 
-The [AxAzureBlueprint](https://www.powershellgallery.com/packages/AxAzureBlueprint/1.0.0) powershell module has a cmdlet called ```Import-AzureBlueprintArtifact``` that can automatically convert an ARM template into a blueprint template artifact and map all the parameter references for you. It's a good way to understand how everything works.
+You can also use the `New-AzBlueprintArtifact` cmdlet to convert a standard ARM template into a bluerpint artifact:
+
+```powershell
+New-AzBlueprintArtifact -Type TemplateArtifact -Name storage-account -Blueprint $bp -TemplateFile C:\StorageAccountArmTemplate.json -ResourceGroup "storageRG" -TemplateParameterFile "C:\StorageAccountParams.json"
+```
 
 ### Passing values between artifacts
 There are many reasons you may want or need to pass the output from one artifact as the input to another artifact that is deployed later in the blueprint assignment sequence. If so, you can make use of the ```artifacts()``` function which lets you reference the details of a particular artifact.
@@ -262,14 +292,9 @@ In this example, this template artifact `dependsOn` the `policyAssignment` artif
 
 
 ## Push the Blueprint definition to Azure
-Now we’ll take advantage of the [Manage-AzureRMBlueprint]() script and push it to Azure. We can do so by running the following command. You should be in the directory of where your blueprint artifacts are saved.
 ```powershell
-Manage-AzureRMBlueprint -mode Import -ImportDir ".\" -ManagementGroupID "ManagementGroupId"
+Import-AzBlueprintWithArtifact -Name Boilerplate -ManagementGroupId "DevMG" -InputPath  ".\samples\101-boilerplate"
 ```
-
-You will be asked to choose a subscription that is in the tenant where you want to save the blueprint definition, then confirm that it is ok to save something in your Azure subscription. Or you can use ```-Force``` to skip the confirmation. 
-
-And if you are hip and using the `Az` module instead, you can also add `-ModuleMode Az` to the end.
 
 Now you should see a new blueprint definition in Azure. You can update the blueprint by simply re-running the above command.
 

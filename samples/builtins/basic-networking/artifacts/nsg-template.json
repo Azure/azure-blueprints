@@ -12,19 +12,19 @@
                 }
             },
             "variables": {
-                "subnetId": "[resourceId(resourceGroup().name, \u0027Microsoft.Network/virtualNetworks/subnets\u0027, concat(parameters(\u0027localPrefix\u0027),\u0027vnet-blueprint\u0027), concat(parameters(\u0027localPrefix\u0027),\u0027subnet-blueprint\u0027))]",
+                "subnetId": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', concat(parameters('localPrefix'),'vnet-blueprint'), concat(parameters('localPrefix'),'subnet-blueprint'))]",
                 "location": "[resourceGroup().location]",
                 "existingVirtualNetworkResourceGroupName": "[resourceGroup().name]",
-                "existingVirtualNetworkName": "[concat(parameters(\u0027localPrefix\u0027), \u0027vnet-blueprint\u0027)]",
-                "existingSubnetName": "[concat(parameters(\u0027localPrefix\u0027), \u0027subnet-blueprint\u0027)]",
-                "newNsgName": "[concat(parameters(\u0027localPrefix\u0027), \u0027nsg-blueprint\u0027)]"
+                "existingVirtualNetworkName": "[concat(parameters('localPrefix'), 'vnet-blueprint')]",
+                "existingSubnetName": "[concat(parameters('localPrefix'), 'subnet-blueprint')]",
+                "newNsgName": "[concat(parameters('localPrefix'), 'nsg-blueprint')]"
             },
             "resources": [
                 {
                     "type": "Microsoft.Network/networkSecurityGroups",
                     "apiVersion": "2018-04-01",
-                    "name": "[variables(\u0027newNsgName\u0027)]",
-                    "location": "[variables(\u0027location\u0027)]",
+                    "name": "[variables('newNsgName')]",
+                    "location": "[variables('location')]",
                     "properties": {
                         "securityRules": [
                         ]
@@ -36,7 +36,7 @@
                     "name": "associateNsg",
                     "resourceGroup": "[resourceGroup().name]",
                     "dependsOn": [
-                        "[variables(\u0027newNsgName\u0027)]"
+                        "[variables('newNsgName')]"
                     ],
                     "properties": {
                         "mode": "Incremental",
@@ -47,12 +47,12 @@
                                 {
                                     "apiVersion": "2018-04-01",
                                     "type": "Microsoft.Network/virtualNetworks/subnets",
-                                    "name": "[concat(variables(\u0027existingVirtualNetworkName\u0027), \u0027/\u0027, variables(\u0027existingSubnetName\u0027))]",
-                                    "location": "[variables(\u0027location\u0027)]",
+                                    "name": "[concat(variables('existingVirtualNetworkName'), '/', variables('existingSubnetName'))]",
+                                    "location": "[variables('location')]",
                                     "properties": {
-                                        "addressPrefix": "[reference(variables(\u0027subnetId\u0027), \u00272018-04-01\u0027).addressPrefix]",
+                                        "addressPrefix": "[reference(variables('subnetId'), '2018-04-01').addressPrefix]",
                                         "networkSecurityGroup": {
-                                            "id": "[resourceId(\u0027Microsoft.Network/networkSecurityGroups\u0027, variables(\u0027newNsgName\u0027))]"
+                                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('newNsgName'))]"
                                         }
                                     }
                                 }
@@ -65,7 +65,7 @@
         "resourceGroup": "SingleRG",
         "parameters": {
             "localPrefix": {
-                "value": "[parameters(\u0027resourceNamePrefix\u0027)]"
+                "value": "[parameters('resourceNamePrefix')]"
             }
         },
         "dependsOn": [

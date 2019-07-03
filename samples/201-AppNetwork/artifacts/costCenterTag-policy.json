@@ -6,7 +6,7 @@
                 "value": "CostCenter"
             },
             "tagValue": {
-                "value": "[parameters(\u0027AppNetwork_costCenter\u0027)]"
+                "value": "[parameters('AppNetwork_costCenter')]"
             }
         },
         "dependsOn": [

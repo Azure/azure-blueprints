@@ -8,7 +8,7 @@ param(
 $blueprintName = "Boilerplate"
 $contributors = "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d" # this is my princiapl ID in the microsoft tenant so you should change this :)
 
-# Get the version of the blueprint you want to assign, which we will pas to New-AzBlueprintAssignment
+# Get the version of the blueprint you want to assign, which we will pass to New-AzBlueprintAssignment
 $myBluerpint = Get-AzBlueprint -ManagementGroupId $managementGroupId -Name $blueprintName -LatestPublished
 
 # Each resource group artifact in the blueprint will need a hashtable for the actual RG name and location

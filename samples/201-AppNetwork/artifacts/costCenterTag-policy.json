@@ -1,0 +1,22 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2a0e14a6-b0a6-4fab-991a-187a4f81c498",
+        "parameters": {
+            "tagName": {
+                "value": "CostCenter"
+            },
+            "tagValue": {
+                "value": "[parameters('AppNetwork_costCenter')]"
+            }
+        },
+        "dependsOn": [
+
+        ],
+        "displayName": "Apply default tag and value to all resources",
+        "resourceGroup": "AppNetwork"
+    },
+    "kind": "policyAssignment",
+    "id": "/providers/Microsoft.Management/managementGroups/AzBlueprintBuiltIns/providers/Microsoft.Blueprint/blueprints/common-policies/artifacts/apply-default-tag",
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "apply-default-tag"
+}

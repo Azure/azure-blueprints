@@ -1,6 +1,6 @@
 <!-- 
 Version 2.0 
-Last edited: 6-13-19
+Last edited: 7-3-19
 -->
 # Managing Blueprints as Code
 
@@ -29,9 +29,9 @@ Using the Blueprints in the Azure Portal is a great way to get started with Blue
 
 ## Prerequisites
 
-This doc assumes you have a basic understanding of how blueprints work. If you've never used Blueprints before, this will be a little overwhelming. We recommend you build your first blueprint with the UI to understand how everything works. You can try it at [aka.ms/getblueprints](https://aka.ms/getblueprints) and learn more about it in the [docs](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) or watch this [10 minute overview](https://youtu.be/grt6uB9XxvU?t=1543).
+This doc assumes you have a basic understanding of how blueprints work. If you've never used Blueprints before, this will be a little overwhelming. We recommend you build your first blueprint with the UI to understand how everything works. You can try it at [aka.ms/getblueprints](https://aka.ms/getblueprints) and learn more about it in the [docs](https://docs.microsoft.com/en-us/azure/governance/blueprints/overview) or watch this [15 minute overview](https://www.youtube.com/watch?v=cQ9D-d6KkMY).
 
-Download the [Az.Blueprint module](https://powershellgallery.com/packages/Az.Blueprint/) from the powershell gallery:
+**Download the [Az.Blueprint module](https://powershellgallery.com/packages/Az.Blueprint/) from the powershell gallery:**
 
 ```powershell
 Install-Module -Name Az.Blueprint
@@ -91,10 +91,10 @@ Blueprint directory (also the default blueprint name)
 Create a folder or directory on your computer to store all of your blueprint files. **The name of this folder will be the default name of the blueprint** unless you specify a new name in the blueprint json file.
 
 ### Functions
-We support a variety of expressions that can be used in either a blueprint defintion or artifact such as `concat()` and `parameters()`. For a full reference of functions and how to use them you can reference the [Functions for use with Azure Blueprints](https://docs.microsoft.com/en-us/azure/governance/blueprints/reference/blueprint-functions) doc.
+We support a variety of expressions that can be used in either a blueprint defintion or artifact such as `concat()` and `parameters()`. For a full reference of functions and how to use them, you can look at the [Functions for use with Azure Blueprints](https://docs.microsoft.com/en-us/azure/governance/blueprints/reference/blueprint-functions) doc.
 
 ### Blueprint
-This is your main Blueprint file. In order to be processed successfully, the blueprint must be created in Azure before any artifacts (policy, role, template) otherwise the calls to push those artifacts will fail. That's because the **artifacts are child resources of a blueprint**. The `Manage-AzureRmBlueprint` script takes care of this for you automatically. Typically, you will name this 01-blueprint.json so that it is sorted alphabetically first, but this name is up to you and doesn't affect anything.
+This is your main Blueprint file. In order to be processed successfully, the blueprint must be created in Azure before any artifacts (policy, role, template) otherwise the calls to push those artifacts will fail. That's because the **artifacts are child resources of a blueprint**. The `Az.Blueprint` module takes care of this for you automatically. Typically, you will name this blueprint.json, but this name is up to you and customizing this will not affect anything.
 
 
 Let's look at our Boilerplate sample ```blueprint.json``` file:
@@ -130,21 +130,22 @@ Some key takeaways to note from this example:
 * There are two optional blueprint `parameters`:
     - ```principalIds``` and ```genericBlueprintParameter```. 
     - These parameters can be referenced in any artifact.
+    * The `principalIds` parameter uses a `strongType` property which loads a helper UI in the portal when this blueprint is assigned.
 * The ```resourceGroups``` artifacts are declared here, not in their own files.
 
 
 ### Resource Group properties
 You'll notice the **resource group artifacts are defined within the main blueprint json file**. In this case, we've configured a resource group with these properties: 
  * Hardcodes a location for the resource group of ```eastus```
- * Sets a placeholder name ```SingleRG``` for the resource group. 
-     - This means the resource group name will be determined at assignment time. The placeholder is just to help you organize the definition and serves as a reference point for your artifacts.
-     - Optionally you could hardcode the resource group name by adding ```"name": "myRgName"```.
+ * Sets a *placeholder* name ```SingleRG``` for the resource group. 
+     - The resource group is not created yet, that will be determined at assignment time. The placeholder is just to help you organize the definition and serves as a reference point for your artifacts.
+     - Optionally you could hardcode the resource group name by adding `"name": "myRgName"` as a child property of the `SingleRG` object.
 
 [Full spec of a blueprint](https://docs.microsoft.com/en-us/rest/api/blueprints/blueprints/createorupdate#blueprint)
 
 ### Artifacts
 
-Let’s look at the Boilerplate ```policyAssignment.json``` artifact:
+Let’s look at the Boilerplate `policyAssignment.json` artifact:
 ```json
 {
     "properties": {
@@ -159,15 +160,15 @@ Let’s look at the Boilerplate ```policyAssignment.json``` artifact:
 ```
 
 All artifacts share common properties:
-* The ```Kind``` can be:
-    - ```template```
-    - ```roleAssignment```
-    - ```policyAssignment```
-* ```Type``` – this will always be: ```Microsoft.Bluprint/blueprints/artifacts```
-* ```properties``` – this is what defines the artifact itself. Some properties of ```properties``` are common while others are specific to each type.
+* The `Kind` can be:
+    - `template`
+    - `roleAssignment`
+    - `policyAssignment`
+* `Type` – this will always be: `Microsoft.Bluprint/blueprints/artifacts`
+* `properties` – this is what defines the artifact itself. Some properties of `properties` are common while others are specific to each type.
     - Common properties
-        - ```dependsOn``` - optional. You can declare dependencies to other artifacts by referencing the artifact name (which by default is the filename w/o `.json`). More info [here](https://docs.microsoft.com/en-us/azure/governance/blueprints/concepts/sequencing-order#customizing-the-sequencing-order).
-        - ```resourceGroup``` – optional. Use the resource group placeholder name to target this artifact to that resource group. If this property isn't specified it will target the subscription.
+        - `dependsOn` - optional. You can declare dependencies to other artifacts by referencing the artifact name (which by default is the filename without `.json`). More info [here](https://docs.microsoft.com/en-us/azure/governance/blueprints/concepts/sequencing-order#customizing-the-sequencing-order).
+        - `resourceGroup` – optional. Use the resource group placeholder name to target this artifact to that resource group. If this property isn't specified it will target the subscription.
 
 Full spec for each artifact type:
 
@@ -176,10 +177,11 @@ Full spec for each artifact type:
 * [Template](https://docs.microsoft.com/en-us/rest/api/blueprints/artifacts/createorupdate#templateartifact)
 
 ### How Parameters work
-Nearly everything can be parameterized. The only things that can't be parameterized are the ```roleDefinitionId``` and ```policyDefinitionId``` in the ```rbacAssignment``` and ```policyAssignment``` artifacts respectively.
+Nearly everything can be parameterized. The only things that can't be parameterized are the `roleDefinitionId` and `policyDefinitionId` in the `rbacAssignment` and `policyAssignment` artifacts respectively.
 Parameters are defined in the main blueprint file and can be referenced in any artifact. 
 
-Here's a simple parameter declaration which is a simplified version from ```blueprint.json```:
+Here's a simple parameter declaration which is a simplified version from `blueprint.json`:
+
 ```json
 "parameters": { 
     "genericBlueprintParameter": {
@@ -189,16 +191,16 @@ Here's a simple parameter declaration which is a simplified version from ```blue
 ```
 You can use the same properties you can in an ARM template like `defaultValue`, `allowedValues`, etc.
 
-And we reference a parameter in `rbacAssignment.json`:
+And we can reference a parameter like this:
 ```json
 "properties": {
-    "principalIds": ["[parameters('principalIds')]"],
+    "genericBlueprintParameter": "[parameters('principalIds')]",
 }
 ```
 
-This gets a little complicated when you want to pass those variables to an artifact that, itself, can also have parameters. 
+This gets a little complicated when you want to pass those variables to an artifact that, itself, also has parameters. 
 
-First, in `template.json` we need to map the *blueprint* parameter to the *artifact* parameter like this:
+First, in `template.json` we need to set the *artifact* parameter value `myTemplateParameter` to have a `value` of `genericBlueprintParameter` which is our *blueprint* parameter:
 ```json
 "properties": {
     "parameters": {

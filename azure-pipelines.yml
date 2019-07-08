@@ -32,6 +32,6 @@ steps:
   inputs:
     azureSubscription: 'pipelines-runner' # this is the service connection
     BlueprintName: '101-boilerplate'
-    BlueprintPath: '.\samples\101-blueprint'
+    BlueprintPath: '.\samples\101-boilerplate'
     PublishBlueprint: true
 

@@ -1,7 +1,7 @@
 # pool: 'Hosted Ubuntu 1604'
 pool: 'Hosted VS2017'
 
-variables:
+# variables:
 # - name: managementGroupId
 #   value: root
 # - name: blueprintName

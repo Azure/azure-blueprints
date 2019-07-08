@@ -5,7 +5,12 @@
     "location": "westus2",
     "properties": {
         "blueprintId": "",
-        "resourceGroups": {},
+        "resourceGroups": {
+            "SingleRG": {
+                "name": "test-001",
+                "location": "westus2"
+            }
+        },
         "locks": {
             "mode": "none"
         },

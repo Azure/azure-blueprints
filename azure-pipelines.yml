@@ -4,13 +4,14 @@ variables:
  - name: spnName
    value: 'pipelines-runner'
  - name: blueprintName
-   value: 201-AppNetwork
+   value: 101-Boilerplate
  - name: subscriptionId
    value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2'
 
 trigger:
   branches:
     include:
+    - master
     - dev
   paths:
     exclude:

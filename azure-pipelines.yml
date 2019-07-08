@@ -35,7 +35,7 @@ steps:
     azureSubscription: '$(spnName)'
     AssignmentName: 'pla-$(blueprintName)' # pla == PipeLinesAssignment
     BlueprintName: '$(blueprintName)'
-    ParametersFile: '.\samples\$(blueprintName)\assign\assign.json'
+    ParametersFile: '.\samples\$(blueprintName)\assign.json'
     SubscriptionID: '$(subscriptionId)'
     Wait: true # waits for assignment to succeed or fail
     # version not specified because it defaults to latest published

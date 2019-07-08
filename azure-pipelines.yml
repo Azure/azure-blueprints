@@ -1,18 +1,12 @@
-# pool: 'Hosted Ubuntu 1604'
-pool: 'Hosted VS2017'
+pool: 'Hosted Ubuntu 1604'
 
-# variables:
-# - name: managementGroupId
-#   value: root
-# - name: blueprintName
-#   value: 101-boilerplate
-# - name: spnId
-#   value: 'a50a4137-5dfa-4fe7-b283-4639e27b2119'
-# - name: subscriptionId
-#   value: 'd56e652e-758d-480a-8f0d-47f230264b4c'
-# - name: tenantId
-#   value: '220caee9-352a-4eb3-80eb-cc1dabf7be3c'
-# - group: azureLoginDetails
+variables:
+ - name: spnName
+   value: 'pipelines-runner'
+ - name: blueprintName
+   value: 101-boilerplate
+ - name: subscriptionId
+   value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2'
 
 trigger:
   branches:
@@ -30,8 +24,18 @@ steps:
 - task: nepeters.azure-blueprints.CreateBlueprint.CreateBlueprint@1
   displayName: 'Create Azure Blueprint'
   inputs:
-    azureSubscription: 'pipelines-runner' # this is the service connection
-    BlueprintName: '101-boilerplate'
-    BlueprintPath: '.\samples\101-boilerplate'
+    azureSubscription: '$(spnName)' # this is the service connection
+    BlueprintName: '$(blueprintName)'
+    BlueprintPath: '.\samples\$(blueprintName)'
     PublishBlueprint: true
 
+- task: nepeters.azure-blueprints.AssignBlueprint.AssignBlueprint@1
+  displayName: 'Assign Azure Blueprint'
+  inputs:
+    azureSubscription: '$(spnName)'
+    AssignmentName: 'pla-$(blueprintName)' # pla == PipeLinesAssignment
+    BlueprintName: '$(blueprintName)'
+    ParametersFile: '.\samples\$(blueprintName)\assign\assign.json'
+    SubscriptionID: '$(subscriptionId)'
+    Wait: true
+    # version not specified because it defaults to latest

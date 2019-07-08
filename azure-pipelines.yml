@@ -4,7 +4,7 @@ variables:
  - name: spnName
    value: 'pipelines-runner'
  - name: blueprintName
-   value: 101-boilerplate
+   value: 201-AppNetwork
  - name: subscriptionId
    value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2'
 
@@ -37,5 +37,5 @@ steps:
     BlueprintName: '$(blueprintName)'
     ParametersFile: '.\samples\$(blueprintName)\assign\assign.json'
     SubscriptionID: '$(subscriptionId)'
-    Wait: true
-    # version not specified because it defaults to latest
+    Wait: true # waits for assignment to succeed or fail
+    # version not specified because it defaults to latest published

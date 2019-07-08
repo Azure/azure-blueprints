@@ -13,9 +13,6 @@
             "contributors": {
                 "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
             },
-            "genericBlueprintParameter": {
-                "value": "test"
-            },
             "AppNetwork_costCenter": {
                 "value": "Contoso-Network"
             }

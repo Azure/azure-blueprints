@@ -5,6 +5,17 @@ $subcriptionId = "e93d3ee6-fac1-412f-92d6-bfb379e81af2" # should make this a par
 # switch to selected subscription
 Set-AzContext -SubscriptionId $subcriptionId
 
+# remove all blueprint assignments
+$bps = Get-AzBlueprintAssignment -SubscriptionId $subcriptionId
+foreach ($bp in $bps) {
+    Write-Host "Deleting blueprint assignment {0}" -f $bp.Name
+    Remove-AzBlueprintAssignment -Name $bp.Name
+}
+
+# somehow get a new auth token??
+# this will be required if locks were added in the assignment
+# todo
+
 # get all rgs
 $rgs = Get-AzResourceGroup
 

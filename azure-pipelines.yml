@@ -39,4 +39,15 @@ steps:
     ParametersFile: '.\samples\$(blueprintName)\assign.json'
     SubscriptionID: '$(subscriptionId)'
     Wait: true # waits for assignment to succeed or fail
-    # version not specified because it defaults to latest published
+    # version not specified because it defaults to latest published, but could include it
+
+# clean subscription after blueprint was successfully assigned
+# maybe this should run as a separate pipeline on a schedule..
+# or leave these blueprints running??
+- task: AzurePowerShell@4
+  inputs:
+    azureSubscription: 'pipelines-runner'
+    ScriptType: 'FilePath'
+    ScriptPath: '.\clean-subscription.ps1'
+    FailOnStandardError: true
+    azurePowerShellVersion: 'LatestVersion'

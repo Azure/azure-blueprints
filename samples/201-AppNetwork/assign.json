@@ -1,0 +1,21 @@
+{
+    "identity": {
+        "type": "SystemAssigned"
+    },
+    "location": "westus2",
+    "properties": {
+        "blueprintId": "",
+        "resourceGroups": {},
+        "locks": {
+            "mode": "none"
+        },
+        "parameters": {
+            "contributors": {
+                "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+            },
+            "AppNetwork_costCenter": {
+                "value": "Contoso-Network"
+            }
+        }
+    }
+}

@@ -1,23 +1,17 @@
-# pool: 'Hosted Ubuntu 1604'
 pool: 'Hosted VS2017'
 
 variables:
-- name: managementGroupId
-  value: root
-- name: blueprintName
-  value: 101-boilerplate
-- name: spnId
-  value: 'a50a4137-5dfa-4fe7-b283-4639e27b2119'
-- name: subscriptionId
-  value: 'd56e652e-758d-480a-8f0d-47f230264b4c'
-- name: tenantId
-  value: '220caee9-352a-4eb3-80eb-cc1dabf7be3c'
-- group: azureLoginDetails
+ - name: spnName
+   value: 'pipelines-runner'
+ - name: blueprintName
+   value: 201-AppNetwork
+ - name: subscriptionId
+   value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2'
 
 trigger:
   branches:
     include:
-    - master
+    - dev
   paths:
     exclude:
     - README.md
@@ -27,19 +21,21 @@ trigger:
 
 steps:
 
- - task: PowerShell@2
-   displayName: 'Push new draft definition, publish -test version'
-   inputs:
-     targetType: 'filePath'
-     filePath: '.\pipelines-scripts\build.ps1'
-     arguments: '-mgId $(managementGroupId) -BlueprintFolder "$(Build.SourcesDirectory)\samples\$(blueprintName)" -blueprintName $(blueprintName) -spnId $(spnId) -spnPass $(spnPass) -tenantId $(tenantId)'
-     errorActionPreference: 'stop'
+- task: nepeters.azure-blueprints.CreateBlueprint.CreateBlueprint@1
+  displayName: 'Create Azure Blueprint'
+  inputs:
+    azureSubscription: '$(spnName)' # this is the service connection
+    BlueprintName: '$(blueprintName)'
+    BlueprintPath: '.\samples\$(blueprintName)'
+    PublishBlueprint: true
 
- - task: PowerShell@2
-   displayName: 'Assign test version, validate, and publish .stable version'
-   inputs:
-     targetType: 'filePath'
-     filePath: '..\pipelines-scripts\release.ps1'
-     arguments: '-subId $(subscriptionId) -blueprintName $(blueprintName) -spnId $(spnId) -spnPass $(spnPass) -tenantId $(tenantId) -mgId $(managementGroupId)'
-     errorActionPreference: 'stop'
-
+- task: nepeters.azure-blueprints.AssignBlueprint.AssignBlueprint@1
+  displayName: 'Assign Azure Blueprint'
+  inputs:
+    azureSubscription: '$(spnName)'
+    AssignmentName: 'pla-$(blueprintName)' # pla == PipeLinesAssignment
+    BlueprintName: '$(blueprintName)'
+    ParametersFile: '.\samples\$(blueprintName)\assign.json'
+    SubscriptionID: '$(subscriptionId)'
+    Wait: true # waits for assignment to succeed or fail
+    # version not specified because it defaults to latest published

@@ -1,0 +1,26 @@
+{
+    "identity": {
+        "type": "SystemAssigned"
+    },
+    "location": "westus2",
+    "properties": {
+        "blueprintId": "",
+        "resourceGroups": {
+            "SingleRG": {
+                "name": "test-001",
+                "location": "westus2"
+            }
+        },
+        "locks": {
+            "mode": "none"
+        },
+        "parameters": {
+            "principalIds": {
+                "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+            },
+            "genericBlueprintParameter": {
+                "value": "test"
+            }
+        }
+    }
+}

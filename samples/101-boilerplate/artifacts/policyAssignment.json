@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a451c1ef-c6ca-483d-87ed-f49761e3ffb5",
+        "parameters": {},
+        "resourceGroup": "SingleRG",
+        "dependsOn": [],
+        "displayName": "My Policy Definition that will be assigned (Currently auditing usage of custom roles)",
+        "metadata": {
+            "COMMENT": "specify the policy definition ID. Can be either custom or built-in. This boilerplate example points to the built-in 'allowed locations' policy"
+        }
+    },
+    "kind": "policyAssignment",
+    "type": "Microsoft.Blueprint/blueprints/artifacts"
+}
+
+

@@ -3,8 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "assignmentName": {
-            "type": "string",
-            "defaultValue": "[concat('variables('assignmentNamePrefix'), '-', utcNow())]"
+            "type": "string"
         },
         "definitionLocationMG": {
             "type": "string",

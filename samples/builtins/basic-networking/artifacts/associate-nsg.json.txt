@@ -1,0 +1,48 @@
+{
+    "kind": "template",
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "localPrefix": {
+                    "type": "string",
+                    "metadata": {
+                        "displayName": "Prefix for the resource names deployed in this template"
+                    }
+                }
+            },
+            "variables": {
+                "subnetId": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', concat(parameters('localPrefix'),'vnet-blueprint'), concat(parameters('localPrefix'),'subnet-blueprint'))]",
+                "location": "[resourceGroup().location]",
+                "existingVirtualNetworkName": "[concat(parameters('localPrefix'), 'vnet-blueprint')]",
+                "existingSubnetName": "[concat(parameters('localPrefix'), 'subnet-blueprint')]",
+                "newNsgName": "[concat(parameters('localPrefix'), 'nsg-blueprint')]"
+            },
+            "resources": [
+                {
+                    "apiVersion": "2018-04-01",
+                    "type": "Microsoft.Network/virtualNetworks/subnets",
+                    "name": "[concat(variables('existingVirtualNetworkName'), '/', variables('existingSubnetName'))]",
+                    "location": "[variables('location')]",
+                    "properties": {
+                        "addressPrefix": "[reference(variables('subnetId'), '2018-04-01').addressPrefix]",
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('newNsgName'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        "displayName": "Associate NSG with new VNET",
+        "parameters": {
+            "localPrefix": {
+                "value": "[parameters('resourceNamePrefix')]"
+            }
+        },
+        "dependsOn": [],
+        "resourceGroup": "SingleRG"
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "myTemplate"
+}

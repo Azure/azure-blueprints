@@ -51,7 +51,7 @@ Publish a new version of that definition so it can be assigned:
 # Get the blueprint we just created
 $bp = Get-AzBlueprint -Name Boilerplate -ManagementGroupId "DevMG"
 # Publish version 1.0
-Publish-AzBlueprint -Bluerpint $bp -Version 1.0
+Publish-AzBlueprint -Blueprint $bp -Version 1.0
 ```
 
 Assign the blueprint to a subscription:

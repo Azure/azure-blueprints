@@ -164,7 +164,7 @@ All artifacts share common properties:
     - `template`
     - `roleAssignment`
     - `policyAssignment`
-* `Type` – this will always be: `Microsoft.Bluprint/blueprints/artifacts`
+* `Type` – this will always be: `Microsoft.Blueprint/blueprints/artifacts`
 * `properties` – this is what defines the artifact itself. Some properties of `properties` are common while others are specific to each type.
     - Common properties
         - `dependsOn` - optional. You can declare dependencies to other artifacts by referencing the artifact name (which by default is the filename without `.json`). More info [here](https://docs.microsoft.com/en-us/azure/governance/blueprints/concepts/sequencing-order#customizing-the-sequencing-order).

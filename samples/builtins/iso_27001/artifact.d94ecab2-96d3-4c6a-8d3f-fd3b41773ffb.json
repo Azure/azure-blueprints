@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Enforce encryption on Data Lake Store accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001/artifacts/d94ecab2-96d3-4c6a-8d3f-fd3b41773ffb",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d94ecab2-96d3-4c6a-8d3f-fd3b41773ffb"
+}

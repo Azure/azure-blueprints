@@ -1,0 +1,164 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)"
+        },
+        "defaultValue": [
+        
+        ],
+        "allowedValues": [
+        
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)"
+        },
+        "defaultValue": [
+        
+        ],
+        "allowedValues": [
+        
+        ]
+      },
+      "[Preview]:AuditUKOFFICIALandUKNHScontrolsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled (Policy: [Preview]: Audit UK OFFICIAL and UK NHS controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ]
+      }
+    },
+    "resourceGroups": {
+      
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-06-27T20:56:13+00:00",
+      "lastModified": "2019-06-27T21:06:45+00:00"
+    },
+    "description": "Deploys and configures policies mapped to specific UK NHS controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKNHS",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "UKNHS"
+}

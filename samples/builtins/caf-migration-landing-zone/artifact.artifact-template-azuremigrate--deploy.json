@@ -1,0 +1,185 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "Organization_Name": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Enter your organization name (e.g. Contoso), must be unique",
+            "description": "Organization_Name"
+          },
+          "defaultValue": ""
+        },
+        "Azure_Migrate_Location": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Select the Region to deploy Azure Migrate",
+            "description": "Azure Migrate Location"
+          },
+          "defaultValue": "West US 2",
+          "allowedValues": [
+          "Central US",
+          "East Asia",
+          "North Europe",
+          "Southeast Asia",
+          "UK South",
+          "UK West",
+          "West Europe",
+          "West US 2"
+          ]
+        }
+      },
+      "variables": {
+        "Azure_Migrate_Name": "[concat(parameters('Organization_Name'),'-Migrate')]"
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Migrate/MigrateProjects",
+        "apiVersion": "2019-06-01",
+        "name": "[variables('Azure_Migrate_Name')]",
+        "location": "[parameters('Azure_Migrate_Location')]",
+        "copy": {
+          "name": "MIG-VM-Project",
+          "count": 1
+        },
+        "dependsOn": [
+        
+        ],
+        "properties": {
+          
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/Solutions",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(variables('Azure_Migrate_Name'),'/Servers-Assessment-ServerAssessment')]",
+        "copy": {
+          "name": "MIG-VM-Solution",
+          "count": 1
+        },
+        "dependsOn": [
+        "MIG-VM-Project"
+        ],
+        "properties": {
+          "tool": "ServerAssessment",
+          "purpose": "Assessment",
+          "goal": "Servers",
+          "status": "Active",
+          "details": null
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/Solutions",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(variables('Azure_Migrate_Name'),'/Servers-Discovery-ServerDiscovery')]",
+        "copy": {
+          "name": "MIG-VM-ServerDiscovery",
+          "count": 1
+        },
+        "dependsOn": [
+        "MIG-VM-Solution"
+        ],
+        "properties": {
+          "tool": "ServerDiscovery",
+          "purpose": "Discovery",
+          "goal": "Servers",
+          "status": "Inactive",
+          "details": null
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/Solutions",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(variables('Azure_Migrate_Name'),'/Servers-Migration-ServerMigration')]",
+        "copy": {
+          "name": "MIG-VM-ServerMigration",
+          "count": 1
+        },
+        "dependsOn": [
+        "MIG-VM-ServerDiscovery"
+        ],
+        "properties": {
+          "tool": "ServerMigration",
+          "purpose": "Migration",
+          "goal": "Servers",
+          "status": "Active",
+          "details": null
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/Solutions",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(variables('Azure_Migrate_Name'),'/Databases-Assessment-DataMigrationAssistant')]",
+        "copy": {
+          "name": "MIG-DB-Assistant",
+          "count": 1
+        },
+        "dependsOn": [
+        "MIG-VM-ServerMigration"
+        ],
+        "properties": {
+          "tool": "DataMigrationAssistant",
+          "purpose": "Assessment",
+          "goal": "Databases",
+          "status": "Active",
+          "details": null
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/Solutions",
+        "apiVersion": "2019-06-01",
+        "name": "[concat(variables('Azure_Migrate_Name'),'/Databases-Migration-DatabaseMigrationService')]",
+        "copy": {
+          "name": "MIG-DB-Service",
+          "count": 1
+        },
+        "dependsOn": [
+        "MIG-DB-Assistant"
+        ],
+        "properties": {
+          "tool": "DatabaseMigrationService",
+          "purpose": "Migration",
+          "goal": "Databases",
+          "status": "Active",
+          "details": null
+        }
+      },
+      {
+        "type": "Microsoft.Migrate/MigrateProjects/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('Azure_Migrate_Name'), '/Microsoft.Authorization/AzureMigrateDoNotDelete')]",
+        "dependsOn": [
+        "MIG-DB-Service"
+        ],
+        "comments": "Resource lock Azure Migrate",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "Organization_Name": {
+        "value": "[parameters('Organization_Name')]"
+      },
+      "Azure_Migrate_Location": {
+        "value": "[parameters('Azure_Migrate_Location')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "resourceGroup": "Migrate-RG",
+    "displayName": "Deploy Azure Migrate",
+    "description": "Deploy Azure Migrate Project"
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Migration-landing-zone/artifacts/artifact-template-azuremigrate--deploy",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-template-azuremigrate--deploy"
+}

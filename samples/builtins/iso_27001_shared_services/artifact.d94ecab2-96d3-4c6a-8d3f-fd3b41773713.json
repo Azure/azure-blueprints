@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "value": "[parameters('ISO27001Policy_listOfAllowedStorageSKUs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed storage account SKUs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/d94ecab2-96d3-4c6a-8d3f-fd3b41773713",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d94ecab2-96d3-4c6a-8d3f-fd3b41773713"
+}

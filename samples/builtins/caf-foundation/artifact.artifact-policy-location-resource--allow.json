@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('Policy_Allowed-Locations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation/artifacts/artifact-policy-location-resource--allow",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-policy-location-resource--allow"
+}

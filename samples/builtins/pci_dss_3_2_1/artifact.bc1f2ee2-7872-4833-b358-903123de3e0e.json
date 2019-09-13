@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy SQL DB transparent data encryption"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/PCI_DSS_3_2_1/artifacts/bc1f2ee2-7872-4833-b358-903123de3e0e",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "bc1f2ee2-7872-4833-b358-903123de3e0e"
+}

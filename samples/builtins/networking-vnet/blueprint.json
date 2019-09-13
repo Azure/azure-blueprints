@@ -1,0 +1,48 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "resourceNamePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource name prefix",
+          "description": "Resource group and resource name prefix"
+        }
+      },
+      "addressSpaceForVnet": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Addess space for vnet"
+        },
+        "defaultValue": "10.0.0.0/16"
+      },
+      "addressSpaceForSubnet": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Addess space for subnet"
+        },
+        "defaultValue": "10.0.0.0/24"
+      }
+    },
+    "resourceGroups": {
+      "SingleRG": {
+        "name": "[concat(parameters('resourceNamePrefix'),'-RG')]",
+        "metadata": {
+          "displayName": "VNET Resource Group"
+        },
+        "dependsOn": [
+        
+        ]
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-01-07T07:02:17+00:00",
+      "lastModified": "2019-01-17T19:08:55+00:00"
+    },
+    "displayName": "Basic Networking (VNET)",
+    "description": "Configures a virtual network with a subnet and an NSG."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/networking-vnet",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "networking-vnet"
+}

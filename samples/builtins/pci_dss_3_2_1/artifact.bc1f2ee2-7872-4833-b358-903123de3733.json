@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('allowedlocations_listOfAllowedLocations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/PCI_DSS_3_2_1/artifacts/bc1f2ee2-7872-4833-b358-903123de3733",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "bc1f2ee2-7872-4833-b358-903123de3733"
+}

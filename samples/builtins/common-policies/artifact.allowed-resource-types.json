@@ -1,0 +1,17 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a08ec900-254a-4555-9bf5-e42af04b5c5c",
+    "parameters": {
+      "listOfResourceTypesAllowed": {
+        "value": "[parameters('blueprintAllowedResourceTypes')]"
+      }
+    },
+    "resourceGroup": "ProdRG",
+    "dependsOn": [],
+    "displayName": "Allowed resource types"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/common-policies/artifacts/allowed-resource-types",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "allowed-resource-types"
+}

@@ -1,0 +1,17 @@
+﻿{
+  "properties": {
+    "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+    "principalIds": [
+    "[parameters('ContributorsProd')]"
+    ],
+    "resourceGroup": "ProdRG",
+    "dependsOn": [
+    
+    ],
+    "displayName": "<user or group TBD> : Contributor"
+  },
+  "kind": "roleAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/two-resource-groups-with-rbac/artifacts/rbac-prod-contributor",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "rbac-prod-contributor"
+}

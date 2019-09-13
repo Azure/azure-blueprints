@@ -1,0 +1,1202 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "sharedsvcs-subnet-address-prefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Shared services subnet address prefix"
+          }
+        },
+        "domain-name": {
+          "type": "string",
+          "defaultValue": "contoso.com",
+          "metadata": {
+            "displayName": "Domain name",
+            "description": "AD domain name"
+          }
+        },
+        "ad-domain-admin-username": {
+          "type": "string",
+          "defaultValue": "domain-admin-user",
+          "metadata": {
+            "displayName": "Domain admin username",
+            "description": "Domain user that has privileges to join a VM into a Domain"
+          }
+        },
+        "ad-domain-admin-password": {
+          "type": "securestring",
+          "metadata": {
+            "displayName": "Domain admin password",
+            "description": "The Key Vault Resource ID and Key Vault Secret Name where the Domain admin password is stored. Secret name has to match the value specified in Key Vault template - Domain admin username. To learn more on how to use SecureStrings in Azure Blueprints, go to: https://aka.ms/blueprintsecrets"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-sharedsvcs')]",
+        "resource-prefix": "[concat(variables('deployment-prefix'), '-', variables('extension-name'))]",
+        "virtualMachine-size": "Standard_DS2_v2",
+        "adds-vm-count": 2,
+        "vnet-resourceGroup": "[concat(variables('deployment-prefix'), '-net-rg')]",
+        "extension-name": "adds",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "address-prefix-ip": "[vdc.removeAddressRange(parameters('sharedsvcs-subnet-address-prefix'))]",
+        "adds-address-start": "[vdc.nextIP(variables('address-prefix-ip'), 8)]",
+        "availabilitySet-name": "[concat(variables('resource-prefix'), '-as')]",
+        "virtualMachine-name-prefix": "[concat(variables('resource-prefix'), '-vm')]",
+        "subnet-id": "[concat(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks',  variables('vnet-name')), '/subnets/', 'sharedsvcs')]",
+        "antimalware-extension-name": "IaaSAntimalware",
+        "diagnostics-extension-name": "IaaSDiagnostics",
+        "networkWatcher-extension-name": "NetworkWatcher",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "diagnostic-storageAccount-id": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name'))]",
+        "wad-logs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"4096\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Application!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"Security!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"System!*[System[(Level = 1 or Level = 2)]]\" /></WindowsEventLog>",
+        "wad-perf-counters1": "<PerformanceCounters scheduledTransferPeriod=\"PT1M\"><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Processor Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU utilization\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Privileged Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU privileged time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% User Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU user time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor Information(_Total)\\Processor Frequency\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"CPU frequency\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\System\\Processes\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Processes\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Thread Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Threads\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Handle Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Handles\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\% Committed Bytes In Use\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Memory usage\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Available Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory available\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Committed Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory committed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Commit Limit\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory commit limit\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active time\" locale=\"en-us\"/></PerformanceCounterConfiguration>",
+        "wad-perf-counters2": "<PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Read Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active read time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Write Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active write time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Transfers/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Reads/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk read operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Writes/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk write operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Read Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk read speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Write Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk write speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\LogicalDisk(_Total)\\% Free Space\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk free space (percentage)\" locale=\"en-us\"/></PerformanceCounterConfiguration></PerformanceCounters>",
+        "wad-cfgx-start": "[concat(variables('wad-logs'), variables('wad-perf-counters1'), variables('wad-perf-counters2'), '<Metrics resourceId=\"')]",
+        "wad-metrics-resource-id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
+        "wad-cfgx-end": "\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>",
+        "dc-asg-id": "[resourceId(variables('vnet-resourceGroup'),'Microsoft.Network/applicationSecurityGroups', concat(variables('deployment-prefix'), '-dc-asg'))]",
+        "vnet-dns-servers": [
+          "[variables('adds-address-start')]",
+          "[vdc.nextIP(variables('adds-address-start'), 1)]",
+          "168.63.129.16"
+        ],
+        "pwd-min-length-config-name": "MinimumPasswordLength",
+        "pwd-min-age-config-name": "MinimumPasswordAge",
+        "pwd-not-last-24-config-name": "EnforcePasswordHistory",
+        "pwd-without-reversible-encryption-config-name": "StorePasswordsUsingReversibleEncryption",
+        "web-server-with-tls-1.1-config-name": "AuditSecureProtocol",
+        "pwd-max-age-config-name": "MaximumPasswordAge",
+        "pwd-complexity-config-name": "PasswordMustMeetComplexityRequirements",
+        "dependency-agent-extension-name": "DependencyAgent",
+        "active-directory-domain-services-dsc-uri": "https://raw.githubusercontent.com/Azure/azure-blueprints/master/VDCArtifacts/adds_with_format.zip",
+        "active-directory-new-domain-dsc-uri": "https://raw.githubusercontent.com/Azure/azure-blueprints/master/VDCArtifacts/newADDomain.zip",
+        "group-policy-pwd-settings": "https://raw.githubusercontent.com/Azure/azure-blueprints/master/VDCArtifacts/group_policy_settings.ps1",
+        "windows-oms-extension-name": "MMAExtension",
+        "dsc-adds-setup": "DSCSetupADDS",
+        "max-password-age": 70,
+        "min-password-age": 1,
+        "min-password-length": 14,
+        "pwd-history-count": 24
+      },
+      "resources": [
+        {
+          "type": "Microsoft.Compute/availabilitySets",
+          "apiVersion": "2016-04-30-preview",
+          "location": "[resourceGroup().location]",
+          "name": "[variables('availabilitySet-name')]",
+          "tags": {
+            "displayName": "[variables('availabilitySet-name')]"
+          },
+          "properties": {
+            "platformFaultDomainCount": 2,
+            "platformUpdateDomainCount": 5,
+            "managed": true
+          },
+          "sku": {
+            "name": "Aligned"
+          }
+        },
+        {
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2017-09-01",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '1-nic')]",
+          "properties": {
+            "ipConfigurations": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "[variables('adds-address-start')]",
+                  "subnet": {
+                    "id": "[variables('subnet-id')]"
+                  },
+                  "applicationSecurityGroups": [
+                    {
+                      "id": "[variables('dc-asg-id')]"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Network/networkInterfaces/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '1-nic', '/Microsoft.Insights/service')]",
+          "dependsOn": [
+            "[concat(variables('virtualMachine-name-prefix'), '1-nic')]"
+          ],
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "timeGrain": null,
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logs-retention-in-days')]"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '1')]",
+          "identity": {
+            "type": "SystemAssigned"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('virtualMachine-name-prefix'), '1-nic'))]",
+            "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySet-name'))]"
+          ],
+          "properties": {
+            "availabilitySet": {
+              "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySet-name'))]"
+            },
+            "osProfile": {
+              "computerName": "[concat(variables('extension-name'), '-vm1')]",
+              "adminUsername": "[parameters('ad-domain-admin-username')]",
+              "adminPassword": "[parameters('ad-domain-admin-password')]"
+            },
+            "hardwareProfile": {
+              "vmSize": "[variables('virtualMachine-size')]"
+            },
+            "storageProfile": {
+              "imageReference": {
+                "publisher": "MicrosoftWindowsServer",
+                "offer": "WindowsServer",
+                "sku": "2016-Datacenter",
+                "version": "latest"
+              },
+              "osDisk": {
+                "name": "[replace(toLower(substring(concat(variables('virtualMachine-name-prefix'), 'adOSdisk', '-', replace(concat(variables('uniqueString'), variables('uniqueString')), '-', '')), 0, 40)), '-', '')]",
+                "osType": "Windows",
+                "createOption": "FromImage"
+              }
+            },
+            "networkProfile": {
+              "networkInterfaces": [
+                {
+                  "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('deployment-prefix'), '-adds-vm1-nic'))]"
+                }
+              ]
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "enabled": true,
+                "storageUri": "[concat(reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name')), '2016-12-01').primaryEndpoints.blob)]"
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "extensions",
+              "name": "[variables('windows-oms-extension-name')]",
+              "apiVersion": "2015-06-15",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                "type": "MicrosoftMonitoringAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "workspaceId": "[reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').customerId]"
+                },
+                "protectedSettings": {
+                  "workspaceKey": "[listKeys(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').primarySharedKey]"
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('antimalware-extension-name')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Security",
+                "type": "IaaSAntimalware",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "AntimalwareEnabled": true,
+                  "RealtimeProtectionEnabled": "true",
+                  "ScheduledScanSettings": {
+                    "isEnabled": "true",
+                    "scanType": "Quick",
+                    "day": "7",
+                    "time": "120"
+                  }
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('diagnostics-extension-name')]",
+              "location": "[resourceGroup().location]",
+              "apiVersion": "2017-03-30",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Diagnostics",
+                "type": "IaaSDiagnostics",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "xmlCfg": "[base64(concat(variables('wad-cfgx-start'), variables('wad-metrics-resource-id'), concat(variables('virtualMachine-name-prefix'), '1'), variables('wad-cfgx-end')))]",
+                  "storageAccount": "[variables('diagnostic-storageAccount-name')]"
+                },
+                "protectedSettings": {
+                  "storageAccountName": "[variables('diagnostic-storageAccount-name')]",
+                  "storageAccountKey": "[listkeys(variables('diagnostic-storageAccount-id'), '2016-12-01').keys[0])",
+                  "storageAccountEndPoint": "https://core.windows.net"
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('networkWatcher-extension-name')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.NetworkWatcher",
+                "type": "NetworkWatcherAgentWindows",
+                "typeHandlerVersion": "1.4",
+                "autoUpgradeMinorVersion": true
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('dependency-agent-extension-name')]",
+              "apiVersion": "2018-06-01",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "type": "DependencyAgentWindows",
+                "typeHandlerVersion": "9.6",
+                "autoUpgradeMinorVersion": true
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('dsc-adds-setup')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "configuration": {
+                    "url": "[variables('active-directory-new-domain-dsc-uri')]",
+                    "script": "newDomain.ps1",
+                    "function": "NewDomain"
+                  },
+                  "configurationArguments": {
+                    "DomainName": "[parameters('domain-name')]"
+                  }
+                },
+                "protectedSettings": {
+                  "configurationArguments": {
+                    "AdminCreds": {
+                      "UserName": "[parameters('ad-domain-admin-username')]",
+                      "Password": "[parameters('ad-domain-admin-password')]"
+                    },
+                    "SafeModeAdminCreds": {
+                      "UserName": "[parameters('ad-domain-admin-username')]",
+                      "Password": "[parameters('ad-domain-admin-password')]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "PwdPolicies",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.8",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "fileUris": [
+                    "[variables('group-policy-pwd-settings')]"
+                  ],
+                  "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./group_policy_settings.ps1 -MaxPwdAge ', variables('max-password-age'), ' -MinPwdAge ', variables('min-password-age'), ' -MinPwdLength ', variables('min-password-length'), ' -PwdHistoryCount ', variables('pwd-history-count'), ' -Identity ', parameters('domain-name'))]",
+                  "timestamp": 123456789
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '1', '/Microsoft.Insights/service')]",
+          "dependsOn": [
+            "[concat(variables('virtualMachine-name-prefix'), '1')]"
+          ],
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logs-retention-in-days')]"
+                }
+              }
+            ],
+            "logs": [
+
+            ]
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-min-length-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-min-length-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-min-age-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-min-age-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-not-last-24-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-not-last-24-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-without-reversible-encryption-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-without-reversible-encryption-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('web-server-with-tls-1.1-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('web-server-with-tls-1.1-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-max-age-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-max-age-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/Microsoft.GuestConfiguration/', variables('pwd-complexity-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-complexity-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2015-05-01-preview",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '1'), '/AzurePolicyforWindows')]",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-length-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-age-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-not-last-24-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-without-reversible-encryption-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('web-server-with-tls-1.1-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-max-age-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '1'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-complexity-config-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.GuestConfiguration",
+            "type": "ConfigurationforWindows",
+            "typeHandlerVersion": "1.1",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+
+            },
+            "protectedSettings": {
+
+            }
+          }
+        },
+        {
+          "name": "UpdateInitialDNSServerNestedDeployment",
+          "type": "Microsoft.Resources/deployments",
+          "resourceGroup": "[variables('vnet-resourceGroup')]",
+          "apiVersion": "2017-05-10",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '1'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '1'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "mode": "Incremental",
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+
+              },
+              "resources": [
+                {
+                  "apiVersion": "2018-02-01",
+                  "type": "Microsoft.Network/virtualNetworks",
+                  "name": "[variables('vnet-name')]",
+                  "location": "[resourceGroup().location]",
+                  "properties": {
+                    "addressSpace": "[reference(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet-name')), '2018-02-01').addressSpace]",
+                    "dhcpOptions": {
+                      "dnsServers": [
+                        "[variables('adds-address-start')]",
+                        "168.63.129.16"
+                      ]
+                    },
+                    "subnets": "[reference(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet-name')), '2018-02-01').subnets]"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+
+            }
+          }
+        },
+        {
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2017-09-01",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '2-nic')]",
+          "tags": {
+            "displayName": "[concat(variables('virtualMachine-name-prefix'), '2-nic')]"
+          },
+          "properties": {
+            "ipConfigurations": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "[vdc.nextIP(variables('adds-address-start'), 1)]",
+                  "subnet": {
+                    "id": "[variables('subnet-id')]"
+                  },
+                  "applicationSecurityGroups": [
+                    {
+                      "id": "[variables('dc-asg-id')]"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Network/networkInterfaces/providers/diagnosticSettings",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2017-05-01-preview",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '2-nic', '/Microsoft.Insights/service')]",
+          "dependsOn": [
+            "[concat(variables('virtualMachine-name-prefix'), '2-nic')]"
+          ],
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "timeGrain": null,
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logs-retention-in-days')]"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines",
+          "identity": {
+            "type": "SystemAssigned"
+          },
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '2')]",
+          "tags": {
+            "displayName": "[concat(variables('virtualMachine-name-prefix'), '2')]"
+          },
+          "dependsOn": [
+            "UpdateInitialDNSServerNestedDeployment",
+            "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySet-name'))]",
+            "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('virtualMachine-name-prefix'), '2-nic'))]"
+          ],
+          "properties": {
+            "availabilitySet": {
+              "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySet-name'))]"
+            },
+            "osProfile": {
+              "computerName": "[concat(variables('extension-name'), '-vm2')]",
+              "adminUsername": "[parameters('ad-domain-admin-username')]",
+              "adminPassword": "[parameters('ad-domain-admin-password')]"
+            },
+            "hardwareProfile": {
+              "vmSize": "[variables('virtualMachine-size')]"
+            },
+            "storageProfile": {
+              "imageReference": {
+                "publisher": "MicrosoftWindowsServer",
+                "offer": "WindowsServer",
+                "sku": "2016-Datacenter",
+                "version": "latest"
+              },
+              "osDisk": {
+                "name": "[replace(toLower(substring(concat(variables('extension-name'), '2-osdisk', '-', replace(concat(variables('uniqueString'), variables('uniqueString')), '-', '')), 0, 30)), '-', '')]",
+                "osType": "Windows",
+                "createOption": "FromImage"
+              },
+              "dataDisks": [
+                {
+                  "lun": 0,
+                  "name": "[replace(toLower(substring(concat(variables('extension-name'), '2-dsk1', '-', replace(concat(variables('uniqueString'), variables('uniqueString')), '-', '')), 0, 30)), '-', '')]",
+                  "diskSizeGB": 127,
+                  "createOption": "Empty",
+                  "caching": "None"
+                }
+              ]
+            },
+            "networkProfile": {
+              "networkInterfaces": [
+                {
+                  "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('virtualMachine-name-prefix'), '2-nic'))]"
+                }
+              ]
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "enabled": true,
+                "storageUri": "[concat(reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name')), '2016-12-01').primaryEndpoints.blob)]"
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "extensions",
+              "name": "[variables('dsc-adds-setup')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "configuration": {
+                    "url": "[variables('active-directory-domain-services-dsc-uri')]",
+                    "script": "azure.ps1",
+                    "function": "CreateDomainController"
+                  },
+                  "configurationArguments": {
+                    "DomainName": "[parameters('domain-name')]",
+                    "PrimaryDcIpAddress": "[variables('adds-address-start')]",
+                    "SiteName": "Default-First-Site-Name",
+                    "DriveLetter": "F",
+                    "DiskId": 2
+                  }
+                },
+                "protectedSettings": {
+                  "configurationArguments": {
+                    "AdminCreds": {
+                      "UserName": "[parameters('ad-domain-admin-username')]",
+                      "Password": "[parameters('ad-domain-admin-password')]"
+                    },
+                    "SafeModeAdminCreds": {
+                      "UserName": "[parameters('ad-domain-admin-username')]",
+                      "Password": "[parameters('ad-domain-admin-password')]"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('windows-oms-extension-name')]",
+              "apiVersion": "2015-06-15",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                "type": "MicrosoftMonitoringAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "workspaceId": "[reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').customerId]"
+                },
+                "protectedSettings": {
+                  "workspaceKey": "[listKeys(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').primarySharedKey]"
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('antimalware-extension-name')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Security",
+                "type": "IaaSAntimalware",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "AntimalwareEnabled": true,
+                  "RealtimeProtectionEnabled": "true",
+                  "ScheduledScanSettings": {
+                    "isEnabled": "true",
+                    "scanType": "Quick",
+                    "day": "7",
+                    "time": "120"
+                  }
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('diagnostics-extension-name')]",
+              "location": "[resourceGroup().location]",
+              "apiVersion": "2017-03-30",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Diagnostics",
+                "type": "IaaSDiagnostics",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "xmlCfg": "[base64(concat(variables('wad-cfgx-start'), variables('wad-metrics-resource-id'), variables('virtualMachine-name-prefix'), '2', variables('wad-cfgx-end')))]",
+                  "storageAccount": "[variables('diagnostic-storageAccount-name')]"
+                },
+                "protectedSettings": {
+                  "storageAccountName": "[variables('diagnostic-storageAccount-name')]",
+                  "storageAccountKey": "[listkeys(variables('diagnostic-storageAccount-id'), '2016-12-01').keys[0])",
+                  "storageAccountEndPoint": "https://core.windows.net"
+                }
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('networkWatcher-extension-name')]",
+              "apiVersion": "2017-03-30",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.NetworkWatcher",
+                "type": "NetworkWatcherAgentWindows",
+                "typeHandlerVersion": "1.4",
+                "autoUpgradeMinorVersion": true
+              }
+            },
+            {
+              "type": "extensions",
+              "name": "[variables('dependency-agent-extension-name')]",
+              "apiVersion": "2018-06-01",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+              ],
+              "properties": {
+                "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "type": "DependencyAgentWindows",
+                "typeHandlerVersion": "9.6",
+                "autoUpgradeMinorVersion": true
+              }
+            }
+          ]
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('virtualMachine-name-prefix'), '2', '/Microsoft.Insights/service')]",
+          "dependsOn": [
+            "[concat(variables('virtualMachine-name-prefix'), '2')]"
+          ],
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logs-retention-in-days')]"
+                }
+              }
+            ],
+            "logs": [
+
+            ]
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-min-length-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-min-length-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-min-age-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-min-age-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-not-last-24-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-not-last-24-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-without-reversible-encryption-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-without-reversible-encryption-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('web-server-with-tls-1.1-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('web-server-with-tls-1.1-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-max-age-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-max-age-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2018-06-30-preview",
+          "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/Microsoft.GuestConfiguration/', variables('pwd-complexity-config-name'))]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "guestConfiguration": {
+              "name": "[variables('pwd-complexity-config-name')]",
+              "version": "1.*"
+            }
+          }
+        },
+        {
+          "apiVersion": "2015-05-01-preview",
+          "name": "[concat(concat(variables('virtualMachine-name-prefix'), '2'), '/AzurePolicyforWindows')]",
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('virtualMachine-name-prefix'), '2'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-length-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-age-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-not-last-24-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-without-reversible-encryption-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('web-server-with-tls-1.1-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-max-age-config-name'))]",
+            "[concat('Microsoft.Compute/virtualMachines/',concat(variables('virtualMachine-name-prefix'), '2'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-complexity-config-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('antimalware-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('diagnostics-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('networkWatcher-extension-name'))]",
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), variables('dsc-adds-setup'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.GuestConfiguration",
+            "type": "ConfigurationforWindows",
+            "typeHandlerVersion": "1.1",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+
+            },
+            "protectedSettings": {
+
+            }
+          }
+        },
+        {
+          "name": "UpdateDNSServerNestedDeployment",
+          "type": "Microsoft.Resources/deployments",
+          "resourceGroup": "[variables('vnet-resourceGroup')]",
+          "apiVersion": "2017-05-10",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(variables('virtualMachine-name-prefix'), '2'), 'AzurePolicyforWindows')]"
+          ],
+          "properties": {
+            "mode": "Incremental",
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+
+              },
+              "resources": [
+                {
+                  "apiVersion": "2018-02-01",
+                  "type": "Microsoft.Network/virtualNetworks",
+                  "name": "[variables('vnet-name')]",
+                  "location": "[resourceGroup().location]",
+                  "properties": {
+                    "addressSpace": "[reference(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet-name')), '2018-02-01').addressSpace]",
+                    "dhcpOptions": {
+                      "dnsServers": "[variables('vnet-dns-servers')]"
+                    },
+                    "subnets": "[reference(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet-name')), '2018-02-01').subnets]"
+                  }
+                }
+              ]
+            },
+            "parameters": {
+
+            }
+          }
+        }
+      ],
+      "functions": [
+        {
+          "namespace": "vdc",
+          "members": {
+            "nextIP": {
+              "parameters": [
+                {
+                  "name": "ip",
+                  "type": "string"
+                },
+                {
+                  "name": "operand",
+                  "type": "int"
+                }
+              ],
+              "output": {
+                "type": "string",
+                "value": "[concat(split(parameters('ip'), '.')[0], '.' ,split(parameters('ip'), '.')[1], '.' ,split(parameters('ip'), '.')[2], '.', add(int(split(parameters('ip'), '.')[3]), parameters('operand')))]"
+              }
+            },
+            "splitIP": {
+              "parameters": [
+                {
+                  "name": "initialIP",
+                  "type": "string"
+                }
+              ],
+              "output": {
+                "type": "array",
+                "value": "[split(parameters('initialIP'), '.')]"
+              }
+            },
+            "removeAddressRange": {
+              "parameters": [
+                {
+                  "name": "ip",
+                  "type": "string"
+                }
+              ],
+              "output": {
+                "type": "string",
+                "value": "[if(greater(indexOf(parameters('ip'), '/'), 0), substring(parameters('ip'), 0, add(indexOf(parameters('ip'), '/'), 0)), parameters('ip'))]"
+              }
+            }
+          }
+        }
+      ],
+      "outputs": {
+
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "sharedsvcs-subnet-address-prefix": {
+        "value": "[parameters('vnet_sharedsvcs-subnet-address-prefix')]"
+      },
+      "domain-name": {
+        "value": "[parameters('active-directory-domain-services_domain-name')]"
+      },
+      "ad-domain-admin-username": {
+        "value": "[parameters('active-directory-domain-services_ad-domain-admin-username')]"
+      },
+      "ad-domain-admin-password": {
+        "value": "[parameters('active-directory-domain-services_ad-domain-admin-password')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('active-directory-domain-services_logs-retention-in-days')]"
+      }
+    },
+    "dependsOn": [
+      "net"
+    ],
+    "resourceGroup": "ResourceGroup5",
+    "displayName": "Active Directory Domain Services template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/active-directory-domain-services",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "active-directory-domain-services"
+}

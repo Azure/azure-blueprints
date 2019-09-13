@@ -1,0 +1,284 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "vnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.0.0/16",
+          "metadata": {
+            "displayName": "Virtual Network address prefix"
+          }
+        },
+        "sharedsvcs-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.0.0/24",
+          "metadata": {
+            "displayName": "Shared services subnet address prefix",
+            "description": "Value used in Virtual Network / Route Table, Jumpbox and Active Directory Domain Services templates"
+          }
+        },
+        "dmz-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.1.0/24",
+          "metadata": {
+            "displayName": "DMZ subnet address prefix"
+          }
+        },
+        "app-gateway-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.2.0/24",
+          "metadata": {
+            "displayName": "Application Gateway subnet address prefix"
+          }
+        },
+        "gateway-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.3.0/24",
+          "metadata": {
+            "displayName": "Virtual Network Gateway subnet address prefix"
+          }
+        },
+        "azure-firewall-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.0.4.0/24",
+          "metadata": {
+            "displayName": "Azure Firewall subnet address prefix"
+          }
+        },
+        "enable-ddos-protection": {
+          "type": "string",
+          "defaultValue": "true",
+          "metadata": {
+            "displayName": "Enable Virtual Network DDoS protection",
+            "description": "Determines whether or not DDoS Protection is enabled in the Virtual Network"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-sharedsvcs')]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "ddos-protection-plan-name": "[concat(variables('deployment-prefix'), '-ddos-plan')]",
+        "ddos-protection-plan-id": {
+          "id": "[resourceId('Microsoft.Network/ddosProtectionPlans', variables('ddos-protection-plan-name'))]"
+        },
+        "user-defined-routes": [
+        {
+          "name": "sharedsvcs-subnet",
+          "routes": [
+          
+          ]
+        }
+        ],
+        "subnets": [
+        {
+          "name": "sharedsvcs",
+          "address-prefix": "[parameters('sharedsvcs-subnet-address-prefix')]",
+          "network-security-group": "sharedsvcs-subnet",
+          "user-defined-route": "[variables('user-defined-routes')[0].name]",
+          "service-endpoints": [
+          {
+            "service": "Microsoft.KeyVault"
+          }
+          ]
+        },
+        {
+          "name": "dmz",
+          "address-prefix": "[parameters('dmz-subnet-address-prefix')]",
+          "network-security-group": "dmz-subnet",
+          "user-defined-route": "",
+          "service-endpoints": [
+          
+          ]
+        },
+        {
+          "name": "AppGateway",
+          "address-prefix": "[parameters('app-gateway-subnet-address-prefix')]",
+          "network-security-group": "",
+          "user-defined-route": "",
+          "service-endpoints": [
+          
+          ]
+        },
+        {
+          "name": "GatewaySubnet",
+          "address-prefix": "[parameters('gateway-subnet-address-prefix')]",
+          "network-security-group": "",
+          "user-defined-route": "",
+          "service-endpoints": [
+          
+          ]
+        },
+        {
+          "name": "AzureFirewallSubnet",
+          "address-prefix": "[parameters('azure-firewall-subnet-address-prefix')]",
+          "network-security-group": "",
+          "user-defined-route": "",
+          "service-endpoints": [
+          
+          ]
+        }
+        ],
+        "enable-ddos-protection": "[bool(parameters('enable-ddos-protection'))]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]"
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Network/routeTables",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "copy": {
+          "count": "[length(variables('user-defined-routes'))]",
+          "name": "udrLoop"
+        },
+        "name": "[concat(variables('deployment-prefix'), '-', variables('user-defined-routes')[copyIndex()].name, '-udr')]",
+        "tags": {
+          "displayName": "[concat(variables('deployment-prefix'), '-', variables('user-defined-routes')[copyIndex()].name, '-udr')]"
+        }
+      },
+      {
+        "type": "Microsoft.Network/ddosProtectionPlans",
+        "apiVersion": "2018-02-01",
+        "name": "[variables('ddos-protection-plan-name')]",
+        "condition": "[equals(variables('enable-ddos-protection'), bool('true'))]",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "displayName": "[variables('ddos-protection-plan-name')]"
+        },
+        "properties": {
+          
+        }
+      },
+      {
+        "apiVersion": "2018-08-01",
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[variables('vnet-name')]",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "displayName": "[variables('vnet-name')]"
+        },
+        "dependsOn": [
+        "udrLoop"
+        ],
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+            "[parameters('vnet-address-prefix')]"
+            ]
+          },
+          "enableDdosProtection": "[variables('enable-ddos-protection')]",
+          "ddosProtectionPlan": "[if(equals(variables('enable-ddos-protection'), bool('false')), json('null'), variables('ddos-protection-plan-id'))]",
+          "copy": [
+          {
+            "name": "subnets",
+            "count": "[length(variables('subnets'))]",
+            "input": {
+              "name": "[variables('subnets')[copyIndex('subnets')].name]",
+              "properties": {
+                "addressPrefix": "[variables('subnets')[copyIndex('subnets')]['address-prefix']]",
+              "networkSecurityGroup": "[if(equals(variables('subnets')[copyIndex('subnets')]['network-security-group'], ''), json('null'), json(concat('{\"id\": \"', resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('deployment-prefix'), '-', variables('subnets')[copyIndex('subnets')]['network-security-group'], '-nsg')), '\"}')))]",
+              "routeTable": "[if(equals(variables('subnets')[copyIndex('subnets')]['user-defined-route'], ''), json('null'), json(concat('{\"id\": \"', resourceId('Microsoft.Network/routeTables', concat(variables('deployment-prefix'), '-', variables('subnets')[copyIndex('subnets')]['user-defined-route'], '-udr')), '\"}')))]",
+                "serviceEndpoints": "[if(equals(length(variables('subnets')[copyIndex('subnets')]['service-endpoints']), 0), json('null'), variables('subnets')[copyIndex('subnets')]['service-endpoints'])]"
+              }
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworks/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "name": "[concat(variables('vnet-name'),'/Microsoft.Insights/service')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[variables('vnet-name')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "timeGrain": null,
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": false,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ],
+          "logs": [
+          {
+            "category": "VMProtectionAlerts",
+            "enabled": true
+          }
+          ]
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "vnet-address-prefix": {
+        "value": "[parameters('vnet_vnet-address-prefix')]"
+      },
+      "enable-ddos-protection": {
+        "value": "[parameters('vnet_enable-ddos-protection')]"
+      },
+      "sharedsvcs-subnet-address-prefix": {
+        "value": "[parameters('vnet_sharedsvcs-subnet-address-prefix')]"
+      },
+      "dmz-subnet-address-prefix": {
+        "value": "[parameters('vnet_dmz-subnet-address-prefix')]"
+      },
+      "app-gateway-subnet-address-prefix": {
+        "value": "[parameters('vnet_app-gateway-subnet-address-prefix')]"
+      },
+      "gateway-subnet-address-prefix": {
+        "value": "[parameters('vnet_gateway-subnet-address-prefix')]"
+      },
+      "azure-firewall-subnet-address-prefix": {
+        "value": "[parameters('vnet_azure-firewall-subnet-address-prefix')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('vnet_logs-retention-in-days')]"
+      }
+    },
+    "dependsOn": [
+    "nsg"
+    ],
+    "resourceGroup": "ResourceGroup2",
+    "displayName": "Virtual Network and Route Table template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/net",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "net"
+}

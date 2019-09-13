@@ -1,0 +1,161 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "allowedlocations_listOfAllowedLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed locations (Policy: Allowed locations)",
+          "strongType": "location"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "deployAuditingonSQLservers_retentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Retention days (optional, 180 days if unspecified) (Policy: Deploy Auditing on SQL servers)"
+        },
+        "defaultValue": "180",
+        "allowedValues": [
+        
+        ]
+      },
+      "deployAuditingonSQLservers_storageAccountsResourceGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource group name for storage accounts (Policy: Deploy Auditing on SQL servers)",
+          "strongType": "existingResourceGroups"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "allowedlocationsforresourcegroups_listOfAllowedLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed locations (Policy: Allowed locations for resource groups)",
+          "strongType": "location"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "[Preview]:AuditPCIv3.2.1:2018controlsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled (Policy: [Preview]: Audit PCI v3.2.1:2018 controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ]
+      }
+    },
+    "resourceGroups": {
+      
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-06-13T20:37:05+00:00",
+      "lastModified": "2019-06-28T22:39:58+00:00"
+    },
+    "displayName": "PCI-DSS v3.2.1",
+    "description": "A set of a policies which aides in achieving PCI-DSS v3.2.1 compliance."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/PCI_DSS_3_2_1",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "PCI_DSS_3_2_1"
+}

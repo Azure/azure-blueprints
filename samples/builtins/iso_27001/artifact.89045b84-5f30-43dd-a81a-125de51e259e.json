@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0868462e-646c-4fe3-9ced-a733534b6a2c",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('logAnalyticsWorkspaceforWindowsVMs')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('listOfImageIdToIncludeforWindowsVMs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Windows VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001/artifacts/89045b84-5f30-43dd-a81a-125de51e259e",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "89045b84-5f30-43dd-a81a-125de51e259e"
+}

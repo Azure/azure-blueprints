@@ -1,0 +1,209 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "sql-admin-username": {
+          "type": "string",
+          "defaultValue": "sql-admin-user",
+          "metadata": {
+            "description": "The username used to access Azure SQL Server"
+          }
+        },
+        "sql-admin-password": {
+          "type": "string",
+          "metadata": {
+            "description": ""
+          }
+        },
+        "deployment-user-object-id": {
+          "type": "string",
+          "metadata": {
+            "displayName": "AAD object ID",
+            "description": "AAD object ID of the user that requires access to Key Vault. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Object ID"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+          }
+        },
+        "vault-sku": {
+          "type": "string",
+          "defaultValue": "Premium",
+          "allowedValues": [
+          "Premium"
+          ],
+          "metadata": {
+            "description": "Specifies the SKU for the vault"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "enable-vault-for-deployment": true,
+        "enable-vault-for-templateDeployment": true,
+        "enable-vault-for-diskEncryption": true,
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "key-vault-name": "[concat(variables('deployment-prefix'), '-', 'kv')]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "secrets-object": {
+          "secrets": [
+          {
+            "secretName": "[parameters('sql-admin-username')]",
+            "secretValue": "[parameters('sql-admin-password')]"
+          }
+          ]
+        },
+        "access-policies": [
+        {
+          "tenantId": "[subscription().tenantId]",
+          "objectId": "[parameters('deployment-user-object-id')]",
+          "permissions": {
+            "certificates": [
+            "All"
+            ],
+            "keys": [
+            "All"
+            ],
+            "secrets": [
+            "All"
+            ]
+          }
+        }
+        ]
+      },
+      "resources": [
+      {
+        "type": "Microsoft.KeyVault/vaults",
+        "name": "[variables('key-vault-name')]",
+        "apiVersion": "2016-10-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "displayName": "[variables('key-vault-name')]"
+        },
+        "properties": {
+          "enabledForDeployment": "[variables('enable-vault-for-deployment')]",
+          "enabledForTemplateDeployment": "[variables('enable-vault-for-templateDeployment')]",
+          "enabledForDiskEncryption": "[variables('enable-vault-for-diskEncryption')]",
+          "tenantId": "[subscription().tenantId]",
+          "accessPolicies": "[variables('access-policies')]",
+          "sku": {
+            "name": "[parameters('vault-sku')]",
+            "family": "A"
+          }
+        },
+        "resources": [
+        {
+          "type": "Microsoft.KeyVault/vaults/providers/diagnosticsettings",
+          "name": "[concat(variables('key-vault-name'), '/Microsoft.Insights/service')]",
+          "apiVersion": "2016-09-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[concat('Microsoft.KeyVault/vaults/', variables('key-vault-name'))]"
+          ],
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "logs": [
+            {
+              "category": "AuditEvent",
+              "enabled": true,
+              "retentionPolicy": {
+                "enabled": true,
+                "days": "[parameters('logs-retention-in-days')]"
+              }
+            }
+            ],
+            "metrics": [
+            {
+              "category": "AllMetrics",
+              "enabled": true,
+              "retentionPolicy": {
+                "enabled": true,
+                "days": "[parameters('logs-retention-in-days')]"
+              }
+            }
+            ]
+          }
+        }
+        ]
+      },
+      {
+        "type": "Microsoft.KeyVault/vaults/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('key-vault-name'), '/Microsoft.Authorization/keyVaultDoNotDelete')]",
+        "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', variables('key-vault-name'))]"
+        ],
+        "comments": "Resource lock on key vault",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      },
+      {
+        "type": "Microsoft.KeyVault/vaults/secrets",
+        "name": "[concat(variables('key-vault-name'), '/', variables('secrets-object').secrets[copyIndex()].secretName)]",
+        "apiVersion": "2015-06-01",
+        "properties": {
+          "value": "[variables('secrets-object').secrets[copyIndex()].secretValue]"
+        },
+        "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', variables('key-vault-name'))]"
+        ],
+        "copy": {
+          "name": "secretsCopy",
+          "count": "[length(variables('secrets-object').secrets)]"
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "deployment-user-object-id": {
+        "value": "[parameters('keyVaultARMtemplate_deployment-user-object-id')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('keyVaultARMtemplate_logs-retention-in-days')]"
+      },
+      "vault-sku": {
+        "value": "[parameters('keyVaultARMtemplate_vault-sku')]"
+      },
+      "sql-admin-username": {
+        "value": "[parameters('keyVaultARMtemplate_sql-admin-username')]"
+      },
+      "sql-admin-password": {
+        "value": "[parameters('keyVaultARMtemplate_sql-admin-password')]"
+      }
+    },
+    "dependsOn": [
+    "net"
+    ],
+    "resourceGroup": "ResourceGroup3",
+    "displayName": "Key Vault template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/keyvault",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "keyvault"
+}

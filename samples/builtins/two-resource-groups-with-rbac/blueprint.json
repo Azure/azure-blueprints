@@ -1,0 +1,58 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "ContributorsProd": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Prod contributors - User or Group",
+          "description": "The user or group to assign the role to in the production RG",
+          "strongType": "PrincipalId"
+        }
+      },
+      "OwnersPreProd": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Pre-Prod owners - User or Group",
+          "description": "The user or group to assign the role to in the pre-production RG",
+          "strongType": "PrincipalId"
+        }
+      },
+      "ReadersPreProd": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Pre-Prod readers - User or group",
+          "description": "The user or group that will get reader access to the pre-prod rg",
+          "strongType": "PrincipalId"
+        }
+      }
+    },
+    "resourceGroups": {
+      "ProdRG": {
+        "dependsOn": [
+
+        ],
+        "metadata": {
+          "displayName": "Production resource group"
+        }
+      },
+      "PreProdRG": {
+        "dependsOn": [
+
+        ],
+        "metadata": {
+          "displayName": "Pre-production resource group"
+        }
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-01-07T07:03:49+00:00",
+      "lastModified": "2019-01-07T07:04:46+00:00"
+    },
+    "displayName": "Resource Groups with RBAC",
+    "description": "Sets up two resource groups and configures a role assignment for each."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/two-resource-groups-with-rbac",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "two-resource-groups-with-rbac"
+}

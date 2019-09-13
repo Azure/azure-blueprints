@@ -1,0 +1,17 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('blueprintAllowedLocations')]"
+      }
+    },
+    "resourceGroup": "ProdRG",
+    "dependsOn": [],
+    "displayName": "Allowed locations for new resources"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/common-policies/artifacts/allowed-locations",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "allowed-locations"
+}

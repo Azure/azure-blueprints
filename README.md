@@ -164,7 +164,7 @@ All artifacts share common properties:
     - `template`
     - `roleAssignment`
     - `policyAssignment`
-* `Type` – this will always be: `Microsoft.Bluprint/blueprints/artifacts`
+* `Type` – this will always be: `Microsoft.Blueprint/blueprints/artifacts`
 * `properties` – this is what defines the artifact itself. Some properties of `properties` are common while others are specific to each type.
     - Common properties
         - `dependsOn` - optional. You can declare dependencies to other artifacts by referencing the artifact name (which by default is the filename without `.json`). More info [here](https://docs.microsoft.com/en-us/azure/governance/blueprints/concepts/sequencing-order#customizing-the-sequencing-order).
@@ -305,7 +305,7 @@ That’s it!
 You might run into some issues. Here are some common ones:
 * **Missing a required property** – this will result in a 400 bad request. This could be a lot of things. Make sure your blueprint and artifacts have all required properties.
 * **```parameters``` in an artifact are not found in the main blueprint file.** Make sure all parameter references are complete. If you are using a parameter in an artifact, make sure it is defined in the main `blueprint.json`
-* **```policyDefinitionId``` or ```roleDefinitionId``` does not exist.** If you are referencing a custom policy make sure that custom policy exists at or above the management group where the blueprint is saved. Custom role definitions are currently not supported for management groups.
+* **```policyDefinitionId``` or ```roleDefinitionId``` does not exist.** If you are referencing a custom policy or custom role, make sure that the policy or role exists at or above the management group where the blueprint is saved.
 	
 ## Next steps
 From here you will need to [publish the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#publish-a-blueprint) and then [assign the blueprint](https://docs.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal#assign-a-blueprint) which you can do with either the azure portal or the rest API.

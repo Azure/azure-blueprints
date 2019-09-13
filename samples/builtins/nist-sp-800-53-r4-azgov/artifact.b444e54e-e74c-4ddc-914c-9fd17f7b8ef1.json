@@ -1,0 +1,19 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+    "parameters": {
+      "retentionDays": {
+        "value": "[parameters('retentionDaysForSQLServerAuditing')]"
+      },
+      "storageAccountsResourceGroup": {
+        "value": "[parameters('storageAccountsResourceGroupForSQLServerAuditing')]"
+      }
+    },
+    "dependsOn": [],
+    "displayName": "Deploy Auditing on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/b444e54e-e74c-4ddc-914c-9fd17f7b8ef1",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "b444e54e-e74c-4ddc-914c-9fd17f7b8ef1"
+}

@@ -1,0 +1,25 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/cf25b9c1-bd23-4eb6-bd2c-f4f3ac644a5f",
+    "parameters": {
+      "logAnalyticsWorkspaceIdforVMReporting": {
+        "value": "[parameters('logAnalyticsWorkspaceIdforVMReporting')]"
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      },
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToExcludeFromWindowsVMAdministratorsGroup')]"
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToIncludeInWindowsVMAdministratorsGroup')]"
+      }
+    },
+    "dependsOn": [],
+    "displayName": "[Preview]: Audit NIST SP 800-53 R4 controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/18e5b847-d4b8-44f6-846a-6698f1af9631",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "18e5b847-d4b8-44f6-846a-6698f1af9631"
+}

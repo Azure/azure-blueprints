@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/496eeda9-8f2f-4d5e-8dfd-204f0a92ed41",
+    "parameters": {
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('[Preview]:AuditPCIv3.2.1:2018controlsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Audit PCI v3.2.1:2018 controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/PCI_DSS_3_2_1/artifacts/a1d69d60-3bc3-46eb-a05e-1abc7f7ef4ba",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "a1d69d60-3bc3-46eb-a05e-1abc7f7ef4ba"
+}

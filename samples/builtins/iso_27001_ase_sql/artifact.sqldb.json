@@ -1,0 +1,313 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "sql-admin-username": {
+          "type": "string",
+          "defaultValue": "sql-admin-user",
+          "metadata": {
+            "displayName": "Azure SQL Server admin username",
+            "description": "The username used to access Azure SQL Server"
+          }
+        },
+        "sql-admin-password": {
+          "type": "securestring",
+          "metadata": {
+            "displayName": "Azure SQL Server admin password",
+            "description": "The Key Vault Resource ID and Key Vault Secret Name where the Azure SQL Server admin password is stored. Secret name has to match the value specified in Key Vault template - Azure SQL Server admin username. To learn more on how to use SecureStrings in Azure Blueprints, go to: https://aka.ms/blueprintsecrets"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+          }
+        },
+        "ad-user-object-id": {
+          "type": "string",
+          "metadata": {
+            "displayName": "AAD Admin object ID",
+            "description": "AAD object ID of the user that will get assigned as an Active Directory admin. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Object ID"
+          }
+        },
+        "ad-admin-login": {
+          "type": "string",
+          "metadata": {
+            "displayName": "AAD Admin login",
+            "description": "Currently, Microsoft accounts (like live.com, outlook.com) cannot be set as admin. Only users and security groups within your organization can be set as admin. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Email"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "sql-server-name": "[concat(variables('deployment-prefix'), '-db-server01')]",
+        "default-subnet-name": "default",
+        "sql-server-properties": {
+          "name": "[variables('sql-server-name')]",
+          "virtualNetwork-rules": [
+          {
+            "name": "default-subnet-svc-endpoint",
+            "subnet-name": "[variables('default-subnet-name')]"
+          }
+          ],
+          "databases": [
+          {
+            "name": "sqldb01",
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "maxSize-bytes": 268435456000,
+            "sku": {
+              "name": "S0",
+              "tier": "Standard"
+            }
+          }
+          ]
+        },
+        "server-name": "[variables('sql-server-properties').name]",
+        "vnet-resourceGroup": "[concat(variables('deployment-prefix'), '-net-rg')]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "vnet-id": "[resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks',  variables('vnet-name'))]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]"
+      },
+      "resources": [
+      {
+        "apiVersion": "2015-05-01-preview",
+        "location": "[resourceGroup().location]",
+        "type": "Microsoft.Sql/servers",
+        "name": "[variables('server-name')]",
+        "properties": {
+          "administratorLogin": "[parameters('sql-admin-username')]",
+          "administratorLoginPassword": "[parameters('sql-admin-password')]",
+          "version": "12.0"
+        }
+      },
+      {
+        "name": "[concat(variables('server-name'), '/SecurityAlerts')]",
+        "type": "Microsoft.Sql/servers/securityAlertPolicies",
+        "apiVersion": "2017-03-01-preview",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]"
+        ],
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true
+        }
+      },
+      {
+        "name": "[concat(variables('server-name'), '/AuditingSettings')]",
+        "type": "Microsoft.Sql/servers/auditingSettings",
+        "apiVersion": "2017-03-01-preview",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]"
+        ],
+        "properties": {
+          "state": "Enabled",
+          "isAzureMonitorTargetEnabled": true,
+          "retentionDays": "[parameters('logs-retention-in-days')]"
+        }
+      },
+      {
+        "name": "[concat(variables('server-name'), '/activeDirectory')]",
+        "type": "Microsoft.Sql/servers/administrators",
+        "apiVersion": "2014-04-01",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]"
+        ],
+        "properties": {
+          "administratorType": "ActiveDirectory",
+          "login": "[parameters('ad-admin-login')]",
+          "sid": "[parameters('ad-user-object-id')]",
+          "tenantId": "[subscription().tenantId]"
+        }
+      },
+      {
+        "name": "[concat(variables('server-name'), '/', variables('sql-server-properties')['virtualNetwork-rules'][copyIndex()].name)]",
+        "type": "Microsoft.Sql/servers/virtualNetworkRules",
+        "apiVersion": "2015-05-01-preview",
+        "condition": "[greater(length(variables('sql-server-properties')['virtualNetwork-rules']), 0)]",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]"
+        ],
+        "copy": {
+          "name": "firewallRules",
+          "count": "[length(variables('sql-server-properties')['virtualNetwork-rules'])]"
+        },
+        "properties": {
+          "virtualNetworkSubnetId": "[concat(variables('vnet-id'), '/subnets/', variables('sql-server-properties')['virtualNetwork-rules'][copyIndex()]['subnet-name'])]"
+        }
+      },
+      {
+        "apiVersion": "2017-10-01-preview",
+        "type": "Microsoft.Sql/servers/databases",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]"
+        ],
+        "copy": {
+          "name": "databases",
+          "count": "[length(variables('sql-server-properties').databases)]"
+        },
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('server-name'), '/', variables('sql-server-properties').databases[copyIndex()].name)]",
+        "properties": {
+          "collation": "[variables('sql-server-properties').databases[copyIndex()].collation]",
+          "maxSizeBytes": "[variables('sql-server-properties').databases[copyIndex()]['maxSize-bytes']]"
+        },
+        "sku": {
+          "name": "[variables('sql-server-properties').databases[copyIndex()].sku.name]",
+          "tier": "[variables('sql-server-properties').databases[copyIndex()].sku.tier]"
+        },
+        "resources": [
+        
+        ]
+      },
+      {
+        "type": "Microsoft.Sql/servers/databases/providers/diagnosticSettings",
+        "name": "[concat(variables('server-name'), '/', variables('sql-server-properties').databases[copyIndex()].name, '/Microsoft.Insights/', 'service')]",
+        "apiVersion": "2017-05-01-preview",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[concat('Microsoft.Sql/servers/', variables('server-name'))]",
+        "[variables('sql-server-properties').databases[copyIndex()].name]"
+        ],
+        "copy": {
+          "name": "databases",
+          "count": "[length(variables('sql-server-properties').databases)]"
+        },
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "logs": [
+          {
+            "category": "SQLInsights",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "AutomaticTuning",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "QueryStoreRuntimeStatistics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "QueryStoreWaitStatistics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "Errors",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "DatabaseWaitStatistics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "Timeouts",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "Blocks",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "Deadlocks",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ],
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ]
+        }
+      }
+      ]
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "sql-admin-username": {
+        "value": "[parameters('azureSQLDatabaseARMtemplate_sql-admin-username')]"
+      },
+      "sql-admin-password": {
+        "value": "[parameters('azureSQLDatabaseARMtemplate_sql-admin-password')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('azureSQLDatabaseARMtemplate_sql_logs-retention-in-days')]"
+      },
+      "ad-user-object-id": {
+        "value": "[parameters('azureSQLDatabaseARMtemplate_ad-user-object-id')]"
+      },
+      "ad-admin-login": {
+        "value": "[parameters('azureSQLDatabaseARMtemplate_ad-admin-login')]"
+      }
+    },
+    "dependsOn": [
+    "keyvault"
+    ],
+    "resourceGroup": "ResourceGroup4",
+    "displayName": "Azure SQL Database template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/sqldb",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "sqldb"
+}

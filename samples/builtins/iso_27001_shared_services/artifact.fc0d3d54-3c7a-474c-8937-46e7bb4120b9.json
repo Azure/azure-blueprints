@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7c5a74bf-ae94-4a74-8fcf-644d1e0e6e6f",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require blob encryption for storage accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/fc0d3d54-3c7a-474c-8937-46e7bb4120b9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "fc0d3d54-3c7a-474c-8937-46e7bb4120b9"
+}

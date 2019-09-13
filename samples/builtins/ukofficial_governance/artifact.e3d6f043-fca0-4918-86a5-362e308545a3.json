@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/053d3325-282c-4e5c-b944-24faffd30d77",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('[Preview]:DeployLogAnalyticsAgentforLinuxVMs_logAnalytics')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('[Preview]:DeployLogAnalyticsAgentforLinuxVMs_listOfImageIdToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Linux VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKOFFICIAL_Governance/artifacts/e3d6f043-fca0-4918-86a5-362e308545a3",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "e3d6f043-fca0-4918-86a5-362e308545a3"
+}

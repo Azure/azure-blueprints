@@ -4,9 +4,9 @@ variables:
  - name: spnName
    value: 'pipelines-runner'
  - name: blueprintName
-   value: 101-Boilerplate
+   value: '101-boilerplate'
  - name: subscriptionId
-   value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2'
+   value: 'e93d3ee6-fac1-412f-92d6-bfb379e81af2' # / Contoso IT - SH360 - Prod
 
 trigger:
   branches:
@@ -22,32 +22,20 @@ trigger:
 
 steps:
 
-- task: nepeters.azure-blueprints.CreateBlueprint.CreateBlueprint@1
-  displayName: 'Create Azure Blueprint'
+- task: CreateBlueprint@1
   inputs:
-    azureSubscription: '$(spnName)' # this is the service connection
-    BlueprintName: '$(blueprintName)'
-    BlueprintPath: '.\samples\$(blueprintName)'
+    azureSubscription: $(spnName)
+    BlueprintName: $(blueprintName)
+    BlueprintPath: '.\$(blueprintName)'
+    AlternateLocation: false
     PublishBlueprint: true
 
-- task: nepeters.azure-blueprints.AssignBlueprint.AssignBlueprint@1
-  displayName: 'Assign Azure Blueprint'
+- task: AssignBlueprint@1
   inputs:
-    azureSubscription: '$(spnName)'
-    AssignmentName: 'pla-$(blueprintName)' # pla == PipeLinesAssignment
-    BlueprintName: '$(blueprintName)'
-    ParametersFile: '.\samples\$(blueprintName)\assign.json'
-    SubscriptionID: '$(subscriptionId)'
-    Wait: true # waits for assignment to succeed or fail
-    # version not specified because it defaults to latest published, but could include it
-
-# clean subscription after blueprint was successfully assigned
-# maybe this should run as a separate pipeline on a schedule..
-# or leave these blueprints running??
-- task: AzurePowerShell@4
-  inputs:
-    azureSubscription: 'pipelines-runner'
-    ScriptType: 'FilePath'
-    ScriptPath: '.\clean-subscription.ps1'
-    FailOnStandardError: true
-    azurePowerShellVersion: 'LatestVersion'
+    azureSubscription: $(spnName)
+    AssignmentName: 'pla-$(blueprintName)'
+    BlueprintName: $(blueprintName)
+    ParametersFile: '.\$(blueprintName)\assign.json'
+    SubscriptionID: $(subscriptionId)
+    Wait: true
+    Timeout: 500

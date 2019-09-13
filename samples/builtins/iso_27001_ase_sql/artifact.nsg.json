@@ -1,0 +1,364 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "empty-array": [
+        
+        ],
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "application-security-groups": [
+        
+        ],
+        "network-security-groups": [
+        {
+          "name": "default-subnet",
+          "rules": [
+          {
+            "name": "allow-management",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "454-455",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Used to manage ASE",
+              "priority": 100,
+              "direction": "Inbound",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "AppServiceManagement",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-http",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "80",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Allow HTTP",
+              "priority": 120,
+              "direction": "Inbound",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-https",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "443",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Allow HTTPS",
+              "priority": 130,
+              "direction": "Inbound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-ftp",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "21",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Allow FTP over port 21",
+              "priority": 140,
+              "direction": "Inbound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-ftps",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "990",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Allow FTPS",
+              "priority": 150,
+              "direction": "Inbound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-ftp-data",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "10001-10020",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "allow-ftp-data",
+              "priority": 160,
+              "direction": "Inbound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          },
+          {
+            "name": "allow-remote-debugging",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefixes": [
+              
+              ],
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "4016-4022",
+              "destinationPortRanges": [
+              
+              ],
+              "destinationApplicationSecurityGroups": [
+              
+              ],
+              "description": "Visual Studio remote debugging",
+              "priority": 170,
+              "direction": "Inbound",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "sourcePortRanges": [
+              
+              ],
+              "sourceAddressPrefix": "VirtualNetwork",
+              "sourceApplicationSecurityGroups": [
+              
+              ]
+            }
+          }
+          ]
+        }
+        ]
+      },
+      "resources": [
+      {
+        "apiVersion": "2017-10-01",
+        "type": "Microsoft.Network/applicationSecurityGroups",
+        "condition": "[if(equals(length(variables('application-security-groups')), 0), bool('false'), bool('true'))]",
+        "copy": {
+          "count": "[if(equals(length(variables('application-security-groups')), 0), 1, length(variables('application-security-groups')))]",
+          "name": "asgLoop"
+        },
+        "name": "[if(equals(length(variables('application-security-groups')), 0), 'dummy', concat(variables('deployment-prefix'), '-', variables('application-security-groups')[copyIndex()].name, '-asg'))]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          
+        }
+      },
+      {
+        "apiVersion": "2017-09-01",
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "name": "[concat(variables('deployment-prefix'), '-', variables('network-security-groups')[copyIndex()].name, '-nsg')]",
+        "location": "[resourceGroup().location]",
+        "copy": {
+          "count": "[length(variables('network-security-groups'))]",
+          "name": "nsgLoop"
+        },
+        "dependsOn": [
+        "asgLoop"
+        ],
+        "properties": {
+          "copy": [
+          {
+            "name": "securityRules",
+            "count": "[length(variables('network-security-groups')[copyIndex('nsgLoop')].rules)]",
+            "input": {
+              "name": "[variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].name]",
+              "properties": {
+                "access": "[variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.access]",
+                "destinationAddressPrefix": "[if(equals(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationAddressPrefix, ''), json('null'), variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationAddressPrefix)]",
+                "destinationAddressPrefixes": "[if(equals(length(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationAddressPrefixes), 0), json('null'), variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationAddressPrefixes)]",
+              "destinationApplicationSecurityGroups": "[if(equals(length(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationApplicationSecurityGroups), 0), json('null'), concat(variables('empty-array'), array(json(concat('{\"id\": \"', resourceId('Microsoft.Network/applicationSecurityGroups', concat(variables('deployment-prefix'), '-', variables('network-security-groups')[copyIndex()].rules[copyIndex('securityRules')].properties.destinationApplicationSecurityGroups[0].name, '-asg')), '\"', ',', '\"location\": \"', resourceGroup().location, '\"}')))))]",
+                "destinationPortRanges": "[if(equals(length(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationPortRanges), 0), json('null'), variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationPortRanges)]",
+                "destinationPortRange": "[if(equals(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationPortRange, ''), json('null'), variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.destinationPortRange)]",
+                "direction": "[variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.direction]",
+                "priority": "[int(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.priority)]",
+                "protocol": "[variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.protocol]",
+                "sourceAddressPrefix": "[if(equals(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.sourceAddressPrefix, ''), json('null'), variables('network-security-groups')[copyIndex()].rules[copyIndex('securityRules')].properties.sourceAddressPrefix)]",
+              "sourceApplicationSecurityGroups": "[if(equals(length(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.sourceApplicationSecurityGroups), 0), json('null'), concat(variables('empty-array'), array(json(concat('{\"id\": \"', resourceId('Microsoft.Network/applicationSecurityGroups', concat(variables('deployment-prefix'), '-', variables('network-security-groups')[copyIndex()].rules[copyIndex('securityRules')].properties.sourceApplicationSecurityGroups[0].name, '-asg')), '\"', ',', '\"location\": \"', resourceGroup().location, '\"}')))))]",
+                "sourcePortRanges": "[if(equals(length(variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.sourcePortRanges), 0), json('null'), variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.sourcePortRanges)]",
+                "sourcePortRange": "[variables('network-security-groups')[copyIndex('nsgLoop')].rules[copyIndex('securityRules')].properties.sourcePortRange]"
+              }
+            }
+          }
+          ]
+        },
+        "resources": [
+        
+        ]
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups/providers/diagnosticSettings",
+        "name": "[concat(variables('deployment-prefix'), '-', variables('network-security-groups')[copyIndex()].name, '-nsg','/Microsoft.Insights/setbypolicy')]",
+        "apiVersion": "2017-05-01-preview",
+        "location": "[resourceGroup().location]",
+        "copy": {
+          "count": "[length(variables('network-security-groups'))]",
+          "name": "nsgDiagnosticLoop"
+        },
+        "dependsOn": [
+        "nsgLoop"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "logs": [
+          {
+            "category": "NetworkSecurityGroupEvent",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          },
+          {
+            "category": "NetworkSecurityGroupRuleCounter",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ]
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('networkSecurityGroupARMtemplate_logs-retention-in-days')]"
+      }
+    },
+    "dependsOn": [
+    "log-analytics"
+    ],
+    "resourceGroup": "ResourceGroup2",
+    "displayName": "Network Security Group template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/nsg",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "nsg"
+}

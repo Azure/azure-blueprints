@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3c1b3629-c8f8-4bf6-862c-037cb9094038",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[concat(subscription().id, '/resourceGroups/', concat(parameters('organization'),'-sharedsvcs-log-rg'), '/providers/Microsoft.OperationalInsights/workspaces/', concat(parameters('organization'), '-sharedsvcs-log'))]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('ISO27001Policy_deployLogAnalyticsAgentforWindowsVMScaleSets_listOfImageIdToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/89045b84-5f30-43dd-a81a-125de51e2658",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "89045b84-5f30-43dd-a81a-125de51e2658"
+}

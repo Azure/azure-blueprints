@@ -1,0 +1,36 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+      "contentVersion": "1.0.0.1",
+      "variables": {
+        
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Security/pricings",
+        "apiVersion": "2017-08-01-preview",
+        "name": "default",
+        "properties": {
+          "pricingTier": "Standard"
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Azure Security Center template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/d94ecab2-96d3-4c6a-8d3f-fd3b4177335d",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d94ecab2-96d3-4c6a-8d3f-fd3b4177335d"
+}

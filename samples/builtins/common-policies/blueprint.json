@@ -1,0 +1,56 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "tagName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Tag name for each resource that gets created"
+        },
+        "defaultValue": "costCenter"
+      },
+      "tagValue": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Tag Value",
+          "description": "Tag value for each resource that gets created"
+        },
+        "defaultValue": "My Cost Center"
+      },
+      "blueprintAllowedLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed locations",
+          "description": "The list of locations that can be specified when deploying resources",
+          "strongType": "location"
+        }
+      },
+      "blueprintAllowedResourceTypes": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed resource types",
+          "description": "The list of resource types that can be deployed.",
+          "strongType": "resourceTypes"
+        }
+      }
+    },
+    "resourceGroups": {
+      "ProdRG": {
+        "dependsOn": [],
+        "metadata": {
+          "displayName": "Production resource group"
+        }
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2018-12-03T12:14:39-08:00",
+      "lastModified": "2018-12-03T12:28:35-08:00"
+    },
+    "displayName": "Common Policies",
+    "description": "A set of popular policies to apply to a subscription"
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/common-policies",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "common-policies"
+}

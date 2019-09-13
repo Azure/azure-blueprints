@@ -1,0 +1,370 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "organization": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Organization name (e.g. Contoso), must be unique"
+        },
+        "defaultValue": "contoso"
+      },
+      "log-analytics_service-tier": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Service tier",
+          "description": "Service tier: Free, Standalone, PerNode or PerGB2018"
+        },
+        "defaultValue": "PerNode",
+        "allowedValues": [
+        "Free",
+        "Standalone",
+        "PerNode",
+        "PerGB2018"
+        ]
+      },
+      "log-analytics_data-retention": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Log retention in days",
+          "description": "Number of days data will be retained for"
+        },
+        "defaultValue": 365
+      },
+      "log-analytics_location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Location",
+          "description": "Region used when establishing the workspace"
+        },
+        "defaultValue": "West US 2",
+        "allowedValues": [
+        "Australia Southeast",
+        "Canada Central",
+        "Central India",
+        "East US",
+        "Japan East",
+        "Southeast Asia",
+        "UK South",
+        "West Europe",
+        "West US 2"
+        ]
+      },
+      "virtualNetworkandRouteTableARMtemplate_azure-firewall-private-ip-address": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure Firewall private IP"
+        },
+        "defaultValue": "10.0.4.4",
+        "allowedValues": [
+        
+        ]
+      },
+      "virtualNetworkandRouteTableARMtemplate_shared-services-subscription-id": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Shared services Subscription ID",
+          "description": "Value used to enable VNET peering between a Workload and Shared services"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "virtualNetworkandRouteTableARMtemplate_vnet-address-prefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual Network address prefix"
+        },
+        "defaultValue": "10.1.0.0/16"
+      },
+      "virtualNetworkandRouteTableARMtemplate_default-subnet-address-prefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Default subnet address prefix",
+          "description": "Value used in Virtual Network / Route Table and App Service Environment templates"
+        },
+        "defaultValue": "10.1.0.0/24"
+      },
+      "virtualNetworkandRouteTableARMtemplate_adds-address-start": {
+        "type": "string",
+        "metadata": {
+          "displayName": "ADDS IP Address",
+          "description": "IP address of the first ADDS VM, this value is used as custom VNET DNS"
+        },
+        "defaultValue": "10.0.0.8"
+      },
+      "virtualNetworkandRouteTableARMtemplate_logs-retention-in-days": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Log retention in days",
+          "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+        },
+        "defaultValue": 365
+      },
+      "virtualNetworkandRouteTableARMtemplate_vnet-peering-name": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual Network Peering name",
+          "description": "Specifies the Virtual Network Peering name"
+        },
+        "defaultValue": "peering-to-workload-vnet"
+      },
+      "networkSecurityGroupARMtemplate_logs-retention-in-days": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Log retention in days",
+          "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+        },
+        "defaultValue": 365
+      },
+      "keyVaultARMtemplate_deployment-user-object-id": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD object ID",
+          "description": "AAD object ID of the user that requires access to Key Vault. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Object ID"
+        }
+      },
+      "keyVaultARMtemplate_logs-retention-in-days": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Log retention in days",
+          "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+        },
+        "defaultValue": 365
+      },
+      "keyVaultARMtemplate_vault-sku": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Key Vault SKU",
+          "description": "Specifies the SKU for the vault"
+        },
+        "defaultValue": "Premium",
+        "allowedValues": [
+        "Premium"
+        ]
+      },
+      "keyVaultARMtemplate_sql-admin-username": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure SQL Server admin username",
+          "description": "The username used to access Azure SQL Server"
+        },
+        "defaultValue": "sql-admin-user"
+      },
+      "keyVaultARMtemplate_sql-admin-password": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure SQL Server admin password",
+          "description": "The password given to the  Azure SQL Server admin username"
+        }
+      },
+      "azureSQLDatabaseARMtemplate_sql-admin-username": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure SQL Server admin username",
+          "description": "The username used to access Azure SQL Server"
+        },
+        "defaultValue": "sql-admin-user"
+      },
+      "azureSQLDatabaseARMtemplate_sql-admin-password": {
+        "type": "secureString",
+        "metadata": {
+          "displayName": "Azure SQL Server admin password",
+          "description": "The Key Vault Resource ID and Key Vault Secret Name where the Azure SQL Server admin password is stored. Secret name has to match the value specified in Key Vault template - Azure SQL Server admin username. To learn more on how to use SecureStrings in Azure Blueprints, go to: https://aka.ms/blueprintsecrets"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "azureSQLDatabaseARMtemplate_sql_logs-retention-in-days": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Log retention in days",
+          "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+        },
+        "defaultValue": 365,
+        "allowedValues": [
+        
+        ]
+      },
+      "azureSQLDatabaseARMtemplate_ad-user-object-id": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD Admin object ID",
+          "description": "AAD object ID of the user that will get assigned as an Active Directory admin. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Object ID"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "azureSQLDatabaseARMtemplate_ad-admin-login": {
+        "type": "string",
+        "metadata": {
+          "displayName": "AAD Admin login",
+          "description": "Currently, Microsoft accounts (like live.com, outlook.com) cannot be set as admin. Only users and security groups within your organization can be set as admin. To retrieve this value go to Microsoft Azure Portal > Azure Active Directory > Users > (user) and copy the User’s Email"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "aPServiceEnvironmentARMtemplate_dns-suffix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Domain name",
+          "description": "App Service Environment domain name"
+        },
+        "defaultValue": "contoso.com"
+      },
+      "aPServiceEnvironmentARMtemplate_ase-location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "App Service Environment location"
+        },
+        "defaultValue": "West US 2",
+        "allowedValues": [
+        "East Asia",
+        "Southeast Asia",
+        "Central US",
+        "East US",
+        "East US 2",
+        "West US",
+        "North Central US",
+        "South Centralus",
+        "North Europe",
+        "West Europe",
+        "Japan West",
+        "Japan East",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "South India",
+        "Central India",
+        "West India",
+        "Canada Central",
+        "Canada East",
+        "UK South",
+        "UK West",
+        "West Central US",
+        "West US 2",
+        "Korea Central",
+        "Korea South",
+        "France Central",
+        "France South",
+        "Australia Central",
+        "Australia Central 2"
+        ]
+      },
+      "aPServiceEnvironmenttemplate_app-gateway-logs-retention-in-days": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Application Gateway log retention in days",
+          "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+        },
+        "defaultValue": 365,
+        "allowedValues": [
+        
+        ]
+      },
+      "resource-group-location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Workload location"
+        },
+        "defaultValue": "westus2",
+        "allowedValues": [
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "australiacentral",
+        "australiacentral2"
+        ]
+      }
+    },
+    "resourceGroups": {
+      "ResourceGroup": {
+        "name": "[concat(parameters('organization'),'-workload-log-rg')]",
+        "location": "[parameters('resource-group-location')]",
+        "metadata": {
+          "displayName": "Log Analytics resource group"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "ResourceGroup2": {
+        "name": "[concat(parameters('organization'),'-workload-net-rg')]",
+        "location": "[parameters('resource-group-location')]",
+        "metadata": {
+          "displayName": "Network resource group"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "ResourceGroup3": {
+        "name": "[concat(parameters('organization'),'-workload-kv-rg')]",
+        "location": "[parameters('resource-group-location')]",
+        "metadata": {
+          "displayName": "Key Vault resource group"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "ResourceGroup4": {
+        "name": "[concat(parameters('organization'),'-workload-azsql-rg')]",
+        "location": "[parameters('resource-group-location')]",
+        "metadata": {
+          "displayName": "Azure SQL Database resource group"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "ResourceGroup5": {
+        "name": "[concat(parameters('organization'),'-workload-ase-rg')]",
+        "location": "[parameters('resource-group-location')]",
+        "metadata": {
+          "displayName": "App Service Environment resource group"
+        },
+        "dependsOn": [
+        
+        ]
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-03-27T01:24:20+00:00",
+      "lastModified": "2019-04-02T21:13:15+00:00"
+    },
+    "displayName": "ISO 27001: ASE/SQL Workload",
+    "description": "Deploys and configures Azure App Service and SQL DB. Extends ISO Shared Service Blueprint."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "ISO_27001_ASE_SQL"
+}

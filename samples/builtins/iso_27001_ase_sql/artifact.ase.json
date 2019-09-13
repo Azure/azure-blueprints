@@ -1,0 +1,542 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "dns-suffix": {
+          "type": "string",
+          "defaultValue": "contoso.com",
+          "metadata": {
+            "displayName": "Domain name",
+            "description": "App Service Environment domain name"
+          }
+        },
+        "ase-location": {
+          "type": "string",
+          "defaultValue": "West US 2",
+          "metadata": {
+            "displayName": "App Service Environment location"
+          }
+        },
+        "sharedsvcs-subscription-id": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Shared services Subscription ID",
+            "description": "Value used to deploy an Application Gateway resource in Shared services subscription"
+          }
+        },
+        "default-subnet-address-prefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Default subnet address prefix"
+          }
+        },
+        "app-gateway-logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Application Gateway log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+          }
+        }
+      },
+      "variables": {
+        "sharedsvcs-deployment-prefix": "[concat(parameters('organization'), '-sharedsvcs')]",
+        "sharedsvcs-log-uniqueString": "[uniqueString(concat('/subscriptions/', parameters('sharedsvcs-subscription-id')), concat(variables('sharedsvcs-deployment-prefix'), '-log'))]",
+        "sharedsvcs-log-diagnostic-storageAccount-prefix": "[concat(replace(variables('sharedsvcs-deployment-prefix'), '-', ''), 'diag')]",
+        "sharedsvcs-log-diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('sharedsvcs-log-diagnostic-storageAccount-prefix'), variables('sharedsvcs-log-uniqueString'), variables('sharedsvcs-log-uniqueString')), '-', ''), 0, 23) )]",
+        "sharedsvcs-oms-workspace-resourceGroup": "[concat(variables('sharedsvcs-deployment-prefix'), '-log-rg')]",
+        "sharedsvcs-oms-workspace-name": "[concat(variables('sharedsvcs-deployment-prefix'), '-log')]",
+        "sharedsvcs-vnet-resourceGroup": "[concat(parameters('organization'), '-sharedsvcs-net-rg')]",
+        "sharedsvcs-vnet-name": "[concat(parameters('organization'), '-sharedsvcs-vnet')]",
+        "sharedsvcs-app-gateway-subnet-id": "[concat(resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks', variables('sharedsvcs-vnet-name')), '/subnets/AppGateway')]",
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "ase-name": "[concat(variables('deployment-prefix'), '-ase')]",
+        "hostingPlan-name": "[concat(variables('deployment-prefix'), '-app-plan')]",
+        "vnet-resourceGroup": "[concat(variables('deployment-prefix'), '-net-rg')]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "vnet-id": "[resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks',  variables('vnet-name'))]",
+        "default-subnet-name": "default",
+        "website-name": "MyWebApp",
+        "worker-size": "0",
+        "sku-tier": "Isolated",
+        "sku-code": "I1",
+        "internal-loadBalancing-mode": 3,
+        "app-gateway-name": "[concat(variables('sharedsvcs-deployment-prefix'), '-app-gw')]",
+        "app-gateway-pip-name": "[concat(variables('sharedsvcs-deployment-prefix'), '-app-gw-pip')]",
+        "app-gateway-id": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-vnet-resourceGroup'), 'Microsoft.Network/applicationGateways/', variables('app-gateway-name'))]",
+        "app-gateway-pip-id": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-vnet-resourceGroup'), 'Microsoft.Network/publicIPAddresses/', variables('app-gateway-pip-name'))]",
+        "web-app-gw-frontend-ip": "web-app-gw-frontend-ip",
+        "web-app-http-frontend-port": "web-app-http-frontend-port",
+        "web-app-https-frontend-port": "web-app-https-frontend-port",
+        "web-app-backend-pool": "web-app-backend-pool",
+        "web-app-http-setting": "web-app-http-setting",
+        "web-app-http-probe": "web-app-http-probe",
+        "web-app-http-listener": "web-app-http-listener",
+        "web-app-https-listener": "web-app-https-listener",
+        "web-app-http-rule": "web-app-http-rule",
+        "web-app-https-rule": "web-app-https-rule",
+        "ase-dns-suffix": "[concat('ase.', parameters('dns-suffix'))]",
+        "ase-ilb-dns": "[concat(variables('website-name'), '.', variables('ase-dns-suffix'))]",
+        "sku": {
+          "name": "Standard_Small",
+          "tier": "Standard",
+          "capacity": "2"
+        },
+        "gatewayIPConfigurations": [
+        {
+          "name": "gatewayIpConfiguration",
+          "properties": {
+            "subnet": {
+              "id": "[variables('sharedsvcs-app-gateway-subnet-id')]"
+            }
+          }
+        }
+        ],
+        "frontendIPConfigurations": [
+        {
+          "name": "[variables('web-app-gw-frontend-ip')]",
+          "properties": {
+            "PublicIPAddress": {
+              "id": "[variables('app-gateway-pip-id')]"
+            }
+          }
+        }
+        ],
+        "frontendPorts": [
+        {
+          "name": "[variables('web-app-http-frontend-port')]",
+          "properties": {
+            "Port": 80
+          }
+        },
+        {
+          "name": "[variables('web-app-https-frontend-port')]",
+          "properties": {
+            "Port": 443
+          }
+        }
+        ],
+        "subnet-address-prefix": "[vdc.removeAddressRange(parameters('default-subnet-address-prefix'))]",
+        "app-ilb-ip-address": "[vdc.nextIP(variables('subnet-address-prefix'), 11)]",
+        "backendAddressPools": [
+        {
+          "name": "[variables('web-app-backend-pool')]",
+          "properties": {
+            "BackendAddresses": [
+            {
+              "ipAddress": "[variables('app-ilb-ip-address')]",
+              "fqdn": null
+            }
+            ]
+          }
+        }
+        ],
+        "backendHttpSettingsCollection": [
+        {
+          "name": "[variables('web-app-http-setting')]",
+          "properties": {
+            "Port": 80,
+            "Protocol": "Http",
+            "CookieBasedAffinity": "Disabled",
+            "probeEnabled": true,
+            "hostName": "[variables('ase-ilb-dns')]",
+            "probe": {
+              "id": "[concat(variables('app-gateway-id'), '/probes/', variables('web-app-http-probe'))]"
+            }
+          }
+        }
+        ],
+        "httpListeners": [
+        {
+          "name": "[variables('web-app-http-listener')]",
+          "properties": {
+            "FrontendIPConfiguration": {
+              "Id": "[concat(variables('app-gateway-id'), '/frontendIPConfigurations/', variables('web-app-gw-frontend-ip'))]"
+            },
+            "FrontendPort": {
+              "Id": "[concat(variables('app-gateway-id'), '/frontendPorts/', variables('web-app-http-frontend-port'))]"
+            },
+            "Protocol": "Http"
+          }
+        }
+        ],
+        "requestRoutingRules": [
+        {
+          "Name": "[variables('web-app-http-rule')]",
+          "properties": {
+            "RuleType": "Basic",
+            "httpListener": {
+              "id": "[concat(variables('app-gateway-id'), '/httpListeners/', variables('web-app-http-listener'))]"
+            },
+            "backendAddressPool": {
+              "id": "[concat(variables('app-gateway-id'), '/backendAddressPools/', variables('web-app-backend-pool'))]"
+            },
+            "backendHttpSettings": {
+              "id": "[concat(variables('app-gateway-id'), '/backendHttpSettingsCollection/', variables('web-app-http-setting'))]"
+            }
+          }
+        }
+        ],
+        "enableHttp2": false,
+        "probes": [
+        {
+          "name": "[variables('web-app-http-probe')]",
+          "properties": {
+            "protocol": "Http",
+            "host": "[variables('ase-ilb-dns')]",
+            "interval": 30,
+            "path": "/",
+            "timeout": 30,
+            "unhealthyThreshold": 3,
+            "match": {
+              "statusCodes": [
+              "200",
+              "401"
+              ],
+              "body": ""
+            }
+          }
+        }
+        ],
+        "idleTimeout-in-minutes": 4
+      },
+      "resources": [
+      {
+        "apiVersion": "2015-02-01",
+        "type": "Microsoft.Web/hostingEnvironments",
+        "name": "[variables('ase-name')]",
+        "kind": "ASEV2",
+        "location": "[parameters('ase-location')]",
+        "properties": {
+          "name": "[variables('ase-name')]",
+          "location": "[parameters('ase-location')]",
+          "VirtualNetwork": {
+            "Id": "[variables('vnet-id')]",
+            "Subnet": "[variables('default-subnet-name')]"
+          },
+          "dnsSuffix": "[variables('ase-dns-suffix')]",
+          "internalLoadBalancingMode": "[variables('internal-loadBalancing-mode')]"
+        }
+      },
+      {
+        "apiVersion": "2016-03-01",
+        "type": "Microsoft.Web/sites",
+        "name": "[variables('website-name')]",
+        "properties": {
+          "name": "[variables('website-name')]",
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlan-name'))]",
+          "hostingEnvironment": "[variables('ase-name')]",
+          "siteConfig": {
+            "detailedErrorLoggingEnabled": true,
+            "httpLoggingEnabled": true,
+            "requestTracingEnabled": true
+          }
+        },
+        "location": "[parameters('ase-location')]",
+        "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('hostingPlan-name'))]"
+        ]
+      },
+      {
+        "type": "Microsoft.Web/sites/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "name": "[concat(variables('website-name'), '/Microsoft.Insights/service')]",
+        "location": "[parameters('ase-location')]",
+        "dependsOn": [
+        "[variables('website-name')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "enabled": true,
+            "retentionPolicy": {
+              "days": 0,
+              "enabled": false
+            },
+            "timeGrain": null
+          }
+          ],
+          "logs": [
+          
+          ]
+        }
+      },
+      {
+        "apiVersion": "2016-09-01",
+        "name": "[variables('hostingPlan-name')]",
+        "type": "Microsoft.Web/serverfarms",
+        "location": "[parameters('ase-location')]",
+        "dependsOn": [
+        "[variables('ase-name')]"
+        ],
+        "properties": {
+          "name": "[variables('hostingPlan-name')]",
+          "workerSizeId": "[variables('worker-size')]",
+          "reserved": false,
+          "numberOfWorkers": "1",
+          "hostingEnvironment": "[variables('ase-name')]"
+        },
+        "sku": {
+          "Tier": "[variables('sku-tier')]",
+          "Name": "[variables('sku-code')]"
+        }
+      },
+      {
+        "apiVersion": "2017-05-10",
+        "name": "nestedDeployAppGateway",
+        "type": "Microsoft.Resources/deployments",
+        "dependsOn": [
+        "[variables('ase-name')]"
+        ],
+        "resourceGroup": "[variables('sharedsvcs-vnet-resourceGroup')]",
+        "subscriptionId": "[parameters('sharedsvcs-subscription-id')]",
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              
+            },
+            "variables": {
+              
+            },
+            "resources": [
+            {
+              "type": "Microsoft.Network/publicIPAddresses",
+              "sku": {
+                "name": "Basic"
+              },
+              "name": "[variables('app-gateway-pip-name')]",
+              "apiVersion": "2017-08-01",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": "[variables('idleTimeout-in-minutes')]"
+              }
+            },
+            {
+              "type": "Microsoft.Network/publicIPAddresses/providers/diagnosticSettings",
+              "apiVersion": "2017-05-01-preview",
+              "name": "[concat(variables('app-gateway-pip-name'), '/Microsoft.Insights/service')]",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+              "[variables('app-gateway-pip-name')]"
+              ],
+              "properties": {
+                "storageAccountId": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('sharedsvcs-log-diagnostic-storageAccount-name'))]",
+                "workspaceId": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('sharedsvcs-oms-workspace-name'))]",
+                "metrics": [
+                {
+                  "category": "AllMetrics",
+                  "timeGrain": null,
+                  "enabled": true,
+                  "retentionPolicy": {
+                    "enabled": true,
+                    "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                  }
+                }
+                ],
+                "logs": [
+                {
+                  "category": "DDoSProtectionNotifications",
+                  "enabled": true,
+                  "retentionPolicy": {
+                    "enabled": true,
+                    "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                  }
+                },
+                {
+                  "category": "DDoSMitigationFlowLogs",
+                  "enabled": true,
+                  "retentionPolicy": {
+                    "enabled": true,
+                    "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                  }
+                },
+                {
+                  "category": "DDoSMitigationReports",
+                  "enabled": true,
+                  "retentionPolicy": {
+                    "enabled": true,
+                    "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                  }
+                }
+                ]
+              }
+            },
+            {
+              "type": "Microsoft.Network/applicationGateways",
+              "name": "[variables('app-gateway-name')]",
+              "apiVersion": "2017-10-01",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+              "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-vnet-resourceGroup'), 'Microsoft.Network/publicIPAddresses/', variables('app-gateway-pip-name'))]"
+              ],
+              "properties": {
+                "sku": "[variables('sku')]",
+                "gatewayIPConfigurations": "[variables('gatewayIPConfigurations')]",
+                "frontendIPConfigurations": "[variables('frontendIPConfigurations')]",
+                "frontendPorts": "[variables('frontendPorts')]",
+                "backendAddressPools": "[variables('backendAddressPools')]",
+                "backendHttpSettingsCollection": "[variables('backendHttpSettingsCollection')]",
+                "httpListeners": "[variables('httpListeners')]",
+                "requestRoutingRules": "[variables('requestRoutingRules')]",
+                "enableHttp2": "[variables('enableHttp2')]",
+                "probes": "[variables('probes')]"
+              },
+              "resources": [
+              {
+                "type": "Microsoft.Network/applicationGateways/providers/diagnosticsettings",
+                "name": "[concat(variables('app-gateway-name'), '/Microsoft.Insights/service')]",
+                "apiVersion": "2016-09-01",
+                "location": "[resourceGroup().location]",
+                "dependsOn": [
+                "[concat('Microsoft.Network/applicationGateways/', variables('app-gateway-name'))]"
+                ],
+                "properties": {
+                  "storageAccountId": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('sharedsvcs-log-diagnostic-storageAccount-name'))]",
+                  "workspaceId": "[resourceId(parameters('sharedsvcs-subscription-id'), variables('sharedsvcs-oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('sharedsvcs-oms-workspace-name'))]",
+                  "logs": [
+                  {
+                    "category": "ApplicationGatewayAccessLog",
+                    "enabled": true,
+                    "retentionPolicy": {
+                      "enabled": true,
+                      "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                    }
+                  },
+                  {
+                    "category": "ApplicationGatewayPerformanceLog",
+                    "enabled": true,
+                    "retentionPolicy": {
+                      "enabled": true,
+                      "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                    }
+                  },
+                  {
+                    "category": "ApplicationGatewayFirewallLog",
+                    "enabled": true,
+                    "retentionPolicy": {
+                      "enabled": true,
+                      "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                    }
+                  }
+                  ],
+                  "metrics": [
+                  {
+                    "category": "AllMetrics",
+                    "enabled": true,
+                    "retentionPolicy": {
+                      "enabled": true,
+                      "days": "[parameters('app-gateway-logs-retention-in-days')]"
+                    }
+                  }
+                  ]
+                }
+              }
+              ]
+            }
+            ]
+          }
+        }
+      }
+      ],
+      "functions": [
+      {
+        "namespace": "vdc",
+        "members": {
+          "nextIP": {
+            "parameters": [
+            {
+              "name": "ip",
+              "type": "string"
+            },
+            {
+              "name": "operand",
+              "type": "int"
+            }
+            ],
+            "output": {
+              "type": "string",
+              "value": "[concat(split(parameters('ip'), '.')[0], '.' ,split(parameters('ip'), '.')[1], '.' ,split(parameters('ip'), '.')[2], '.', add(int(split(parameters('ip'), '.')[3]), parameters('operand')))]"
+            }
+          },
+          "splitIP": {
+            "parameters": [
+            {
+              "name": "initialIP",
+              "type": "string"
+            }
+            ],
+            "output": {
+              "type": "array",
+              "value": "[split(parameters('initialIP'), '.')]"
+            }
+          },
+          "removeAddressRange": {
+            "parameters": [
+            {
+              "name": "ip",
+              "type": "string"
+            }
+            ],
+            "output": {
+              "type": "string",
+              "value": "[if(greater(indexOf(parameters('ip'), '/'), 0), substring(parameters('ip'), 0, add(indexOf(parameters('ip'), '/'), 0)), parameters('ip'))]"
+            }
+          }
+        }
+      }
+      ]
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "dns-suffix": {
+        "value": "[parameters('aPServiceEnvironmentARMtemplate_dns-suffix')]"
+      },
+      "ase-location": {
+        "value": "[parameters('aPServiceEnvironmentARMtemplate_ase-location')]"
+      },
+      "sharedsvcs-subscription-id": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_shared-services-subscription-id')]"
+      },
+      "default-subnet-address-prefix": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_default-subnet-address-prefix')]"
+      },
+      "app-gateway-logs-retention-in-days": {
+        "value": "[parameters('aPServiceEnvironmenttemplate_app-gateway-logs-retention-in-days')]"
+      }
+    },
+    "dependsOn": [
+    "sqldb"
+    ],
+    "resourceGroup": "ResourceGroup5",
+    "displayName": "App Service Environment template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/ase",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "ase"
+}

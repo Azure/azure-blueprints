@@ -1,0 +1,355 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "Policy_CostCenter_Tag": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Append CostCenter TAG & its value from the Resource Group",
+          "description": "AzureRegion"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "Policy_Allowed-Locations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Which Azure Regions will you allow resources to be built in?",
+          "description": "Policy_Allowed-Locations",
+          "strongType": "location"
+        },
+        "defaultValue": [
+        
+        ]
+      },
+      "Policy_Resource-Types-DENY": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Select the Azure Resource Types that you will DENY",
+          "description": "Policy_Resource-Types-DENY",
+          "strongType": "resourceTypes"
+        }
+      },
+      "Policy_Allowed-StorageAccount-SKUs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Storage Account SKUs you want to ALLOW",
+          "description": "Policy_Allowed-StorageAccount-SKUs",
+          "strongType": "storageSKUs"
+        },
+        "defaultValue": [
+        "Standard_LRS"
+        ],
+        "allowedValues": [
+        "Premium_LRS",
+        "Standard_GRS",
+        "Standard_LRS",
+        "Standard_RAGRS",
+        "Standard_ZRS"
+        ]
+      },
+      "Policy_Allowed-VM-SKUs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Virtual Machine SKUs you want to ALLOW",
+          "description": "Policy_Allowed-VM-SKUs"
+        },
+        "defaultValue": [
+        "Standard_B2ms",
+        "Standard_DS1_v2",
+        "Standard_F2s_v2"
+        ],
+        "allowedValues": [
+        "Standard_A1_v2",
+        "Standard_A2m_v2",
+        "Standard_A2_v2",
+        "Standard_A4m_v2",
+        "Standard_A4_v2",
+        "Standard_A8m_v2",
+        "Standard_A8_v2",
+        "Standard_B1ls",
+        "Standard_B1ms",
+        "Standard_B1s",
+        "Standard_B2ms",
+        "Standard_B2s",
+        "Standard_B4ms",
+        "Standard_B8ms",
+        "Standard_D1_v2",
+        "Standard_D2s_v3",
+        "Standard_D2_v2",
+        "Standard_D2_v3",
+        "Standard_D3_v2",
+        "Standard_D4s_v3",
+        "Standard_D4_v2",
+        "Standard_D4_v3",
+        "Standard_D5_v2",
+        "Standard_D8s_v3",
+        "Standard_D8_v3",
+        "Standard_D11_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2",
+        "Standard_D15_v2",
+        "Standard_D16s_v3",
+        "Standard_D16_v3",
+        "Standard_D32s_v3",
+        "Standard_D32_v3",
+        "Standard_D64s_v3",
+        "Standard_D64_v3",
+        "Standard_DC2s",
+        "Standard_DC4s",
+        "Standard_DS1_v2",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS5_v2",
+        "Standard_DS11-1_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12-1_v2",
+        "Standard_DS12-2_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13-2_v2",
+        "Standard_DS13-4_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14-4_v2",
+        "Standard_DS14-8_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2",
+        "Standard_E2s_v3",
+        "Standard_E2_v3",
+        "Standard_E4-2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E4_v3",
+        "Standard_E8-2s_v3",
+        "Standard_E8-4s_v3",
+        "Standard_E8s_v3",
+        "Standard_E8_v3",
+        "Standard_E16-4s_v3",
+        "Standard_E16-8s_v3",
+        "Standard_E16s_v3",
+        "Standard_E16_v3",
+        "Standard_E20s_v3",
+        "Standard_E20_v3",
+        "Standard_E32-8s_v3",
+        "Standard_E32-16s_v3",
+        "Standard_E32s_v3",
+        "Standard_E32_v3",
+        "Standard_E64-16s_v3",
+        "Standard_E64-32s_v3",
+        "Standard_E64is_v3",
+        "Standard_E64i_v3",
+        "Standard_E64s_v3",
+        "Standard_E64_v3",
+        "Standard_F1s",
+        "Standard_F2s",
+        "Standard_F2s_v2",
+        "Standard_F4s",
+        "Standard_F4s_v2",
+        "Standard_F8s",
+        "Standard_F8s_v2",
+        "Standard_F16s",
+        "Standard_F16s_v2",
+        "Standard_F32s_v2",
+        "Standard_F64s_v2",
+        "Standard_F72s_v2",
+        "Standard_GS1",
+        "Standard_GS2",
+        "Standard_GS3",
+        "Standard_GS4",
+        "Standard_GS4-4",
+        "Standard_GS4-8",
+        "Standard_GS5",
+        "Standard_GS5-8",
+        "Standard_GS5-16",
+        "Standard_H8",
+        "Standard_H8m",
+        "Standard_H16",
+        "Standard_H16m",
+        "Standard_H16mr",
+        "Standard_H16r",
+        "Standard_HB60rs",
+        "Standard_HC44rs",
+        "Standard_L4s",
+        "Standard_L8s",
+        "Standard_L8s_v2",
+        "Standard_L16s",
+        "Standard_L16s_v2",
+        "Standard_L32s",
+        "Standard_L32s_v2",
+        "Standard_L64s_v2",
+        "Standard_L80s_v2",
+        "Standard_M8-2ms",
+        "Standard_M8-4ms",
+        "Standard_M8ms",
+        "Standard_M16-4ms",
+        "Standard_M16-8ms",
+        "Standard_M16ms",
+        "Standard_M32-8ms",
+        "Standard_M32-16ms",
+        "Standard_M32ls",
+        "Standard_M32ms",
+        "Standard_M32ts",
+        "Standard_M64",
+        "Standard_M64-16ms",
+        "Standard_M64-32ms",
+        "Standard_M64ls",
+        "Standard_M64m",
+        "Standard_M64ms",
+        "Standard_M64s",
+        "Standard_M128",
+        "Standard_M128-32ms",
+        "Standard_M128-64ms",
+        "Standard_M128m",
+        "Standard_M128ms",
+        "Standard_M128s",
+        "Standard_NC6",
+        "Standard_NC6s_v2",
+        "Standard_NC6s_v3",
+        "Standard_NC12",
+        "Standard_NC12s_v2",
+        "Standard_NC12s_v3",
+        "Standard_NC24",
+        "Standard_NC24r",
+        "Standard_NC24rs_v2",
+        "Standard_NC24rs_v3",
+        "Standard_NC24s_v2",
+        "Standard_NC24s_v3",
+        "Standard_ND6s",
+        "Standard_ND12s",
+        "Standard_ND24rs",
+        "Standard_ND24s",
+        "Standard_NV6",
+        "Standard_NV6s_v2",
+        "Standard_NV12",
+        "Standard_NV12s_v2",
+        "Standard_NV24",
+        "Standard_NV24s_v2"
+        ]
+      },
+      "Organization_Name": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Enter your organization name (e.g. Contoso), must be unique",
+          "description": "Organization_Name"
+        },
+        "defaultValue": ""
+      },
+      "KV-AccessPolicy": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure AD Group or User 'ObjectID' to grant permissions in Key Vault.(abc123de-f456-ghi7-89jk-l0mno123pqr4)",
+          "description": "KV-AccessPolicy"
+        }
+      },
+      "LogAnalytics_DataRetention": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Number of days data will be retained in Log Analytics",
+          "description": "LogAnalytics_DataRetention"
+        },
+        "defaultValue": 365,
+        "allowedValues": [
+        30,
+        60,
+        90,
+        120,
+        180,
+        365
+        ]
+      },
+      "LogAnalytics_Location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure Region used when establishing the Log Analytics workspace",
+          "description": "LogAnalytics_Location"
+        },
+        "allowedValues": [
+        "Australia Central",
+        "Australia East",
+        "Australia Southeast",
+        "Brazil South",
+        "Canada Central",
+        "Central India",
+        "Central US",
+        "East Asia",
+        "East US",
+        "East US 2",
+        "France Central",
+        "Japan East",
+        "Korea Central",
+        "North Central US",
+        "North Europe",
+        "South Africa North",
+        "South Central US",
+        "Southeast Asia",
+        "UK South",
+        "UK West",
+        "West Europe",
+        "West US",
+        "West US 2"
+        ]
+      },
+      "AzureRegion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Select the Azure Region to deploy the Resources",
+          "description": "AzureRegion",
+          "strongType": "location"
+        },
+        "defaultValue": "eastus"
+      }
+    },
+    "resourceGroups": {
+      "SharedServices-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-SharedSvcs-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Shared Services"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "Network-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-VNet-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Networks"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "Identity-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-Identity-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Identity Services"
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      "Application-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-Application-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for First Application"
+        },
+        "dependsOn": [
+        
+        ]
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-08-07T23:25:37+00:00",
+      "lastModified": "2019-08-07T23:31:27.4720923+00:00"
+    },
+    "displayName": "CAF Foundation",
+    "description": "Microsoft Cloud Adoption Framework for Azure – Configure Foundational best practices"
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "CAF-Foundation"
+}

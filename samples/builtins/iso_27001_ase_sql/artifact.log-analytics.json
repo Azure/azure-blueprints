@@ -1,0 +1,163 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "service-tier": {
+          "type": "string",
+          "defaultValue": "PerNode",
+          "allowedValues": [
+          "Free",
+          "Standalone",
+          "PerNode",
+          "PerGB2018"
+          ],
+          "metadata": {
+            "description": "Service Tier: Free, Standalone, or PerNode"
+          }
+        },
+        "data-retention": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "description": "Number of days data will be retained for."
+          }
+        },
+        "location": {
+          "type": "string",
+          "defaultValue": "West US 2",
+          "allowedValues": [
+          "Australia Southeast",
+          "Canada Central",
+          "Central India",
+          "East US",
+          "Japan East",
+          "Southeast Asia",
+          "UK South",
+          "West Europe",
+          "West US 2"
+          ],
+          "metadata": {
+            "description": "Region used when establishing the workspace."
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]"
+      },
+      "resources": [
+      {
+        "comments": "----DIAGNOSTICS STORAGE ACCOUNT-----",
+        "type": "Microsoft.Storage/storageAccounts",
+        "name": "[variables('diagnostic-storageAccount-name')]",
+        "apiVersion": "2018-07-01",
+        "location": "[resourceGroup().location]",
+        "kind": "StorageV2",
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "tags": {
+          "layer": "management"
+        },
+        "properties": {
+          "encryption": {
+            "keySource": "Microsoft.Storage",
+            "services": {
+              "blob": {
+                "enabled": true
+              },
+              "file": {
+                "enabled": true
+              }
+            }
+          },
+          "supportsHttpsTrafficOnly": true,
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Deny"
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Storage/storageAccounts/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('diagnostic-storageAccount-name'), '/Microsoft.Authorization/storageDoNotDelete')]",
+        "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name'))]"
+        ],
+        "comments": "Resource lock on diagnostic storage account",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      },
+      {
+        "name": "[variables('oms-workspace-name')]",
+        "location": "[parameters('location')]",
+        "tags": {
+          
+        },
+        "apiVersion": "2015-11-01-preview",
+        "type": "Microsoft.OperationalInsights/workspaces",
+        "properties": {
+          "sku": {
+            "Name": "[parameters('service-tier')]"
+          },
+          "retention": "[parameters('data-retention')]"
+        }
+      },
+      {
+        "type": "Microsoft.OperationalInsights/workspaces/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('oms-workspace-name'), '/Microsoft.Authorization/logAnalyticsDoNotDelete')]",
+        "dependsOn": [
+        "[variables('oms-workspace-name')]"
+        ],
+        "comments": "Resource lock on Log Analytics",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "service-tier": {
+        "value": "[parameters('log-analytics_service-tier')]"
+      },
+      "data-retention": {
+        "value": "[parameters('log-analytics_data-retention')]"
+      },
+      "location": {
+        "value": "[parameters('log-analytics_location')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "resourceGroup": "ResourceGroup",
+    "displayName": "Log Analytics template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/log-analytics",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "log-analytics"
+}

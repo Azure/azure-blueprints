@@ -1,0 +1,19 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3c1b3629-c8f8-4bf6-862c-037cb9094038",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('logAnalyticsWorkspaceforWindowsVMSS')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('listOfImageIdToIncludeforWindowsVMSS')]"
+      }
+    },
+    "dependsOn": [],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/18e5b847-d4b8-44f6-846a-6698f1af9f79",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "18e5b847-d4b8-44f6-846a-6698f1af9f79"
+}

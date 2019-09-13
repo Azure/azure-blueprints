@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/3937f550-eedd-4639-9c5e-294358be442e",
+    "parameters": {
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('[Preview]:AuditUKOFFICIALandUKNHScontrolsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Audit UK OFFICIAL and UK NHS controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKNHS/artifacts/97bc436a-1135-41b4-86ff-33e4c0dbe12b",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "97bc436a-1135-41b4-86ff-33e4c0dbe12b"
+}

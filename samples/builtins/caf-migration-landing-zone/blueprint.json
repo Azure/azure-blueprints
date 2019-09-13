@@ -1,0 +1,146 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "Organization_Name": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Enter your organization name (e.g. Contoso), must be unique",
+          "description": "Organization_Name"
+        },
+        "defaultValue": ""
+      },
+      "AzureRegion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Select the Azure Region to deploy the Resources",
+          "description": "AzureRegion",
+          "strongType": "location"
+        },
+        "defaultValue": "eastus"
+      },
+      "Azure_Migrate_Location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Select the Region to deploy Azure Migrate",
+          "description": "Azure Migrate Location"
+        },
+        "defaultValue": "West US 2",
+        "allowedValues": [
+          "Central US",
+          "East Asia",
+          "North Europe",
+          "Southeast Asia",
+          "UK South",
+          "UK West",
+          "West Europe",
+          "West US 2"
+        ]
+      },
+      "IPAddress_Space": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual Network IP Addressspace - Provide first 2 octets i.e. 10.0",
+          "description": "IPAddress_Space"
+        },
+        "defaultValue": "10.0"
+      },
+      "KV-AccessPolicy": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure AD Group or User 'ObjectID' to grant permissions in Key Vault.(abc123de-f456-ghi7-89jk-l0mno123pqr4)",
+          "description": "KV-AccessPolicy"
+        }
+      },
+      "LogAnalytics_DataRetention": {
+        "type": "int",
+        "metadata": {
+          "displayName": "Number of days data will be retained in Log Analytics",
+          "description": "LogAnalytics_DataRetention"
+        },
+        "defaultValue": 365,
+        "allowedValues": [
+          30,
+          60,
+          90,
+          120,
+          180,
+          365
+        ]
+      },
+      "LogAnalytics_Location": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure Region used when establishing the Log Analytics workspace",
+          "description": "LogAnalytics_Location"
+        },
+        "allowedValues": [
+          "Australia Central",
+          "Australia East",
+          "Australia Southeast",
+          "Brazil South",
+          "Canada Central",
+          "Central India",
+          "Central US",
+          "East Asia",
+          "East US",
+          "East US 2",
+          "France Central",
+          "Japan East",
+          "Korea Central",
+          "North Central US",
+          "North Europe",
+          "South Africa North",
+          "South Central US",
+          "Southeast Asia",
+          "UK South",
+          "UK West",
+          "West Europe",
+          "West US",
+          "West US 2"
+        ]
+      }
+    },
+    "resourceGroups": {
+      "SharedServices-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-SharedSvcs-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Shared Services"
+        },
+        "dependsOn": [
+
+        ]
+      },
+      "Network-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-VNet-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Networks"
+        },
+        "dependsOn": [
+
+        ]
+      },
+      "Migrate-RG": {
+        "name": "[concat(parameters('Organization_Name'),'-Migrate-rg')]",
+        "location": "[parameters('AzureRegion')]",
+        "metadata": {
+          "displayName": "Resource Group for Azure Migrate"
+        },
+        "dependsOn": [
+
+        ]
+      }
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-08-07T23:25:41+00:00",
+      "lastModified": "2019-08-07T23:31:31.9001185+00:00"
+    },
+    "displayName": "CAF Migration landing zone",
+    "description": "Microsoft Cloud Adoption Framework for Azure – Migrations landing zone"
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Migration-landing-zone",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "CAF-Migration-landing-zone"
+}

@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('ISO27001Policy_listOfAllowedLocations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/d94ecab2-96d3-4c6a-8d3f-fd3b417734d9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d94ecab2-96d3-4c6a-8d3f-fd3b417734d9"
+}

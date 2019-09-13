@@ -1,0 +1,12 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f",
+    "parameters": {},
+    "dependsOn": [],
+    "displayName": "Deploy SQL DB transparent data encryption"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/32129be1-833f-4614-9329-9c866f4f2839",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "32129be1-833f-4614-9329-9c866f4f2839"
+}

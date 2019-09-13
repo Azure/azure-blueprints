@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c9c29499-c1d1-4195-99bd-2ec9e3a9dc89",
+    "parameters": {
+      "storagePrefix": {
+        "value": "[parameters('storagePrefixforNetworkSecurityGroupDiagnostics')]"
+      },
+      "rgName": {
+        "value": "[parameters('rgNameforNetworkSecurityGroupDiagnostics')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Diagnostic Settings for Network Security Groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4/artifacts/b444e54e-e74c-4ddc-914c-9fd17f7b85a9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "b444e54e-e74c-4ddc-914c-9fd17f7b85a9"
+}

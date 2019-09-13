@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/49c88fc8-6fd1-46fd-a676-f12d1d3a4c71",
+    "parameters": {
+      "tagName": {
+        "value": "CostCenter"
+      },
+      "tagValue": {
+        "value": "[parameters('Policy_CostCenter_Tag')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Append CostCenter TAG to Resource Groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation/artifacts/artifact-policy-costcenter-tag-to-rg",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-policy-costcenter-tag-to-rg"
+}

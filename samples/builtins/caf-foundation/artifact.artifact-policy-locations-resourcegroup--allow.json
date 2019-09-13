@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('Policy_Allowed-Locations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations for resource groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation/artifacts/artifact-policy-locations-resourcegroup--allow",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-policy-locations-resourcegroup--allow"
+}

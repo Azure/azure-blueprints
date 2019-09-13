@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require encryption on Data Lake Store accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKNHS/artifacts/7555cd7c-ecf5-4391-96dd-59db8b6d5ad1",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "7555cd7c-ecf5-4391-96dd-59db8b6d5ad1"
+}

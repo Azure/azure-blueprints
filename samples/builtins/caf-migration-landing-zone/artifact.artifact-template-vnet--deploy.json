@@ -1,0 +1,218 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "Organization_Name": {
+          "type": "string"
+        },
+        "IPAddress_Space": {
+          "type": "string"
+        }
+      },
+      "variables": {
+        "vNET_Info": [
+        {
+          "vNET_Name": "[concat(parameters('Organization_Name'), '-vNET')]",
+          "vNET_AddressSpace": "[concat(parameters('IPAddress_Space'),'.0.0/16')]",
+          "vNET_Subnet_GATEWAY_Name": "GatewaySubnet",
+          "vNET_Subnet_GATEWAY_CIDR": "[concat(parameters('IPAddress_Space'),'.0.0/26')]",
+          "vNET_Subnet_FIREWALL_Name": "AzureFirewallSubnet",
+          "vNET_Subnet_FIREWALL_CIDR": "[concat(parameters('IPAddress_Space'),'.0.64/26')]",
+          "vNET_Subnet_JUMPBOX_Name": "JumpboxSubnet",
+          "vNET_Subnet_JUMPBOX_CIDR": "[concat(parameters('IPAddress_Space'),'.0.128/26')]",
+          "vNET_Subnet_JUMPBOX_NSG": "[concat(parameters('Organization_Name'), '-Jumpbox-NSG')]",
+          "vNET_Subnet_CORE_Name": "CoreSubnet",
+          "vNET_Subnet_CORE_CIDR": "[concat(parameters('IPAddress_Space'),'.4.0/22')]",
+          "vNET_Subnet_CORE_NSG": "[concat(parameters('Organization_Name'), '-Core-NSG')]"
+        }
+        ]
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[variables('vNET_Info')[copyIndex()].vNET_Name]",
+        "apiVersion": "2017-08-01",
+        "location": "[resourceGroup().location]",
+        "copy": {
+          "name": "vNET_Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "tags": {
+          "displayName": "Virtual Network"
+        },
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+            "[variables('vNET_Info')[copyIndex()].vNET_AddressSpace]"
+            ]
+          },
+          "subnets": [
+          {
+            "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_GATEWAY_Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_GATEWAY_CIDR]"
+            }
+          },
+          {
+            "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_FIREWALL_Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_FIREWALL_CIDR]"
+            }
+          },
+          {
+            "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_JUMPBOX_Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_JUMPBOX_CIDR]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('vNET_Info')[copyIndex()].vNET_Subnet_JUMPBOX_NSG)]"
+              }
+            }
+          },
+          {
+            "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_CORE_Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_CORE_CIDR]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('vNET_Info')[copyIndex()].vNET_Subnet_CORE_NSG)]"
+              }
+            }
+          }
+          ]
+        },
+        "dependsOn": [
+        "Jump-NSG-Copy",
+        "Core-NSG-Copy"
+        ]
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-04-01",
+        "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_JUMPBOX_NSG]",
+        "location": "[resourcegroup().location]",
+        "tags": {
+          "displayName": "Jump NSG"
+        },
+        "copy": {
+          "name": "Jump-NSG-Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "properties": {
+          "securityRules": [
+          
+          ]
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2019-04-01",
+        "name": "[variables('vNET_Info')[copyIndex()].vNET_Subnet_CORE_NSG]",
+        "location": "[resourcegroup().location]",
+        "tags": {
+          "displayName": "Core NSG"
+        },
+        "copy": {
+          "name": "Core-NSG-Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "properties": {
+          "securityRules": [
+          
+          ]
+        },
+        "dependsOn": [
+        
+        ]
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworks/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('vNET_Info')[copyIndex()].vNET_Name, '/Microsoft.Authorization/AzureVNet-DoNotDelete')]",
+        "copy": {
+          "name": "vNETLock_Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "dependsOn": [
+        "vNET_Copy"
+        ],
+        "comments": "Resource lock on Azure vNET",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('vNET_Info')[copyIndex()].vNET_Subnet_CORE_NSG, '/Microsoft.Authorization/CoreNSG-DoNotDelete')]",
+        "copy": {
+          "name": "Core_NSGLock_Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "dependsOn": [
+        "vNET_Copy"
+        ],
+        "comments": "Resource lock on Azure Core NSG",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkSecurityGroups/providers/locks",
+        "apiVersion": "2016-09-01",
+        "name": "[concat(variables('vNET_Info')[copyIndex()].vNET_Subnet_JUMPBOX_NSG, '/Microsoft.Authorization/JumpNSG-DoNotDelete')]",
+        "copy": {
+          "name": "Jump_NSGLock_Copy",
+          "count": "[length(variables('vNET_Info'))]"
+        },
+        "dependsOn": [
+        "vNET_Copy"
+        ],
+        "comments": "Resource lock on Azure Jump NSG",
+        "properties": {
+          "level": "CannotDelete"
+        }
+      }
+      ],
+      "outputs": {
+        "vNETRef_Gateway": {
+          "type": "string",
+          "value": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', concat(parameters('Organization_Name'), '-vNET'), 'GatewaySubnet')]"
+        },
+        "vNETRef_Firewall": {
+          "type": "string",
+          "value": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', concat(parameters('Organization_Name'), '-vNET'), 'AzureFirewallSubnet')]"
+        },
+        "vNETRef_JumpBox": {
+          "type": "string",
+          "value": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', concat(parameters('Organization_Name'), '-vNET'), 'JumpboxSubnet')]"
+        },
+        "vNETRef_Core": {
+          "type": "string",
+          "value": "[reference(concat(parameters('Organization_Name'), '-vNET'), '2019-04-01', 'Full').resourceId]"
+        }
+      }
+    },
+    "parameters": {
+      "Organization_Name": {
+        "value": "[parameters('Organization_Name')]"
+      },
+      "IPAddress_Space": {
+        "value": "[parameters('IPAddress_Space')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "resourceGroup": "Network-RG",
+    "displayName": "Deploy vNET landing zone",
+    "description": "landing zone has 4 subnets, Gateway, AzureFirewall, JumpServer, Core for Migrated VMs"
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Migration-landing-zone/artifacts/artifact-template-vnet--deploy",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-template-vnet--deploy"
+}

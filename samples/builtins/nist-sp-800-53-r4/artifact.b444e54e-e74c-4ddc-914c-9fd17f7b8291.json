@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0868462e-646c-4fe3-9ced-a733534b6a2c",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('logAnalyticsWorkspaceforWindowsVMs')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('listOfImageIdToIncludeforWindowsVMs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Windows VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4/artifacts/b444e54e-e74c-4ddc-914c-9fd17f7b8291",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "b444e54e-e74c-4ddc-914c-9fd17f7b8291"
+}

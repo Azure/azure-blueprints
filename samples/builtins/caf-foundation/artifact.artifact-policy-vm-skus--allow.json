@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cccc23c7-8427-4f53-ad12-b6a63eb452b3",
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "value": "[parameters('Policy_Allowed-VM-SKUs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed virtual machine SKUs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation/artifacts/artifact-policy-vm-skus--allow",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-policy-vm-skus--allow"
+}

@@ -1,0 +1,12 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5",
+    "parameters": {},
+    "dependsOn": [],
+    "displayName": "Deploy Threat Detection on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/32129be1-833f-4614-9329-9c866f4f2b51",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "32129be1-833f-4614-9329-9c866f4f2b51"
+}

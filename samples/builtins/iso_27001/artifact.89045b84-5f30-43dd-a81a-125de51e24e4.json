@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/053d3325-282c-4e5c-b944-24faffd30d77",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('logAnalyticsWorkspaceforLinuxVMs')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('listOfImageIdToIncludeforLinuxVMs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Linux VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001/artifacts/89045b84-5f30-43dd-a81a-125de51e24e4",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "89045b84-5f30-43dd-a81a-125de51e24e4"
+}

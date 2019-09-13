@@ -1,0 +1,910 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "jumpbox-local-admin-username": {
+          "type": "string",
+          "defaultValue": "jb-admin-user",
+          "metadata": {
+            "displayName": "Jumpbox admin username",
+            "description": "The username used to access jumpbox VMs"
+          }
+        },
+        "jumpbox-local-admin-password": {
+          "type": "securestring",
+          "metadata": {
+            "displayName": "Jumpbox admin password",
+            "description": "The Key Vault Resource ID and Key Vault Secret Name where the Jumpbox admin password is stored. If Linux is selected as Jumpbox OS, this value will be a public SSH Key, otherwise this value will be a User's Password. Secret name has to match the value specified in Key Vault template - Jumpbox admin username. To learn more on how to use SecureStrings in Azure Blueprints, go to: https://aka.ms/blueprintsecrets"
+          }
+        },
+        "jumpbox-os": {
+          "type": "string",
+          "allowedValues": [
+          "Windows",
+          "Linux"
+          ],
+          "defaultValue": "Windows",
+          "metadata": {
+            "displayName": "Jumpbox Operating System",
+            "description": "Choose between Linux or Windows"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention in days",
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-sharedsvcs')]",
+        "extension-name": "jb",
+        "virtualMachine-size": "Standard_DS2_v2",
+        "resource-prefix": "[concat(variables('deployment-prefix'), '-', variables('extension-name'))]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "vnet-resourceGroup": "[concat(variables('deployment-prefix'), '-net-rg')]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "azure-fw-name": "[concat(variables('deployment-prefix'), '-az-fw')]",
+        "azure-fw-pip-name": "[concat(variables('deployment-prefix'), '-az-fw-pip')]",
+        "jb-resourceGroup": "[concat(variables('deployment-prefix'), '-jb-rg')]",
+        "windows-availabilitySet-name": "[concat(variables('resource-prefix'), '-win-as')]",
+        "windows-virtualMachine-name-prefix": "[concat(variables('resource-prefix'), '-win-vm')]",
+        "linux-virtualMachine-name-prefix": "[concat(variables('resource-prefix'), '-linux-vm')]",
+        "linux-availabilitySet-name": "[concat(variables('resource-prefix'), '-linux-as')]",
+        "subnet-id": "[concat(resourceId(variables('vnet-resourceGroup'), 'Microsoft.Network/virtualNetworks',  variables('vnet-name')), '/subnets/', 'sharedsvcs')]",
+        "antimalware-extension-name": "IaaSAntimalware",
+        "diagnostics-extension-name": "IaaSDiagnostics",
+        "networkWatcher-extension-name": "NetworkWatcher",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "diagnostic-storageAccount-id": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name'))]",
+        "wad-logs": "<WadCfg> <DiagnosticMonitorConfiguration overallQuotaInMB=\"4096\" xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\"> <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter=\"Error\"/> <WindowsEventLog scheduledTransferPeriod=\"PT1M\" > <DataSource name=\"Application!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"Security!*[System[(Level = 1 or Level = 2)]]\" /> <DataSource name=\"System!*[System[(Level = 1 or Level = 2)]]\" /></WindowsEventLog>",
+        "wad-perf-counters1": "<PerformanceCounters scheduledTransferPeriod=\"PT1M\"><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Processor Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU utilization\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% Privileged Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU privileged time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor(_Total)\\% User Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"CPU user time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Processor Information(_Total)\\Processor Frequency\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"CPU frequency\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\System\\Processes\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Processes\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Thread Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Threads\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Process(_Total)\\Handle Count\" sampleRate=\"PT15S\" unit=\"Count\"><annotation displayName=\"Handles\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\% Committed Bytes In Use\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Memory usage\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Available Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory available\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Committed Bytes\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory committed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\Memory\\Commit Limit\" sampleRate=\"PT15S\" unit=\"Bytes\"><annotation displayName=\"Memory commit limit\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active time\" locale=\"en-us\"/></PerformanceCounterConfiguration>",
+        "wad-perf-counters2": "<PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Read Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active read time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\% Disk Write Time\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk active write time\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Transfers/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Reads/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk read operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Writes/sec\" sampleRate=\"PT15S\" unit=\"CountPerSecond\"><annotation displayName=\"Disk write operations\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Read Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk read speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\PhysicalDisk(_Total)\\Disk Write Bytes/sec\" sampleRate=\"PT15S\" unit=\"BytesPerSecond\"><annotation displayName=\"Disk write speed\" locale=\"en-us\"/></PerformanceCounterConfiguration><PerformanceCounterConfiguration counterSpecifier=\"\\LogicalDisk(_Total)\\% Free Space\" sampleRate=\"PT15S\" unit=\"Percent\"><annotation displayName=\"Disk free space (percentage)\" locale=\"en-us\"/></PerformanceCounterConfiguration></PerformanceCounters>",
+        "wad-cfgx-start": "[concat(variables('wad-logs'), variables('wad-perf-counters1'), variables('wad-perf-counters2'), '<Metrics resourceId=\"')]",
+        "wad-metrics-resource-id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name , '/providers/', 'Microsoft.Compute/virtualMachines/')]",
+        "wad-cfgx-end": "\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>",
+        "jb-asg-id": "[resourceId(variables('vnet-resourceGroup'),'Microsoft.Network/applicationSecurityGroups', concat(variables('deployment-prefix'), '-jb-asg'))]",
+        "pwd-min-length-config-name": "MinimumPasswordLength",
+        "pwd-min-age-config-name": "MinimumPasswordAge",
+        "pwd-not-last-24-config-name": "EnforcePasswordHistory",
+        "pwd-without-reversible-encryption-config-name": "StorePasswordsUsingReversibleEncryption",
+        "web-server-with-tls-1.1-config-name": "AuditSecureProtocol",
+        "pwd-max-age-config-name": "MaximumPasswordAge",
+        "pwd-complexity-config-name": "PasswordMustMeetComplexityRequirements",
+        "linuxOMSExtensionName": "MMAExtension",
+        "linuxOMSExtensionPublisher": "Microsoft.EnterpriseCloud.Monitoring",
+        "linuxOMSExtensionType": "OmsAgentForLinux",
+        "linuxOMSExtensionTypeHandlerVersion": "1.7",
+        "linux-audit-remote-connection-with-no-pwd-config-name": "PasswordPolicy_msid110",
+        "linux-audit-accounts-with-no-pwd-config-name": "PasswordPolicy_msid232",
+        "linux-audit-etc-passwd-file-permission-set-to-0644-config-name": "PasswordPolicy_msid121",
+        "local-policy-pwd-settings": "https://raw.githubusercontent.com/Azure/azure-blueprints/master/VDCArtifacts/local_policy_settings.ps1",
+        "windows-password-policies-extension-name": "PwdPolicies",
+        "windows-oms-extension-name": "MMAExtension",
+        "windows-dependency-extension-name": "DependencyAgent",
+        "windows-dependency-extension-publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+        "windows-dependency-extension-type": "DependencyAgentWindows",
+        "windows-dependency-extension-handler-version": "9.6",
+        "max-password-age": 70,
+        "min-password-age": 1,
+        "min-password-length": 14,
+        "pwd-history-count": 24
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Compute/availabilitySets",
+        "apiVersion": "2016-04-30-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "name": "[variables('windows-availabilitySet-name')]",
+        "properties": {
+          "platformFaultDomainCount": 2,
+          "platformUpdateDomainCount": 5,
+          "managed": true
+        },
+        "sku": {
+          "name": "Aligned"
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2017-09-01",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '-nic')]",
+        "properties": {
+          "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnet-id')]"
+              },
+              "applicationSecurityGroups": [
+              {
+                "id": "[variables('jb-asg-id')]"
+              }
+              ]
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkInterfaces/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '-nic', '/Microsoft.Insights/service')]",
+        "dependsOn": [
+        "[concat(variables('windows-virtualMachine-name-prefix'), '-nic')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "timeGrain": null,
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "apiVersion": "2017-03-30",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "name": "[variables('windows-virtualMachine-name-prefix')]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('windows-availabilitySet-name'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('windows-virtualMachine-name-prefix'), '-nic'))]"
+        ],
+        "properties": {
+          "availabilitySet": {
+            "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('windows-availabilitySet-name'))]"
+          },
+          "osProfile": {
+            "computerName": "[concat(variables('extension-name'), '-win-vm')]",
+            "adminUsername": "[parameters('jumpbox-local-admin-username')]",
+            "adminPassword": "[parameters('jumpbox-local-admin-password')]"
+          },
+          "hardwareProfile": {
+            "vmSize": "[variables('virtualMachine-size')]"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2016-Datacenter",
+              "version": "latest"
+            },
+            "osDisk": {
+              "name": "[replace(toLower(substring(concat(variables('windows-virtualMachine-name-prefix'), '-osdisk', '-', replace(concat(variables('uniqueString'), variables('uniqueString')), '-', '')), 0, 40)), '-', '')]",
+              "osType": "Windows",
+              "createOption": "FromImage"
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('windows-virtualMachine-name-prefix'), '-nic'))]"
+            }
+            ]
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "enabled": true,
+              "storageUri": "[concat(reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name')), '2016-12-01').primaryEndpoints.blob)]"
+            }
+          }
+        },
+        "resources": [
+        {
+          "type": "extensions",
+          "name": "[variables('windows-oms-extension-name')]",
+          "apiVersion": "2015-06-15",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "MicrosoftMonitoringAgent",
+            "typeHandlerVersion": "1.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "workspaceId": "[reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').customerId]"
+            },
+            "protectedSettings": {
+              "workspaceKey": "[listKeys(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').primarySharedKey]"
+            }
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('antimalware-extension-name')]",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+          "[variables('windows-oms-extension-name')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Azure.Security",
+            "type": "IaaSAntimalware",
+            "typeHandlerVersion": "1.5",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "AntimalwareEnabled": true,
+              "RealtimeProtectionEnabled": "true",
+              "ScheduledScanSettings": {
+                "isEnabled": "true",
+                "scanType": "Quick",
+                "day": "7",
+                "time": "120"
+              }
+            }
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('diagnostics-extension-name')]",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2017-03-30",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Azure.Diagnostics",
+            "type": "IaaSDiagnostics",
+            "typeHandlerVersion": "1.5",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "xmlCfg": "[base64(concat(variables('wad-cfgx-start'), variables('wad-metrics-resource-id'), variables('windows-virtualMachine-name-prefix'), variables('wad-cfgx-end')))]",
+              "storageAccount": "[variables('diagnostic-storageAccount-name')]"
+            },
+            "protectedSettings": {
+              "storageAccountName": "[variables('diagnostic-storageAccount-name')]",
+              "storageAccountKey": "[listkeys(variables('diagnostic-storageAccount-id'), '2016-12-01').keys[0])",
+              "storageAccountEndPoint": "https://core.windows.net"
+            }
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('networkWatcher-extension-name')]",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Azure.NetworkWatcher",
+            "type": "NetworkWatcherAgentWindows",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": true
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('windows-password-policies-extension-name')]",
+          "apiVersion": "2017-03-30",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.8",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+              "[variables('local-policy-pwd-settings')]"
+              ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./local_policy_settings.ps1 -MaxPwdAge ', variables('max-password-age'), ' -MinPwdAge ', variables('min-password-age'), ' -MinPwdLength ', variables('min-password-length'), ' -PwdHistoryCount ', variables('pwd-history-count'))]",
+              "timestamp": 123456789
+            }
+          }
+        },
+        {
+          "type": "extensions",
+          "name": "[variables('windows-dependency-extension-name')]",
+          "apiVersion": "2018-06-01",
+          "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]"
+          ],
+          "properties": {
+            "publisher": "[variables('windows-dependency-extension-publisher')]",
+            "type": "[variables('windows-dependency-extension-type')]",
+            "typeHandlerVersion": "[variables('windows-dependency-extension-handler-version')]",
+            "autoUpgradeMinorVersion": true
+          }
+        }
+        ]
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.Insights/service')]",
+        "dependsOn": [
+        "[variables('windows-virtualMachine-name-prefix')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ],
+          "logs": [
+          
+          ]
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-min-length-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-min-length-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-min-age-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-min-age-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-not-last-24-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-not-last-24-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-without-reversible-encryption-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-without-reversible-encryption-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('web-server-with-tls-1.1-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('web-server-with-tls-1.1-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-max-age-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-max-age-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('pwd-complexity-config-name'))]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('pwd-complexity-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2015-05-01-preview",
+        "name": "[concat(variables('windows-virtualMachine-name-prefix'), '/AzurePolicyforWindows')]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Windows')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('windows-virtualMachine-name-prefix'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-length-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-min-age-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-not-last-24-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-without-reversible-encryption-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('web-server-with-tls-1.1-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-max-age-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/',variables('windows-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('pwd-complexity-config-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('antimalware-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('diagnostics-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('networkWatcher-extension-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('windows-virtualMachine-name-prefix'), variables('windows-oms-extension-name'))]"
+        ],
+        "properties": {
+          "publisher": "Microsoft.GuestConfiguration",
+          "type": "ConfigurationforWindows",
+          "typeHandlerVersion": "1.1",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            
+          },
+          "protectedSettings": {
+            
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Compute/availabilitySets",
+        "apiVersion": "2016-04-30-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "location": "[resourceGroup().location]",
+        "name": "[variables('linux-availabilitySet-name')]",
+        "properties": {
+          "platformFaultDomainCount": 2,
+          "platformUpdateDomainCount": 5,
+          "managed": true
+        },
+        "sku": {
+          "name": "Aligned"
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2017-09-01",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '-nic')]",
+        "properties": {
+          "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnet-id')]"
+              },
+              "applicationSecurityGroups": [
+              {
+                "id": "[variables('jb-asg-id')]"
+              }
+              ]
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/networkInterfaces/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '-nic', '/Microsoft.Insights/service')]",
+        "dependsOn": [
+        "[concat(variables('linux-virtualMachine-name-prefix'), '-nic')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "timeGrain": null,
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "apiVersion": "2018-06-01",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "location": "[resourceGroup().location]",
+        "name": "[variables('linux-virtualMachine-name-prefix')]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('linux-availabilitySet-name'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', concat(variables('linux-virtualMachine-name-prefix'), '-nic'))]"
+        ],
+        "properties": {
+          "availabilitySet": {
+            "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('linux-availabilitySet-name'))]"
+          },
+          "osProfile": {
+            "computerName": "[concat(variables('extension-name'), '-linux-vm')]",
+            "adminUsername": "[parameters('jumpbox-local-admin-username')]",
+            "linuxConfiguration": {
+              "disablePasswordAuthentication": true,
+              "ssh": {
+                "publicKeys": [
+                {
+                  "path": "[concat('/home/', parameters('jumpbox-local-admin-username'), '/.ssh/authorized_keys')]",
+                  "keyData": "[parameters('jumpbox-local-admin-password')]"
+                }
+                ]
+              }
+            }
+          },
+          "hardwareProfile": {
+            "vmSize": "[variables('virtualMachine-size')]"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "18.04-LTS",
+              "version": "latest"
+            },
+            "osDisk": {
+              "name": "[replace(toLower(substring(concat(variables('linux-virtualMachine-name-prefix'), '-osdisk', '-', replace(concat(variables('uniqueString'), variables('uniqueString')), '-', '')), 0, 40)), '-', '')]",
+              "osType": "Linux",
+              "createOption": "FromImage"
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('linux-virtualMachine-name-prefix'), '-nic'))]",
+              "properties": {
+                "primary": true
+              }
+            }
+            ]
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "enabled": true,
+              "storageUri": "[concat(reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts/', variables('diagnostic-storageAccount-name')), '2016-12-01').primaryEndpoints.blob)]"
+            }
+          }
+        },
+        "resources": [
+        {
+          "name": "[variables('linuxOMSExtensionName')]",
+          "type": "extensions",
+          "dependsOn": [
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('linux-virtualMachine-name-prefix'))]"
+          ],
+          "location": "[resourceGroup().location]",
+          "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+          "apiVersion": "2018-06-01",
+          "properties": {
+            "publisher": "[variables('linuxOMSExtensionPublisher')]",
+            "type": "[variables('linuxOMSExtensionType')]",
+            "typeHandlerVersion": "[variables('linuxOMSExtensionTypeHandlerVersion')]",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "workspaceId": "[reference(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').customerId]",
+              "stopOnMultipleConnections": "true"
+            },
+            "protectedSettings": {
+              "workspaceKey": "[listKeys(resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name')), '2015-03-20').primarySharedKey]"
+            }
+          }
+        }
+        ]
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "location": "[resourceGroup().location]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '/Microsoft.Insights/service')]",
+        "dependsOn": [
+        "[variables('linux-virtualMachine-name-prefix')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": true,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ],
+          "logs": [
+          
+          ]
+        }
+      },
+      {
+        "apiVersion": "2017-05-10",
+        "name": "nestedDeployCreateAzureFwRules",
+        "type": "Microsoft.Resources/deployments",
+        "resourceGroup": "[variables('vnet-resourceGroup')]",
+        "subscriptionId": "[subscription().subscriptionId]",
+        "dependsOn": [
+        "[if(equals(parameters('jumpbox-os'), 'Linux'), variables('linux-virtualMachine-name-prefix'), variables('windows-virtualMachine-name-prefix'))]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              
+            },
+            "variables": {
+              
+            },
+            "resources": [
+            {
+              "type": "Microsoft.Network/azureFirewalls",
+              "apiVersion": "2018-08-01",
+              "location": "[resourceGroup().location]",
+              "name": "[variables('azure-fw-name')]",
+              "properties": {
+                "ipConfigurations": "[reference(resourceId(subscription().subscriptionId, variables('vnet-resourceGroup'), 'Microsoft.Network/azureFirewalls', variables('azure-fw-name')), '2018-08-01').ipConfigurations]",
+                "applicationRuleCollections": "[reference(resourceId(subscription().subscriptionId, variables('vnet-resourceGroup'), 'Microsoft.Network/azureFirewalls', variables('azure-fw-name')), '2018-08-01').applicationRuleCollections]",
+                "natRuleCollections": [
+                {
+                  "name": "allow-ingress-access",
+                  "properties": {
+                    "priority": "101",
+                    "action": {
+                      "type": "Dnat"
+                    },
+                    "rules": [
+                    {
+                      "name": "allow-external-win-jb-access",
+                      "sourceAddresses": [
+                      "*"
+                      ],
+                      "destinationAddresses": [
+                      "[reference(resourceId(subscription().subscriptionId, variables('vnet-resourceGroup'), 'Microsoft.Network/publicIPAddresses', variables('azure-fw-pip-name')), '2017-10-01').ipAddress]"
+                      ],
+                      "destinationPorts": [
+                      "[if(equals(parameters('jumpbox-os'), 'Linux'), '22', '3389')]"
+                      ],
+                      "protocols": [
+                      "TCP"
+                      ],
+                      "translatedAddress": "[reference(resourceId(subscription().subscriptionId, variables('jb-resourceGroup'), 'Microsoft.Network/networkInterfaces', if(equals(parameters('jumpbox-os'), 'Linux'), concat(variables('linux-virtualMachine-name-prefix'), '-nic'), concat(variables('windows-virtualMachine-name-prefix'), '-nic'))), '2017-09-01').ipConfigurations[0].properties.privateIpAddress]",
+                      "translatedPort": "[if(equals(parameters('jumpbox-os'), 'Linux'), '22', '3389')]"
+                    }
+                    ]
+                  }
+                }
+                ]
+              }
+            }
+            ]
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('linux-audit-remote-connection-with-no-pwd-config-name'))]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('linux-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('linux-virtualMachine-name-prefix'), variables('linuxOMSExtensionName'))]"
+        ],
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('linux-audit-remote-connection-with-no-pwd-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('linux-audit-accounts-with-no-pwd-config-name'))]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('linux-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('linux-virtualMachine-name-prefix'), variables('linuxOMSExtensionName'))]"
+        ],
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('linux-audit-accounts-with-no-pwd-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2018-06-30-preview",
+        "type": "Microsoft.Compute/virtualMachines/providers/guestConfigurationAssignments",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '/Microsoft.GuestConfiguration/', variables('linux-audit-etc-passwd-file-permission-set-to-0644-config-name'))]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('linux-virtualMachine-name-prefix'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('linux-virtualMachine-name-prefix'), variables('linuxOMSExtensionName'))]"
+        ],
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "guestConfiguration": {
+            "name": "[variables('linux-audit-etc-passwd-file-permission-set-to-0644-config-name')]",
+            "version": "1.*"
+          }
+        }
+      },
+      {
+        "apiVersion": "2015-05-01-preview",
+        "name": "[concat(variables('linux-virtualMachine-name-prefix'), '/AzurePolicyforLinux')]",
+        "condition": "[equals(parameters('jumpbox-os'), 'Linux')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('linux-virtualMachine-name-prefix'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('linux-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('linux-audit-remote-connection-with-no-pwd-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('linux-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('linux-audit-accounts-with-no-pwd-config-name'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('linux-virtualMachine-name-prefix'),'/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/',variables('linux-audit-etc-passwd-file-permission-set-to-0644-config-name'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions',variables('linux-virtualMachine-name-prefix'), variables('linuxOMSExtensionName'))]"
+        ],
+        "properties": {
+          "publisher": "Microsoft.GuestConfiguration",
+          "type": "ConfigurationforLinux",
+          "typeHandlerVersion": "1.0",
+          "autoUpgradeMinorVersion": true
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "jumpbox-local-admin-username": {
+        "value": "[parameters('jumpbox_jumpbox-local-admin-username')]"
+      },
+      "jumpbox-local-admin-password": {
+        "value": "[parameters('jumpbox_jumpbox-local-admin-password')]"
+      },
+      "jumpbox-os": {
+        "value": "[parameters('jumpbox_jumpbox-os')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('jumpbox_logs-retention-in-days')]"
+      }
+    },
+    "dependsOn": [
+    "net"
+    ],
+    "resourceGroup": "ResourceGroup4",
+    "displayName": "Jumpbox template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_Shared_Services/artifacts/jumpbox",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "jumpbox"
+}

@@ -1,0 +1,17 @@
+﻿{
+  "properties": {
+    "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+    "principalIds": [
+    "[parameters('ReadersPreProd')]"
+    ],
+    "resourceGroup": "PreProdRG",
+    "dependsOn": [
+    
+    ],
+    "displayName": "<user or group TBD> : Readers"
+  },
+  "kind": "roleAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/two-resource-groups-with-rbac/artifacts/rbac-pre-prod-reader",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "rbac-pre-prod-reader"
+}

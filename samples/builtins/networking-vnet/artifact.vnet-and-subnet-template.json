@@ -1,0 +1,65 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "localPrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for the resource names deployed in this template"
+          }
+        },
+        "addressSpaceVnet": {
+          "type": "string",
+          "defaultValue": "10.0.0.0/16"
+        },
+        "addressSpaceSubnet": {
+          "type": "string",
+          "defaultValue": "10.0.0.0/24"
+        }
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-06-15",
+          "type": "Microsoft.Network/virtualNetworks",
+          "name": "[concat(parameters('localPrefix'), 'vnet-blueprint')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "addressSpace": {
+              "addressPrefixes": [
+                "[parameters('addressSpaceVnet')]"
+              ]
+            },
+            "subnets": [
+              {
+                "name": "[concat(parameters('localPrefix'), 'subnet-blueprint')]",
+                "properties": {
+                  "addressPrefix": "[parameters('addressSpaceSubnet')]"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "resourceGroup": "SingleRG",
+    "parameters": {
+      "localPrefix": {
+        "value": "[parameters('resourceNamePrefix')]"
+      },
+      "addressSpaceVnet": {
+        "value": "[parameters('addressSpaceForVnet')]"
+      },
+      "addressSpaceSubnet": {
+        "value": "[parameters('addressSpaceForSubnet')]"
+      }
+    },
+    "dependsOn": [],
+    "displayName": "VNET and one subnet"
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/networking-vnet/artifacts/vnet-and-subnet-template",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "vnet-and-subnet-template"
+}

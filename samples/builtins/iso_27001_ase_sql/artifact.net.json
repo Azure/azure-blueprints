@@ -1,0 +1,611 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "organization": {
+          "type": "string",
+          "metadata": {
+            "description": "Organization name. For example: Contoso"
+          }
+        },
+        "vnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.1.0.0/16",
+          "metadata": {
+            "displayName": "Virtual Network address prefix"
+          }
+        },
+        "default-subnet-address-prefix": {
+          "type": "string",
+          "defaultValue": "10.1.0.0/24",
+          "metadata": {
+            "displayName": "Default subnet address prefix",
+            "description": "Value used in Virtual Network / Route Table and App Service Environment templates"
+          }
+        },
+        "shared-services-subscription-id": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Shared services Subscription ID",
+            "description": "Value used to enable VNET peering between a Workspace and Shared services"
+          }
+        },
+        "azure-firewall-private-ip-address": {
+          "type": "string",
+          "defaultValue": "10.0.4.4",
+          "metadata": {
+            "displayName": "Azure Firewall private IP"
+          }
+        },
+        "adds-address-start": {
+          "type": "string",
+          "defaultValue": "10.0.0.8",
+          "metadata": {
+            "displayName": "ADDS IP Address",
+            "description": "IP address of the first ADDS VM, this value is used as custom VNET DNS"
+          }
+        },
+        "logs-retention-in-days": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "description": "Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely."
+          }
+        },
+        "vnet-peering-name": {
+          "type": "string",
+          "defaultValue": "peering-to-workload-vnet",
+          "metadata": {
+            "displayName": "Virtual Network Peering name",
+            "description": "Specifies the Virtual Network Peering name"
+          }
+        }
+      },
+      "variables": {
+        "deployment-prefix": "[concat(parameters('organization'), '-workload')]",
+        "oms-workspace-resourceGroup": "[concat(variables('deployment-prefix'), '-log-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "uniqueString": "[uniqueString(subscription().id, concat(variables('deployment-prefix'), '-log'))]",
+        "diagnostic-storageAccount-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storageAccount-name": "[toLower(substring(replace(concat(variables('diagnostic-storageAccount-prefix'), variables('uniqueString'), variables('uniqueString')), '-', ''), 0, 23) )]",
+        "shared-services-net-rg": "[concat(parameters('organization'), '-sharedsvcs-net-rg')]",
+        "shared-services-vnet-name": "[concat(parameters('organization'), '-sharedsvcs-vnet')]",
+        "shared-services-vnet-id": "[resourceId(parameters('shared-services-subscription-id'), variables('shared-services-net-rg'), 'Microsoft.Network/virtualNetworks', variables('shared-services-vnet-name'))]",
+        "workspace-vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "workspace-shared-services-peering-name": "[concat(variables('workspace-vnet-name'), '/peering-to-shared-services-vnet')]",
+        "shared-services-workspace-peering-name": "[concat(variables('shared-services-vnet-name'), concat('/', parameters('vnet-peering-name')))]",
+        "local-rg-name": "[resourceGroup().name]",
+        "user-defined-routes": [
+        {
+          "name": "default-subnet",
+          "routes": [
+          {
+            "name": "to-mgmt-1",
+            "properties": {
+              "addressPrefix": "70.37.57.58/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-2",
+            "properties": {
+              "addressPrefix": "157.55.208.185/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-3",
+            "properties": {
+              "addressPrefix": "52.174.22.21/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-4",
+            "properties": {
+              "addressPrefix": "13.94.149.179/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-5",
+            "properties": {
+              "addressPrefix": "13.94.143.126/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-6",
+            "properties": {
+              "addressPrefix": "13.94.141.115/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-7",
+            "properties": {
+              "addressPrefix": "52.178.195.197/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-8",
+            "properties": {
+              "addressPrefix": "52.178.190.65/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-9",
+            "properties": {
+              "addressPrefix": "52.178.184.149/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-10",
+            "properties": {
+              "addressPrefix": "52.178.177.147/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-11",
+            "properties": {
+              "addressPrefix": "13.75.127.117/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-12",
+            "properties": {
+              "addressPrefix": "40.83.125.161/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-13",
+            "properties": {
+              "addressPrefix": "40.83.121.56/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-14",
+            "properties": {
+              "addressPrefix": "40.83.120.64/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-15",
+            "properties": {
+              "addressPrefix": "52.187.56.50/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-16",
+            "properties": {
+              "addressPrefix": "52.187.63.37/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-17",
+            "properties": {
+              "addressPrefix": "52.187.59.251/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-18",
+            "properties": {
+              "addressPrefix": "52.187.63.19/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-19",
+            "properties": {
+              "addressPrefix": "52.165.158.140/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-20",
+            "properties": {
+              "addressPrefix": "52.165.152.214/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-21",
+            "properties": {
+              "addressPrefix": "52.165.154.193/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-22",
+            "properties": {
+              "addressPrefix": "52.165.153.122/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-23",
+            "properties": {
+              "addressPrefix": "104.44.129.255/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-24",
+            "properties": {
+              "addressPrefix": "104.44.134.255/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-25",
+            "properties": {
+              "addressPrefix": "104.44.129.243/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-26",
+            "properties": {
+              "addressPrefix": "104.44.129.141/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-27",
+            "properties": {
+              "addressPrefix": "23.102.188.65/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-28",
+            "properties": {
+              "addressPrefix": "191.236.154.88/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-29",
+            "properties": {
+              "addressPrefix": "13.64.115.203/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-30",
+            "properties": {
+              "addressPrefix": "65.52.193.203/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-31",
+            "properties": {
+              "addressPrefix": "70.37.89.222/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-32",
+            "properties": {
+              "addressPrefix": "52.224.105.172/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-33",
+            "properties": {
+              "addressPrefix": "23.102.135.246/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-34",
+            "properties": {
+              "addressPrefix": "52.225.177.153/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-35",
+            "properties": {
+              "addressPrefix": "65.52.172.237/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-36",
+            "properties": {
+              "addressPrefix": "52.151.25.45/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "to-mgmt-37",
+            "properties": {
+              "addressPrefix": "40.124.47.188/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
+            "name": "default",
+            "properties": {
+              "addressPrefix": "0.0.0.0/0",
+              "nextHopIpAddress": "[parameters('azure-firewall-private-ip-address')]",
+              "nextHopType": "VirtualAppliance"
+            }
+          }
+          ]
+        }
+        ],
+        "subnets": [
+        {
+          "name": "default",
+          "address-prefix": "[parameters('default-subnet-address-prefix')]",
+          "network-security-group": "default-subnet",
+          "user-defined-route": "[variables('user-defined-routes')[0].name]",
+          "service-endpoints": [
+          {
+            "service": "Microsoft.EventHub"
+          },
+          {
+            "service": "Microsoft.Sql"
+          },
+          {
+            "service": "Microsoft.Storage"
+          }
+          ]
+        }
+        ],
+        "vnet-dns-servers": [
+        "[parameters('adds-address-start')]",
+        "[vdc.nextIP(parameters('adds-address-start'), 1)]"
+        ]
+      },
+      "resources": [
+      {
+        "type": "Microsoft.Network/routeTables",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "copy": {
+          "count": "[length(variables('user-defined-routes'))]",
+          "name": "udrLoop"
+        },
+        "name": "[concat(variables('deployment-prefix'), '-', variables('user-defined-routes')[copyIndex()].name, '-udr')]",
+        "tags": {
+          "displayName": "[concat(variables('deployment-prefix'), '-', variables('user-defined-routes')[copyIndex()].name, '-udr')]"
+        },
+        "properties": {
+          "routes": "[variables('user-defined-routes')[copyIndex()].routes]"
+        }
+      },
+      {
+        "apiVersion": "2018-02-01",
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[variables('workspace-vnet-name')]",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "displayName": "[variables('workspace-vnet-name')]"
+        },
+        "dependsOn": [
+        "udrLoop"
+        ],
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+            "[parameters('vnet-address-prefix')]"
+            ]
+          },
+          "dhcpOptions": {
+            "dnsServers": "[variables('vnet-dns-servers')]"
+          },
+          "copy": [
+          {
+            "name": "subnets",
+            "count": "[length(variables('subnets'))]",
+            "input": {
+              "name": "[variables('subnets')[copyIndex('subnets')].name]",
+              "properties": {
+                "addressPrefix": "[variables('subnets')[copyIndex('subnets')]['address-prefix']]",
+              "networkSecurityGroup": "[if(equals(variables('subnets')[copyIndex('subnets')]['network-security-group'], ''), json('null'), json(concat('{\"id\": \"', resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('deployment-prefix'), '-', variables('subnets')[copyIndex('subnets')]['network-security-group'], '-nsg')), '\"}')))]",
+              "routeTable": "[if(equals(variables('subnets')[copyIndex('subnets')]['user-defined-route'], ''), json('null'), json(concat('{\"id\": \"', resourceId('Microsoft.Network/routeTables', concat(variables('deployment-prefix'), '-', variables('subnets')[copyIndex('subnets')]['user-defined-route'], '-udr')), '\"}')))]",
+                "serviceEndpoints": "[if(equals(length(variables('subnets')[copyIndex('subnets')]['service-endpoints']), 0), json('null'), variables('subnets')[copyIndex('subnets')]['service-endpoints'])]"
+              }
+            }
+          }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworks/providers/diagnosticSettings",
+        "apiVersion": "2017-05-01-preview",
+        "name": "[concat(variables('workspace-vnet-name'),'/Microsoft.Insights/service')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[variables('workspace-vnet-name')]"
+        ],
+        "properties": {
+          "storageAccountId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storageAccount-name'))]",
+          "workspaceId": "[resourceId(variables('oms-workspace-resourceGroup'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+          "metrics": [
+          {
+            "category": "AllMetrics",
+            "timeGrain": null,
+            "enabled": true,
+            "retentionPolicy": {
+              "enabled": false,
+              "days": "[parameters('logs-retention-in-days')]"
+            }
+          }
+          ],
+          "logs": [
+          {
+            "category": "VMProtectionAlerts",
+            "enabled": true
+          }
+          ]
+        }
+      },
+      {
+        "apiVersion": "2016-06-01",
+        "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+        "name": "[variables('workspace-shared-services-peering-name')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('workspace-vnet-name'))]"
+        ],
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "[variables('shared-services-vnet-id')]"
+          }
+        }
+      },
+      {
+        "apiVersion": "2017-05-10",
+        "name": "nestedDeploySharedServicesworkspacePeering",
+        "type": "Microsoft.Resources/deployments",
+        "resourceGroup": "[variables('shared-services-net-rg')]",
+        "subscriptionId": "[parameters('shared-services-subscription-id')]",
+        "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('workspace-vnet-name'))]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              
+            },
+            "variables": {
+              
+            },
+            "resources": [
+            {
+              "apiVersion": "2016-06-01",
+              "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+              "name": "[variables('shared-services-workspace-peering-name')]",
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": true,
+                "allowGatewayTransit": false,
+                "useRemoteGateways": false,
+                "remoteVirtualNetwork": {
+                  "id": "[resourceId(subscription().subscriptionId, variables('local-rg-name'), 'Microsoft.Network/virtualNetworks', variables('workspace-vnet-name'))]"
+                }
+              }
+            }
+            ]
+          }
+        }
+      }
+      ],
+      "functions": [
+      {
+        "namespace": "vdc",
+        "members": {
+          "nextIP": {
+            "parameters": [
+            {
+              "name": "ip",
+              "type": "string"
+            },
+            {
+              "name": "operand",
+              "type": "int"
+            }
+            ],
+            "output": {
+              "type": "string",
+              "value": "[concat(split(parameters('ip'), '.')[0], '.' ,split(parameters('ip'), '.')[1], '.' ,split(parameters('ip'), '.')[2], '.', add(int(split(parameters('ip'), '.')[3]), parameters('operand')))]"
+            }
+          },
+          "splitIP": {
+            "parameters": [
+            {
+              "name": "initialIP",
+              "type": "string"
+            }
+            ],
+            "output": {
+              "type": "array",
+              "value": "[split(parameters('initialIP'), '.')]"
+            }
+          },
+          "removeAddressRange": {
+            "parameters": [
+            {
+              "name": "ip",
+              "type": "string"
+            }
+            ],
+            "output": {
+              "type": "string",
+              "value": "[if(greater(indexOf(parameters('ip'), '/'), 0), substring(parameters('ip'), 0, add(indexOf(parameters('ip'), '/'), 0)), parameters('ip'))]"
+            }
+          }
+        }
+      }
+      ],
+      "outputs": {
+        
+      }
+    },
+    "parameters": {
+      "organization": {
+        "value": "[parameters('organization')]"
+      },
+      "azure-firewall-private-ip-address": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_azure-firewall-private-ip-address')]"
+      },
+      "shared-services-subscription-id": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_shared-services-subscription-id')]"
+      },
+      "vnet-address-prefix": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_vnet-address-prefix')]"
+      },
+      "default-subnet-address-prefix": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_default-subnet-address-prefix')]"
+      },
+      "adds-address-start": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_adds-address-start')]"
+      },
+      "logs-retention-in-days": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_logs-retention-in-days')]"
+      },
+      "vnet-peering-name": {
+        "value": "[parameters('virtualNetworkandRouteTableARMtemplate_vnet-peering-name')]"
+      }
+    },
+    "dependsOn": [
+    "nsg"
+    ],
+    "resourceGroup": "ResourceGroup2",
+    "displayName": "Virtual Network and Route Table template",
+    "description": ""
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001_ASE_SQL/artifacts/net",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "net"
+}

@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": [
+        "ukwest",
+        "uksouth"
+        ]
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations for resource groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKOFFICIAL_Governance/artifacts/7555cd7c-ecf5-4391-96dd-59db8b6d5f25",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "7555cd7c-ecf5-4391-96dd-59db8b6d5f25"
+}

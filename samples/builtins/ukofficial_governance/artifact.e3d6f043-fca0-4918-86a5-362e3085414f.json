@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Threat Detection on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/UKOFFICIAL_Governance/artifacts/e3d6f043-fca0-4918-86a5-362e3085414f",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "e3d6f043-fca0-4918-86a5-362e3085414f"
+}

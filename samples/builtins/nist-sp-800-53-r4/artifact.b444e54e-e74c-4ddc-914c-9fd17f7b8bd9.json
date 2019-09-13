@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/361c2074-3595-4e5d-8cab-4f21dffc835c",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('deployAdvancedThreatProtectiononStorageAccountsEffect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Threat Protection on Storage Accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4/artifacts/b444e54e-e74c-4ddc-914c-9fd17f7b8bd9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "b444e54e-e74c-4ddc-914c-9fd17f7b8bd9"
+}

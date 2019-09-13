@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+    "parameters": {
+      "listOfAllowedSKUs": {
+        "value": "[parameters('Policy_Allowed-StorageAccount-SKUs')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed storage account SKUs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Foundation/artifacts/artifact-policy-storageaccount-skus--allow",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-policy-storageaccount-skus--allow"
+}

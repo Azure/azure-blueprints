@@ -37,7 +37,7 @@ steps:
     azureSubscription: $(spnName)
     AssignmentName: 'pla-$(blueprintName)'
     BlueprintName: $(blueprintName)
-    ParametersFile: '.\$(blueprintName)\assign.json'
+    ParametersFile: '$(blueprintsPath)$(blueprintName)\assign.json'
     SubscriptionID: $(subscriptionId)
     Wait: true
     Timeout: 500

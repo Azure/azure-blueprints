@@ -3,7 +3,7 @@ pool: 'Hosted VS2017'
 variables:
  - name: spnName
    value: 'pipelines-runner'
- - name: blueprintPath
+ - name: blueprintsPath
    value: '.\samples\'
  - name: blueprintName
    value: '101-boilerplate'

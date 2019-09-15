@@ -1,6 +1,5 @@
 param(
     [Parameter(Mandatory=$true)]$mgId, 
-    [Parameter(Mandatory=$true)]$BlueprintFolder,
     [Parameter(Mandatory=$true)]$blueprintName,
     [Parameter(Mandatory=$true)]$spnId,
     [Parameter(Mandatory=$true)]$spnPass,
@@ -12,7 +11,7 @@ param(
 # Output powershell version for debugging purposes and is probably generally good to know
 $PSVersionTable.PSVersion # Assuming powershell core (6)
 
-Write-Host "Installing Az module"
+Write-Host "Installing Az module" # todo - should check if blueprint module is already installed
 Install-Module -Name Az.Blueprint -AllowClobber
 Write-Host "Successfully installed Az.Blueprint module"
 
@@ -26,10 +25,11 @@ Get-AzContext
 
 $importedBp = Get-AzBlueprint -ManagementGroupId $mgId -Name $blueprintName -LatestPublished
 # Urgent TODO - this should be idemopotent...
+# todo - should auto-insert blueprintId into parameters file
 New-AzBlueprintAssignment -Name "pla-$blueprintName" -Blueprint $importedBp -AssignmentFile $parametersPath -SubscriptionId $subscriptionId 
 
 # Wait for assignment to complete
-$timeout = new-timespan -Seconds 5
+$timeout = new-timespan -Seconds 500
 $sw = [diagnostics.stopwatch]::StartNew()
 
 while (($sw.elapsed -lt $timeout) -and ($AssignemntStatus.ProvisioningState -ne "Succeeded") -and ($AssignemntStatus.ProvisioningState -ne "Failed")) {

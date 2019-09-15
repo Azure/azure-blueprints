@@ -11,14 +11,14 @@ param(
 $PSVersionTable.PSVersion # Assuming powershell core (6)
 
 Write-Host "Installing Az module"
-# Get-Module -ListAvailable
-Install-Module -Name Az.Blueprint -AllowClobber
+Install-Module -Name Az.Blueprint -AllowClobber # todo - check installation status
 Write-Host "Successfully installed Az.Blueprint module"
 
 Write-Host "Start login with SPN"
 $pass = ConvertTo-SecureString $spnPass -AsPlainText -Force
 $cred = New-Object -TypeName pscredential -ArgumentList $spnId, $pass
 Login-AzAccount -Credential $cred -ServicePrincipal -TenantId $tenantId
+Write-Host "Successfully logged in with SPN"
 
 Write-Host "Azure context:"
 Get-AzContext

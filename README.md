@@ -177,7 +177,7 @@ Full spec for each artifact type:
 * [Template](https://docs.microsoft.com/en-us/rest/api/blueprints/artifacts/createorupdate#templateartifact)
 
 ### How Parameters work
-Nearly everything can be parameterized. The only things that can't be parameterized are the `roleDefinitionId` and `policyDefinitionId` in the `rbacAssignment` and `policyAssignment` artifacts respectively.
+Nearly everything in a blueprint definition can be parameterized. The only things that can't be parameterized are the `roleDefinitionId` and `policyDefinitionId` in the `rbacAssignment` and `policyAssignment` artifacts respectively.
 Parameters are defined in the main blueprint file and can be referenced in any artifact. 
 
 Here's a simple parameter declaration which is a simplified version from `blueprint.json`:
@@ -233,6 +233,15 @@ You can also use the `New-AzBlueprintArtifact` cmdlet to convert a standard ARM 
 ```powershell
 New-AzBlueprintArtifact -Type TemplateArtifact -Name storage-account -Blueprint $bp -TemplateFile C:\StorageAccountArmTemplate.json -ResourceGroup "storageRG" -TemplateParameterFile "C:\StorageAccountParams.json"
 ```
+
+#### How blueprint parameters display during assignment in the Azure Portal
+When you assign a blueprint in the Azure Portal, the parameters will be diplayed according to how they are referenced. If a parameter is used by multiple artifacts, it will be displayed as a blueprint parameter. Like this:
+
+![Image of blueprint parameters](./images/bp-params.PNG)
+
+If it is used by a single artifact, it will be displayed only in the context of that artifact, like so:
+
+![Image of artifact parameters](./images/artifact-params.PNG)
 
 ### Passing values between artifacts
 There are many reasons you may want or need to pass the output from one artifact as the input to another artifact that is deployed later in the blueprint assignment sequence. If so, you can make use of the ```artifacts()``` function which lets you reference the details of a particular artifact.

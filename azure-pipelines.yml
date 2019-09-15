@@ -3,6 +3,8 @@ pool: 'Hosted VS2017'
 variables:
  - name: spnName
    value: 'pipelines-runner'
+ - name: blueprintPath
+   value: '.\samples\'
  - name: blueprintName
    value: '101-boilerplate'
  - name: subscriptionId
@@ -26,7 +28,7 @@ steps:
   inputs:
     azureSubscription: $(spnName)
     BlueprintName: $(blueprintName)
-    BlueprintPath: '.\$(blueprintName)'
+    BlueprintPath: '$(blueprintsPath)$(blueprintName)' # would need to edit this to work with built-ins
     AlternateLocation: false
     PublishBlueprint: true
 

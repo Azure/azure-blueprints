@@ -8,7 +8,7 @@
         "resourceGroups": {
             "SingleRG": {
                 "name": "test-001",
-                "location": "westus2"
+                "location": "eastus"
             }
         },
         "locks": {

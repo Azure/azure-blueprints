@@ -237,11 +237,11 @@ New-AzBlueprintArtifact -Type TemplateArtifact -Name storage-account -Blueprint 
 #### How blueprint parameters display during assignment in the Azure Portal
 When you assign a blueprint in the Azure Portal, the parameters will be diplayed according to how they are referenced. If a parameter is used by multiple artifacts, it will be displayed as a blueprint parameter. Like this:
 
-![Image of blueprint parameters](./images/bp-params.PNG)
+![Image of blueprint parameters](./misc-files/images/bp-params.PNG)
 
 If it is used by a single artifact, it will be displayed only in the context of that artifact, like so:
 
-![Image of artifact parameters](./images/artifact-params.PNG)
+![Image of artifact parameters](./misc-files/images/artifact-params.PNG)
 
 ### Passing values between artifacts
 There are many reasons you may want or need to pass the output from one artifact as the input to another artifact that is deployed later in the blueprint assignment sequence. If so, you can make use of the ```artifacts()``` function which lets you reference the details of a particular artifact.

@@ -51,7 +51,7 @@ Publish a new version of that definition so it can be assigned:
 # Get the blueprint we just created
 $bp = Get-AzBlueprint -Name Boilerplate -ManagementGroupId "DevMG"
 # Publish version 1.0
-Publish-AzBlueprint -Bluerpint $bp -Version 1.0
+Publish-AzBlueprint -Blueprint $bp -Version 1.0
 ```
 
 Assign the blueprint to a subscription:
@@ -228,7 +228,7 @@ And then you can reference that parameter within the `template` section in `temp
 
 This shouldn't require any modification of your arm templates.
 
-You can also use the `New-AzBlueprintArtifact` cmdlet to convert a standard ARM template into a bluerpint artifact:
+You can also use the `New-AzBlueprintArtifact` cmdlet to convert a standard ARM template into a blueprint artifact:
 
 ```powershell
 New-AzBlueprintArtifact -Type TemplateArtifact -Name storage-account -Blueprint $bp -TemplateFile C:\StorageAccountArmTemplate.json -ResourceGroup "storageRG" -TemplateParameterFile "C:\StorageAccountParams.json"

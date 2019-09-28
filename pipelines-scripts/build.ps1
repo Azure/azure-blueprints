@@ -11,8 +11,15 @@ param(
 $PSVersionTable.PSVersion # Assuming powershell core (6)
 
 Write-Host "Installing Az module"
-Install-Module -Name Az.Blueprint -AllowClobber # todo - check installation status
-Write-Host "Successfully installed Az.Blueprint module"
+Install-Module -Name Az.Blueprint -AllowClobber
+
+if (!(Get-Module -ListAvailable -Name Az.Blueprint)) {
+    throw "Module Az.Blueprint does not exist"
+    exit 1 
+}else
+{
+    Write-Host "Successfully installed Az.Blueprint module"
+}
 
 Write-Host "Start login with SPN"
 $pass = ConvertTo-SecureString $spnPass -AsPlainText -Force

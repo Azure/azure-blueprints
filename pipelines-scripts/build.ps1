@@ -10,15 +10,12 @@ param(
 # Output powershell version for debugging purposes and is probably generally good to know
 $PSVersionTable.PSVersion # Assuming powershell core (6)
 
-Write-Host "Installing Az module"
-Install-Module -Name Az.Blueprint -AllowClobber
-
 if (!(Get-Module -ListAvailable -Name Az.Blueprint)) {
-    throw "Module Az.Blueprint does not exist"
-    exit 1 
+    Write-Host "Installing Az module"
+    Install-Module -Name Az.Blueprint -AllowClobber
 }else
 {
-    Write-Host "Successfully installed Az.Blueprint module"
+    Write-Host "Az.Blueprint module already exists"
 }
 
 Write-Host "Start login with SPN"

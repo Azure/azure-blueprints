@@ -11,14 +11,12 @@ param(
 # Output powershell version for debugging purposes and is probably generally good to know
 $PSVersionTable.PSVersion # Assuming powershell core (6)
 
-Write-Host "Installing Az module"
-
 if (!(Get-Module -ListAvailable -Name Az.Blueprint)) {
-    throw "Module Az.Blueprint does not exist"
-    exit 1 
+    Write-Host "Installing Az module"
+    Install-Module -Name Az.Blueprint -AllowClobber
 }else
 {
-    Write-Host "Successfully installed Az.Blueprint module"
+    Write-Host "Az.Blueprint module already exists"
 }
 
 Write-Host "Start login with SPN"
@@ -31,10 +29,7 @@ Get-AzContext
 
 $importedBp = Get-AzBlueprint -ManagementGroupId $mgId -Name $blueprintName -LatestPublished
 # Urgent TODO - this should be idemopotent...
-
-$blueprintId = '"blueprintId": "'+$createdBlueprint.id+'"'
-(Get-Content $parametersPath).replace('"blueprintId": ""',$blueprintId) | Set-Content $parametersPath  
-
+# todo - should auto-insert blueprintId into parameters file
 New-AzBlueprintAssignment -Name "pla-$blueprintName" -Blueprint $importedBp -AssignmentFile $parametersPath -SubscriptionId $subscriptionId 
 
 # Wait for assignment to complete

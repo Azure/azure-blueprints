@@ -29,7 +29,10 @@ Get-AzContext
 
 $importedBp = Get-AzBlueprint -ManagementGroupId $mgId -Name $blueprintName -LatestPublished
 # Urgent TODO - this should be idemopotent...
-# todo - should auto-insert blueprintId into parameters file
+
+$blueprintId = '"blueprintId": "'+$importedBp.id+'"'
+(Get-Content $parametersPath).replace('"blueprintId": ""',$blueprintId) | Set-Content $parametersPath  
+
 New-AzBlueprintAssignment -Name "pla-$blueprintName" -Blueprint $importedBp -AssignmentFile $parametersPath -SubscriptionId $subscriptionId 
 
 # Wait for assignment to complete

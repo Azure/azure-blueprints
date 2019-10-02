@@ -1,0 +1,117 @@
+{
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+        },
+        "then": {
+            "effect": "deployIfNotExists",
+            "details": {
+                "type": "Microsoft.Blueprint/blueprintAssignments",
+                "name": "myBlueprint",
+                "existenceScope": "subscription",
+                "deploymentScope": "subscription",
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                ],
+                "deployment": {
+                    "location": "eastus",
+                    "properties": {
+                        "mode": "incremental",
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "definitionLocationMG": {
+                                    "type": "string",
+                                    "defaultValue": "2cc4a1e3-2d9e-4d60-9f42-43da6960ac91"
+                                },
+                                "blueprintName": {
+                                    "type": "string",
+                                    "defaultValue": "101-boilerplate"
+                                },
+                                "blueprintVersion": {
+                                    "type": "string",
+                                    "defaultValue": "8"
+                                },
+                                "blueprintsFirstPartySpnId": {
+                                    "type": "string",
+                                    "defaultValue": "ffeb3a44-712a-4d2e-9b97-b1e032a40b29"
+                                },
+                                "lockMode": {
+                                    "type": "string",
+                                    "allowedValues": [
+                                        "none",
+                                        "AllResourcesDoNotDelete",
+                                        "AllResourcesReadOnly"
+                                    ],
+                                    "defaultValue": "none"
+                                },
+                                "blueprintParams": {
+                                    "type": "object",
+                                    "defaultValue": {
+                                        "principalIds": {
+                                            "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+                                        }
+                                    }
+                                },
+                                "blueprintRgs": {
+                                    "type": "object",
+                                    "defaultValue": {
+                                        "SingleRG": {
+                                            "name": "test-001",
+                                            "location": "westus2"
+                                        }
+                                    }
+                                },
+                                "location": {
+                                    "type": "string",
+                                    "defaultValue": "westus2"
+                                }
+                            },
+                            "variables": {
+                                "blueprintId": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('definitionLocationMG'), '/providers/Microsoft.Blueprint/blueprints/', parameters('blueprintName'), '/versions/', parameters('blueprintVersion'))]",
+                                "roleAssignmentGuid": "[guid(subscription().subscriptionId)]",
+                                "ownerRoleDef": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+                                "assignmentName": "[concat(parameters('blueprintName'), substring(subscription().subscriptionId, 0, 5))]"
+                            },
+                            "resources": [
+                                {
+                                    "type": "Microsoft.Authorization/roleAssignments",
+                                    "apiVersion": "2017-09-01",
+                                    "name": "[variables('roleAssignmentGuid')]",
+                                    "properties": {
+                                        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('ownerRoleDef'))]",
+                                        "principalId": "[parameters('blueprintsFirstPartySpnId')]",
+                                        "scope": "[subscription().id]"
+                                    }
+                                },
+                                {
+                                    "type": "Microsoft.Blueprint/blueprintAssignments",
+                                    "apiVersion": "2018-11-01-preview",
+                                    "name": "[variables('assignmentName')]",
+                                    "identity": {
+                                        "type": "systemAssigned"
+                                    },
+                                    "location": "[parameters('location')]",
+                                    "dependsOn": ["[variables('roleAssignmentGuid')]"],
+                                    "properties": {
+                                        "blueprintId": "[variables('blueprintId')]",
+                                        "resourceGroups": "[parameters('blueprintRgs')]",
+                                        "locks": {
+                                            "mode": "[parameters('lockMode')]"
+                                        },
+                                        "parameters": "[parameters('blueprintParams')]"
+                                    }
+                                }
+                            ]
+                        },
+                        "parameters": {}
+                    }
+                }
+            }
+        }
+    },
+    "parameters": {}
+}

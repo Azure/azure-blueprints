@@ -24,8 +24,12 @@ Write-Host "Azure context:"
 Get-AzContext
 
 $importedBp = Get-AzBlueprint -ManagementGroupId $mgId -Name $blueprintName -LatestPublished
-# Urgent TODO - this should be idemopotent...
-# todo - should auto-insert blueprintId into parameters file
+
+# Auto-inserts blueprintId into parameters file
+$content = Get-Content $parametersPath -raw | ConvertFrom-Json
+$content.properties | % {if($_.blueprintId -ne $importedBp.id){$_.blueprintId=$importedBp.id}}
+$content | ConvertTo-Json -Depth 100| set-content $parametersPath
+
 New-AzBlueprintAssignment -Name "pla-$blueprintName" -Blueprint $importedBp -AssignmentFile $parametersPath -SubscriptionId $subscriptionId 
 
 # Wait for assignment to complete

@@ -70,7 +70,7 @@ $parameters = @{ principalIds="caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d" }
 $rgArray = @{ SingleRG = $rgHash }
 
 # Assign the new blueprint to the specified subscription (Assignment updates should use Set-AzBlueprintAssignment
-New-AzBlueprintAssignment -Blueprint $publishedBp -Location eastus -SubscriptionId "00000000-1111-0000-1111-000000000000" -ResourceGroupParameter $rgArray -Parameter $parameters
+New-AzBlueprintAssignment -Name "UniqueBlueprintAssignmentName" -Blueprint $publishedBp -Location eastus -SubscriptionId "00000000-1111-0000-1111-000000000000" -ResourceGroupParameter $rgArray -Parameter $parameters
 ```
 
 ## Structure of blueprint artifacts

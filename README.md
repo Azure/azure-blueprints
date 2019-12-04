@@ -81,7 +81,7 @@ So you will always have something like the following:
 ```
 Blueprint directory (also the default blueprint name)
 * blueprint.json
-* artifacts
+* Artifacts
     - artifact.json
     - ...
     - more-artifacts.json

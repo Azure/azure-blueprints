@@ -1,26 +1,26 @@
 {
-    "identity": {
-        "type": "SystemAssigned"
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "location": "westus2",
+  "properties": {
+    "blueprintId": "/providers/Microsoft.Management/managementGroups/2cc4a1e3-2d9e-4d60-9f42-43da6960ac91/providers/Microsoft.Blueprint/blueprints/101-boilerplate/versions/20191209.154237.STBL",
+    "resourceGroups": {
+      "SingleRG": {
+        "name": "test-001",
+        "location": "eastus"
+      }
     },
-    "location": "westus2",
-    "properties": {
-        "blueprintId": "",
-        "resourceGroups": {
-            "SingleRG": {
-                "name": "test-001",
-                "location": "eastus"
-            }
-        },
-        "locks": {
-            "mode": "none"
-        },
-        "parameters": {
-            "principalIds": {
-                "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
-            },
-            "genericBlueprintParameter": {
-                "value": "test"  
-            }
-        }
+    "locks": {
+      "mode": "none"
+    },
+    "parameters": {
+      "principalIds": {
+        "value": "caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d"
+      },
+      "genericBlueprintParameter": {
+        "value": "test"
+      }
     }
+  }
 }

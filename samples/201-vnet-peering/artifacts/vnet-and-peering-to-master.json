@@ -74,6 +74,5 @@
         "resourceGroup": "Network",
         "parameters": {}
     },
-    "id": "/providers/Microsoft.Management/managementGroups/ContosoRoot/providers/Microsoft.Blueprint/blueprints/Contoso-Global-Blueprint/artifacts/cosmos-db",
     "type": "Microsoft.Blueprint/blueprints/artifacts"
 }

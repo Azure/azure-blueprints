@@ -23,9 +23,14 @@ Using the Blueprints in the Azure Portal is a great way to get started with Blue
     - [How Parameters work](#how-parameters-work)
     - [Passing values between artifacts](#passing-values-between-artifacts)
     - [Sequencing the deployment of artifacts](#sequencing-the-deployment-of-artifacts)
-  - [Push the Blueprint definition to Azure](#push-the-blueprint-definition-to-azure)
+  - [Push the Blueprint definition to Azure](#push-the-blueprint-definition-to-azure) 
   - [Next steps](#next-steps)
   - [Contributing](#contributing)
+
+## Next steps to operationalize blueprints
+ - [Create and publish the blueprint definition from source with powershell or CI/CD](./pipelines-scripts/build.ps1)
+ - [Assigning with powershell or CI/CD](./pipelines-scripts/release.ps1)
+
 
 ## Prerequisites
 

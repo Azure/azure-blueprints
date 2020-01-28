@@ -53,7 +53,7 @@ $sw = [diagnostics.stopwatch]::StartNew()
 while (($sw.elapsed -lt $timeout) -and ($AssignemntStatus.ProvisioningState -ne "Succeeded") -and ($AssignemntStatus.ProvisioningState -ne "Failed")) {
     $AssignemntStatus = Get-AzBlueprintAssignment -Name "pla-$blueprintName" -SubscriptionId $subscriptionId
     if ($AssignemntStatus.ProvisioningState -eq "failed") {
-        Throw "Assignment Failed. See Azure Portal for datails."
+        Throw "Assignment Failed. See Azure Portal for details."
         break
     }
 }

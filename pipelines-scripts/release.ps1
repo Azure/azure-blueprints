@@ -17,7 +17,7 @@ $PSVersionTable.PSVersion # Assuming powershell core (6)
 if (!(Get-Module -ListAvailable -Name Az.Blueprint)) {
     Write-Host "Installing Az module"
     Install-Module -Name Az.Blueprint -AllowClobber
-}else
+} else
 {
     Write-Host "Az.Blueprint module already exists"
 }

@@ -216,7 +216,7 @@ First, in `template.json` we need to set the *artifact* parameter value `myTempl
 }
 ```
 
-This should look familiar if you've [passed parameters inline to a nested deployment](http://google.com). Instead of getting these parameter values from a file, we are getting them from the list of blueprint parameters.   
+This should look familiar if you've [passed parameters inline to a nested deployment](https://docs.microsoft.com/azure/azure-resource-manager/templates/linked-templates#scope-for-expressions-in-nested-templates). Instead of getting these parameter values from a file, we are getting them from the list of blueprint parameters.   
 
 And then you can reference that parameter within the `template` section in `template.json` like this:
 ```json

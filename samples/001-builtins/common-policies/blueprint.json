@@ -15,7 +15,7 @@
           "displayName": "Tag Value",
           "description": "Tag value for each resource that gets created"
         },
-        "defaultValue": "Blueprint policy"
+        "defaultValue": "Blueprints"
       },
       "blueprintAllowedLocations": {
         "type": "array",
@@ -38,7 +38,7 @@
       "Blueprints": {
         "dependsOn": [],
         "metadata": {
-          "displayName": "MSDN Sub"
+          "displayName": "common-policies"
         }
       }
     },

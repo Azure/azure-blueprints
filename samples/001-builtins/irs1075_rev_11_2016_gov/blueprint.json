@@ -1,0 +1,278 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "logAnalyticsWorkspaceIdforVMReporting": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace ID for VM agent reporting",
+          "description": "This is the ID (GUID) of the Log Analystics workspace that the VMs should be configured for."
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be excluded in Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that must be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be included in Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforLinuxVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Linux VMs",
+          "description": "If this workspace is outside of the scope of the assignment you msut manually grant 'Log Analystics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforLinuxVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+          "description": "Example Value:'/subscriptions/{subscriptionId}/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforWindowsVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Windows VMs",
+          "description": "If this workspace is outside of the scope of the assignment you msut manually grant 'Log Analystics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforWindowsVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+          "description": "Example Value:'/subscriptions/{subscriptionId}/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Windows VM Scale Sets (VMSS)",
+          "description": "If this workspace is outside of the scope of the assignment you msut manually grant 'Log Analystics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope",
+          "description": "Example Value:'/subscriptions/{subscriptionId}/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Linux VM Scale Sets (VMSS)",
+          "description": "If this workspace is outside of the scope of the assignment you msut manually grant 'Log Analystics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+          "description": "Example Value:'/subscriptions/{subscriptionId}/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_storagePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix network security group diagnostics",
+          "description": "This prefix will be combined with the network security group location to form the created storage account name."
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_rgName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account for network security group diagnostics (must exist)",
+          "description": "The resource group that the storage account will be created in. This resource group must already exist.",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployAuditingonSQLservers_retentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "The value in days of the retention period (0 indicates unlimited retention)",
+          "description": "Retention days (optional, 180 days if unspecified)"
+        },
+        "defaultValue": "365",
+        "allowedValues": [
+
+        ]
+      },
+      "deployAuditingonSQLservers_storageAccountsResourceGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource group name for storage accounts for SQL server auditing",
+          "description": "Auditing writes database events to an audit log in your Azure Storage account (a storage account will be created in each region where a SQL Server is created that will be shared by all servers in that region). Important - for proper operation of Auditing do not delete or rename the resource group or the storage accounts.",
+          "strongType": "existingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-11-06T21:41:21+00:00",
+      "lastModified": "2019-11-06T21:41:21.0066065+00:00"
+    },
+    "displayName": "IRS 1075 (Rev. 11-2016)",
+    "description": "Assigns policies to address specific IRS1075 (Rev. 11-2016) controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/IRS1075_Rev_11_2016_gov",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "IRS1075_Rev_11_2016_gov"
+}

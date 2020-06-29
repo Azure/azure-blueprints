@@ -1,0 +1,58 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of regions where Network Watcher should be enabled",
+          "description": "To see a complete list of regions use Get-AzLocation",
+          "strongType": "location"
+        },
+        "defaultValue": [
+        "eastus"
+        ],
+        "allowedValues": [
+        
+        ]
+      },
+      "listOfApprovedVMExtensions": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of virtual machine extensions that are approved for use",
+          "description": "To see a complete list of virtual machine extensions, use Get-AzVMExtensionImage"
+        },
+        "defaultValue": [
+        "AzureDiskEncryption",
+        "AzureDiskEncryptionForLinux",
+        "DependencyAgentWindows",
+        "DependencyAgentLinux",
+        "IaaSAntimalware",
+        "IaaSDiagnostics",
+        "LinuxDiagnostic",
+        "MicrosoftMonitoringAgent",
+        "NetworkWatcherAgentLinux",
+        "NetworkWatcherAgentWindows",
+        "OmsAgentForLinux",
+        "VMSnapshot",
+        "VMSnapshotLinux"
+        ],
+        "allowedValues": [
+        
+        ]
+      }
+    },
+    "resourceGroups": {
+      
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-10-07T11:30:11+00:00",
+      "lastModified": "2019-10-07T11:30:11.100213+00:00"
+    },
+    "displayName": "CIS Microsoft Azure Foundations Benchmark v1.1.0",
+    "description": "Assigns policies to address specific recommendations from the CIS Microsoft Azure Foundations Benchmark v1.1.0."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/cis_v1_1_0",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "cis_v1_1_0"
+}

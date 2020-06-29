@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+    "parameters": {
+      "retentionDays": {
+        "value": "[parameters('retentionDaysforSQLServerauditing')]"
+      },
+      "storageAccountsResourceGroup": {
+        "value": "[parameters('storageAccountsResourceGroupforSQLServerauditing')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Auditing on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/494eda7e-ca5c-40d1-b8f3-1ceaa97598d9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "494eda7e-ca5c-40d1-b8f3-1ceaa97598d9"
+}

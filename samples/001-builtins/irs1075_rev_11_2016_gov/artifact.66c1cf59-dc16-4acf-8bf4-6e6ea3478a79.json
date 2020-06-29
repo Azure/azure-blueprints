@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0868462e-646c-4fe3-9ced-a733534b6a2c",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('DeployLogAnalyticsAgentforWindowsVMs_logAnalytics')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('DeployLogAnalyticsAgentforWindowsVMs_listOfImageIdToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Log Analytics Agent for Windows VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/IRS1075_Rev_11_2016_Gov/artifacts/66c1cf59-dc16-4acf-8bf4-6e6ea3478a79",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "66c1cf59-dc16-4acf-8bf4-6e6ea3478a79"
+}

@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Data Security on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/494eda7e-ca5c-40d1-b8f3-1ceaa975913b",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "494eda7e-ca5c-40d1-b8f3-1ceaa975913b"
+}

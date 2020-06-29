@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Data Security on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1249",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1249"
+}

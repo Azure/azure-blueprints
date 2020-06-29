@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require encryption on Data Lake Store accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/cbd21966-46ba-468e-a416-9138f1e111ff",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "cbd21966-46ba-468e-a416-9138f1e111ff"
+}

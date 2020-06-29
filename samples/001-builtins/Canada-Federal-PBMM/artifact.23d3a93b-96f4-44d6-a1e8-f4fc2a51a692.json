@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy SQL DB transparent data encryption"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/23d3a93b-96f4-44d6-a1e8-f4fc2a51a692",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "23d3a93b-96f4-44d6-a1e8-f4fc2a51a692"
+}

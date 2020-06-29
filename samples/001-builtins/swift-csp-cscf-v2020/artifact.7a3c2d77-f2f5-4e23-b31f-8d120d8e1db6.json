@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/361c2074-3595-4e5d-8cab-4f21dffc835c",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('deployAdvancedThreatProtectiononStorageAccounts_effect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Threat Protection on Storage Accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1db6",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1db6"
+}

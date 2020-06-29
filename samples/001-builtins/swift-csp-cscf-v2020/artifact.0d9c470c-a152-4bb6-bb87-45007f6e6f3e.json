@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Threat Detection on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.0d9c470c-a152-4bb6-bb87-45007f6e6f3e",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.0d9c470c-a152-4bb6-bb87-45007f6e6f3e"
+}

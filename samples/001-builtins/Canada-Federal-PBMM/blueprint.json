@@ -1,0 +1,255 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "logAnalyticsWorkspaceforLinuxVMs": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Linux VMs",
+          "description": "If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "listOfImageIdToIncludeforLinuxVMs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+          "description": "Example value: '/subscriptions/(subscriptionId)/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": [
+        
+        ],
+        "allowedValues": [
+        
+        ]
+      },
+      "storagePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix for Regional Storage Account",
+          "description": "This prefix will be combined with the network security group location to form the created storage account name."
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "resourcegroupName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account (must exist)",
+          "description": "The resource group that the storage account will be created in. This resource group must already exist.",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "logAnalyticsWorkspaceforWindowsVMs": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace for Windows VMs",
+          "description": "If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "listOfImageIdToIncludeforWindowsVMs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope",
+          "description": "Example values: '/subscriptions/(subscriptionId)/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": [
+        
+        ],
+        "allowedValues": [
+        
+        ]
+      },
+      "deployAdvancedThreatProtectiononStorageAccounts_effect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+        "DeployIfNotExists",
+        "Disabled"
+        ]
+      },
+      "retentionDaysforSQLServerauditing": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Retention days (optional, 180 days if unspecified)",
+          "description": "The value in days of the retention period (0 indicates unlimited retention) for SQL server auditing"
+        },
+        "defaultValue": "180",
+        "allowedValues": [
+        
+        ]
+      },
+      "storageAccountsResourceGroupForSQLServerAuditing": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource group name for storage account for SQL server auditing",
+          "description": "Auditing writes database events to an audit log in your Azure Storage account (a storage account will be created in each region where a SQL Server is created that will be shared by all servers in that region). Important - for proper operation of Auditing do not delete or rename the resource group or the storage accounts.",
+          "strongType": "existingResourceGroups"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "logAnalyticsWorkspaceIdforVMReporting": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Id that VMs should be configured for",
+          "description": "This is the Id (GUID) of the Log Analytics Workspace that the VMs should be configured for."
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Resource Types",
+          "strongType": "resourceTypes"
+        },
+        "defaultValue": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+        "Microsoft.AnalysisServices/servers",
+        "Microsoft.ApiManagement/service",
+        "Microsoft.Network/applicationGateways",
+        "Microsoft.Automation/automationAccounts",
+        "Microsoft.ContainerInstance/containerGroups",
+        "Microsoft.ContainerRegistry/registries",
+        "Microsoft.ContainerService/managedClusters",
+        "Microsoft.Batch/batchAccounts",
+        "Microsoft.Cdn/profiles/endpoints",
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.DocumentDB/databaseAccounts",
+        "Microsoft.DataFactory/factories",
+        "Microsoft.DataLakeAnalytics/accounts",
+        "Microsoft.DataLakeStore/accounts",
+        "Microsoft.EventGrid/eventSubscriptions",
+        "Microsoft.EventGrid/topics",
+        "Microsoft.EventHub/namespaces",
+        "Microsoft.Network/expressRouteCircuits",
+        "Microsoft.Network/azureFirewalls",
+        "Microsoft.HDInsight/clusters",
+        "Microsoft.Devices/IotHubs",
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.Network/loadBalancers",
+        "Microsoft.Logic/integrationAccounts",
+        "Microsoft.Logic/workflows",
+        "Microsoft.DBforMySQL/servers",
+        "Microsoft.Network/networkInterfaces",
+        "Microsoft.Network/networkSecurityGroups",
+        "Microsoft.DBforPostgreSQL/servers",
+        "Microsoft.PowerBIDedicated/capacities",
+        "Microsoft.Network/publicIPAddresses",
+        "Microsoft.RecoveryServices/vaults",
+        "Microsoft.Cache/redis",
+        "Microsoft.Relay/namespaces",
+        "Microsoft.Search/searchServices",
+        "Microsoft.ServiceBus/namespaces",
+        "Microsoft.SignalRService/SignalR",
+        "Microsoft.Sql/servers/databases",
+        "Microsoft.Sql/servers/elasticPools",
+        "Microsoft.StreamAnalytics/streamingjobs",
+        "Microsoft.TimeSeriesInsights/environments",
+        "Microsoft.Network/trafficManagerProfiles",
+        "Microsoft.Compute/virtualMachines",
+        "Microsoft.Compute/virtualMachineScaleSets",
+        "Microsoft.Network/virtualNetworks",
+        "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that should be excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be excluded in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that should be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be included in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+        
+        ]
+      }
+    },
+    "resourceGroups": {
+      
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-09-05T06:40:42+00:00",
+      "lastModified": "2019-09-05T06:40:42.4480296+00:00"
+    },
+    "displayName": "Canada Federal PBMM",
+    "description": "Assigns policies to address Canada Federal PBMM controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/Canada-Federal-PBMM",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "Canada-Federal-PBMM"
+}

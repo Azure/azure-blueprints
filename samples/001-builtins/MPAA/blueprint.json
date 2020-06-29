@@ -1,0 +1,912 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprints": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate thumbprints that should exist under the Trusted Root (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_applicationName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Application names to be installed on VMs (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_storagePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix for Regional Storage Account to deploy diagnostic settings for Network Security Groups (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_rgName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account (must exist) to deploy diagnostic settings for Network Security Groups (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diskEncryptionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Disk encryption should be applied on virtual machines (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_previewMonitorUnencryptedSQLDatabaseInAzureSecurityCenterEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Monitor unencrypted SQL database in Azure Security Center (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_metricName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Metric name on which alert rules should be configured in Batch accounts (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_metricAlertsInBatchAccountPoolDeleteStartEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Metric alert rules should be configured on Batch accounts (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit unrestricted network access to storage accounts (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diagnosticsLogsInLogicAppsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Logic Apps should be enabled (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_requiredRetentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Required retention (in days) of diagnostic logs in Logic Apps workflows (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "365",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_vmssOsVulnerabilitiesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_systemSettingsUseCertificateRulesOnWindowsExecutablesForSoftwareRestrictionPolicies": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System settings: Use Certificate Rules on Windows Executables for Software Restriction Policies (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_vulnerabilityAssessmentMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities should be remediated by a Vulnerability Assessment solution (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayAccessThisComputerFromTheNetwork": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may access this computer from the network (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, Authenticated Users",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayLogOnLocally": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may log on locally (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayLogOnThroughRemoteDesktopServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may log on through Remote Desktop Services (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, Remote Desktop Users",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied access from the network (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayManageAuditingAndSecurityLog": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may manage auditing and security log (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayBackUpFilesAndDirectories": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may back up files and directories (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, Backup Operators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayChangeTheSystemTime": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may change the system time (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, LOCAL SERVICE",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayChangeTheTimeZone": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may change the time zone (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, LOCAL SERVICE",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayCreateATokenObject": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may create a token object (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "No One",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLoggingOnAsABatchJob": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied logging on as a batch job (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLoggingOnAsAService": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied logging on as a service (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLocalLogon": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied local logon (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied log on through Remote Desktop Services (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_userAndGroupsThatMayForceShutdownFromARemoteSystem": {
+        "type": "string",
+        "metadata": {
+          "displayName": "User and groups that may force shutdown from a remote system (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatMayRestoreFilesAndDirectories": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that may restore files and directories (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators, Backup Operators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatMayShutDownTheSystem": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that may shut down the system (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may take ownership of files or other objects (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_systemUpdatesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System updates should be installed on your machines (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_sqlServerAuditingRetentionDaysMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "SQL servers should be configured with auditing retention days greater than 90 days (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Use profile settings (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Behavior for outbound connections (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Apply local connection security rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Apply local firewall rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Display notifications (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Use profile settings (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Behavior for outbound connections (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Apply local connection security rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Apply local firewall rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Display notifications (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Use profile settings (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Behavior for outbound connections (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Apply local connection security rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Apply local firewall rules (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Display notifications (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Domain: Allow unicast response (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Private: Allow unicast response (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Public: Allow unicast response (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled on accounts with write permissions in your subscription (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_namespaceAuthorizationRulesInServiceBusMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "All authorization rules except RootManageSharedAccessKey should be removed from Service Bus namespace (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_kubernetesServiceRbacEnabledMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Role-Based Access Control (RBAC) should be used on Kubernetes Services (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diagnosticsLogsInSearchServiceMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Search services should be enabled (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkClientDigitallySignCommunicationsAlways": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft network client: Digitally sign communications (always) (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkClientSendUnencryptedPasswordToThirdpartySMBServers": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft network client: Send unencrypted password to third-party SMB servers (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerAmountOfIdleTimeRequiredBeforeSuspendingSession": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft network server: Amount of idle time required before suspending session (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1,15",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerDigitallySignCommunicationsAlways": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft network server: Digitally sign communications (always) (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerDisconnectClientsWhenLogonHoursExpire": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft network server: Disconnect clients when logon hours expire (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_disableIPForwardingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "IP Forwarding on your virtual machine should be disabled (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_threatDetectionTypesOnManagedInstanceMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Advanced Threat Protection types should be set to 'All' in SQL managed instance Advanced Data Security settings (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateStorePath": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate store path containing the certificates to be checked for expiration (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "Cert:",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_expirationLimitInDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Expiration limit in days for certificates that are expiring under specified certificate store path (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "30",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprintsToInclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate thumbprints to include while checking for expired certificates under specified certificate store path (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprintsToExclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate thumbprints to exclude while checking for expired certificates under specified certificate store path (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_includeExpiredCertificates": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Include already expired certificates while checking for expired certificates under specified certificate store path (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "false",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_recoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Recovery console: Allow floppy copy and access to all drives and all folders (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_accountsGuestAccountStatus": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Accounts: Guest account status (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessRemotelyAccessibleRegistryPaths": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Remotely accessible registry paths (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "System\\CurrentControlSet\\Control\\ProductOptions|#|System\\CurrentControlSet\\Control\\Server Applications|#|Software\\Microsoft\\Windows NT\\CurrentVersion",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessRemotelyAccessibleRegistryPathsAndSubpaths": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Remotely accessible registry paths and sub-paths (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "System\\CurrentControlSet\\Control\\Print\\Printers|#|System\\CurrentControlSet\\Services\\Eventlog|#|Software\\Microsoft\\OLAP Server|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Print|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows|#|System\\CurrentControlSet\\Control\\ContentIndex|#|System\\CurrentControlSet\\Control\\Terminal Server|#|System\\CurrentControlSet\\Control\\Terminal Server\\UserConfig|#|System\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Perflib|#|System\\CurrentControlSet\\Services\\SysmonLog",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessSharesThatCanBeAccessedAnonymously": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Shares that can be accessed anonymously (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_externalAccountsWithOwnerPermissionsShouldBeRemovedFromYourSubscriptionEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "External accounts with owner permissions should be removed from your subscription (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities on your SQL databases should be remediated (Policy: MPAA controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "deployAdvancedThreatProtectiononStorageAccounts_effect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect (Policy: Deploy Advanced Threat Protection on Storage Accounts)"
+        },
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ]
+      },
+      "deployAuditingonSQLservers_retentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Retention days (optional, 180 days if unspecified) (Policy: Deploy Auditing on SQL servers)"
+        },
+        "defaultValue": "180",
+        "allowedValues": [
+
+        ]
+      },
+      "deployAuditingonSQLservers_storageAccountsResourceGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource group name for storage accounts (Policy: Deploy Auditing on SQL servers)",
+          "strongType": "existingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_storagePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix for Regional Storage Account (Policy: Deploy Diagnostic Settings for Network Security Groups)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_rgName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account (must exist) (Policy: Deploy Diagnostic Settings for Network Security Groups)",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS))",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS))"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS))",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS))"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2020-01-20T10:03:13+00:00",
+      "lastModified": "2020-01-20T10:03:56.8088949+00:00"
+    },
+    "displayName": "MPAA Audit",
+    "description": "This initiative includes policies that address a subset of Media controls. Additional policies will be added in upcoming releases."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/MPAA",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "MPAA"
+}

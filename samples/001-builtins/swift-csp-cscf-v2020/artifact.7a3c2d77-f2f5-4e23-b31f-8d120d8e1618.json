@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5ee9e9ed-0b42-41b7-8c9c-3cfb2fbe2069",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('logAnalyticsforLinuxVMSS')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('listOfImageIdToIncludeforLinuxVMSS')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1618",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.7a3c2d77-f2f5-4e23-b31f-8d120d8e1618"
+}

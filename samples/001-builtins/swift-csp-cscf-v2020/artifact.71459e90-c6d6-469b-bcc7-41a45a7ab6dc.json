@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+    "parameters": {
+      "retentionDays": {
+        "value": "[parameters('retentionDays')]"
+      },
+      "storageAccountsResourceGroup": {
+        "value": "[parameters('storageAccountsResourceGroup')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Auditing on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.71459e90-c6d6-469b-bcc7-41a45a7ab6dc",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.71459e90-c6d6-469b-bcc7-41a45a7ab6dc"
+}

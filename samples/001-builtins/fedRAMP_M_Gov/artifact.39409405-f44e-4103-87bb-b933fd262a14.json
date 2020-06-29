@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2835b622-407b-4114-9198-6f7064cbe0dc",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy default Microsoft IaaSAntimalware extension for Windows Server"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M_Gov/artifacts/39409405-f44e-4103-87bb-b933fd262a14",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "39409405-f44e-4103-87bb-b933fd262a14"
+}

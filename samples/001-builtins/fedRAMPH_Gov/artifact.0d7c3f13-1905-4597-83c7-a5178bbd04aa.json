@@ -1,0 +1,24 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/55f3eceb-5573-4f18-9695-226972c6d74a",
+    "parameters": {
+      "logAnalytics_1": {
+        "value": "[parameters('EnableAzureMonitorforVMs_logAnalytics_1')]"
+      },
+      "listOfImageIdToInclude_windows": {
+        "value": "[parameters('EnableAzureMonitorforVMs_listOfImageIdToInclude_windows')]"
+      },
+      "listOfImageIdToInclude_linux": {
+        "value": "[parameters('EnableAzureMonitorforVMs_listOfImageIdToInclude_linux')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Enable Azure Monitor for VMs"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH_Gov/artifacts/0d7c3f13-1905-4597-83c7-a5178bbd04aa",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "0d7c3f13-1905-4597-83c7-a5178bbd04aa"
+}

@@ -1,0 +1,275 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_logAnalyticsWorkspaceId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Id that VMs should be configured for (Policy: [Preview]: Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypes": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled (Policy: [Preview]: Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_membersToExclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Members to exclude (Policy: [Preview]: Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_membersToInclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Members to include (Policy: [Preview]: Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS))",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS))"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforLinuxVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Linux VMs)"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS))",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS))"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_logAnalytics": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)",
+          "strongType": "omsWorkspace"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "[Preview]:DeployLogAnalyticsAgentforWindowsVMs_listOfImageIdToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope (Policy: [Preview]: Deploy Log Analytics Agent for Windows VMs)"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_storagePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix for Regional Storage Account (Policy: Deploy Diagnostic Settings for Network Security Groups)"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployDiagnosticSettingsforNetworkSecurityGroups_rgName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account (must exist) (Policy: Deploy Diagnostic Settings for Network Security Groups)",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "deployAuditingonSQLservers_retentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Retention days (optional, 180 days if unspecified) (Policy: Deploy Auditing on SQL servers)"
+        },
+        "defaultValue": "180",
+        "allowedValues": [
+
+        ]
+      },
+      "deployAuditingonSQLservers_storageAccountsResourceGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource group name for storage accounts (Policy: Deploy Auditing on SQL servers)",
+          "strongType": "existingResourceGroups"
+        },
+        "allowedValues": [
+
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-10-25T05:22:05+00:00",
+      "lastModified": "2019-10-25T05:22:05.875969+00:00"
+    },
+    "displayName": "FedRAMP Moderate",
+    "description": "Assigns policies to address specific FedRAMP Moderate controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M_Gov",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "FedRAMP_M_Gov"
+}

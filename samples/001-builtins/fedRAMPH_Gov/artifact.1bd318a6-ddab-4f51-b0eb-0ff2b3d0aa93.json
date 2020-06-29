@@ -1,0 +1,84 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/d5264498-16f4-418a-b659-fa7ef418175f",
+    "parameters": {
+      "listOfAllowedLocationsForResourcesAndResourceGroups": {
+        "value": "[parameters('listOfAllowedLocationsForResourcesAndResourceGroups')]"
+      },
+      "membersToIncludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToIncludeInAdministratorsLocalGroup')]"
+      },
+      "membersToExcludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToExcludeInAdministratorsLocalGroup')]"
+      },
+      "logAnalyticsWorkspaceIdForVMs": {
+        "value": "[parameters('logAnalyticsWorkspaceIdForVMs')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('listOfResourceTypes')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnServerMonitoringEffect')]"
+      },
+      "geoRedundancyEnabledForStorageAccountsEffect": {
+        "value": "[parameters('geoRedundancyEnabledForStorageAccountsEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForMySQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForMySQLEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect')]"
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('webAppEnforceHttpsMonitoringEffect')]"
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('functionAppEnforceHttpsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithWritePermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithReadPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountMonitoringEffect')]"
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "value": "[parameters('webAppRestrictCORSAccessMonitoringEffect')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForReadPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect": {
+        "value": "[parameters('longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit FedRAMP High controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH_Gov/artifacts/1bd318a6-ddab-4f51-b0eb-0ff2b3d0aa93",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "1bd318a6-ddab-4f51-b0eb-0ff2b3d0aa93"
+}

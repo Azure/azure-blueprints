@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy SQL DB transparent data encryption"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/aed297b0-198c-46b5-a7d5-f3219f046157",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "aed297b0-198c-46b5-a7d5-f3219f046157"
+}

@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4c68484-132f-41f9-9b6d-3e4b1cb55036",
+    "parameters": {
+      "retentionDays": {
+        "value": "[parameters('deployAuditingonSQLservers_retentionDays')]"
+      },
+      "storageAccountsResourceGroup": {
+        "value": "[parameters('deployAuditingonSQLservers_storageAccountsResourceGroup')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Auditing on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/MPAA/artifacts/afb13177-14fb-489c-b681-1c567b28808a",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "afb13177-14fb-489c-b681-1c567b28808a"
+}

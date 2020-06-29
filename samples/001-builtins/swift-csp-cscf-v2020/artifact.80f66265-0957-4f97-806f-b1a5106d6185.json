@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2835b622-407b-4114-9198-6f7064cbe0dc",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy default Microsoft IaaSAntimalware extension for Windows Server"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.80f66265-0957-4f97-806f-b1a5106d6185",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.80f66265-0957-4f97-806f-b1a5106d6185"
+}

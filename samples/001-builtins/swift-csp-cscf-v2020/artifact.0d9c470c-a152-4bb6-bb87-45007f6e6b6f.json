@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/465f0161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require automatic OS image patching on Virtual Machine Scale Sets"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.0d9c470c-a152-4bb6-bb87-45007f6e6b6f",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.0d9c470c-a152-4bb6-bb87-45007f6e6b6f"
+}

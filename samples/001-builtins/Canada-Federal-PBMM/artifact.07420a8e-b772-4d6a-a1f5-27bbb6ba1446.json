@@ -1,0 +1,27 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/4c4a5f27-de81-430b-b4e5-9cbd50595a87",
+    "parameters": {
+      "logAnalyticsWorkspaceIdforVMReporting": {
+        "value": "[parameters('logAnalyticsWorkspaceIdforVMReporting')]"
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      },
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToExcludeFromWindowsVMAdministratorsGroup')]"
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToIncludeInWindowsVMAdministratorsGroup')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "[Preview]: Audit Canada Federal PBMM controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/07420a8e-b772-4d6a-a1f5-27bbb6ba1446",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "07420a8e-b772-4d6a-a1f5-27bbb6ba1446"
+}

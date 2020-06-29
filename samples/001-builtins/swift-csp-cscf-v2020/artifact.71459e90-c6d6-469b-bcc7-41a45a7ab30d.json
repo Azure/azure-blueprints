@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy SQL DB transparent data encryption"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.71459e90-c6d6-469b-bcc7-41a45a7ab30d",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.71459e90-c6d6-469b-bcc7-41a45a7ab30d"
+}

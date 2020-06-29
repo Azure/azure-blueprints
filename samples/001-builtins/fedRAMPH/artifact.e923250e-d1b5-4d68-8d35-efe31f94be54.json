@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c9c29499-c1d1-4195-99bd-2ec9e3a9dc89",
+    "parameters": {
+      "storagePrefix": {
+        "value": "[parameters('deployDiagnosticSettingsforNetworkSecurityGroups_storagePrefix')]"
+      },
+      "rgName": {
+        "value": "[parameters('deployDiagnosticSettingsforNetworkSecurityGroups_rgName')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Diagnostic Settings for Network Security Groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH/artifacts/e923250e-d1b5-4d68-8d35-efe31f94be54",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "e923250e-d1b5-4d68-8d35-efe31f94be54"
+}

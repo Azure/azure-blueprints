@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3c1b3629-c8f8-4bf6-862c-037cb9094038",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_logAnalytics')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('[Preview]:DeployLogAnalyticsAgentforWindowsVMScaleSets(VMSS)_listOfImageIdToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Log Analytics Agent for Windows VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/0628ddf6-c569-466e-b960-b62ce6822b93",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "0628ddf6-c569-466e-b960-b62ce6822b93"
+}

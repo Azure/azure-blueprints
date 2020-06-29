@@ -1,0 +1,237 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/92646f03-e39d-47a9-9e24-58d60ef49af8",
+    "parameters": {
+      "certificateThumbprints": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprints')]"
+      },
+      "applicationName": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_applicationName')]"
+      },
+      "storagePrefix": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_storagePrefix')]"
+      },
+      "rgName": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_rgName')]"
+      },
+      "diskEncryptionMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diskEncryptionMonitoringEffect')]"
+      },
+      "previewMonitorUnencryptedSQLDatabaseInAzureSecurityCenterEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_previewMonitorUnencryptedSQLDatabaseInAzureSecurityCenterEffect')]"
+      },
+      "metricName": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_metricName')]"
+      },
+      "metricAlertsInBatchAccountPoolDeleteStartEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_metricAlertsInBatchAccountPoolDeleteStartEffect')]"
+      },
+      "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_disableUnrestrictedNetworkToStorageAccountMonitoringEffect')]"
+      },
+      "diagnosticsLogsInLogicAppsMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diagnosticsLogsInLogicAppsMonitoringEffect')]"
+      },
+      "requiredRetentionDays": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_requiredRetentionDays')]"
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_vmssOsVulnerabilitiesMonitoringEffect')]"
+      },
+      "systemSettingsUseCertificateRulesOnWindowsExecutablesForSoftwareRestrictionPolicies": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_systemSettingsUseCertificateRulesOnWindowsExecutablesForSoftwareRestrictionPolicies')]"
+      },
+      "vulnerabilityAssessmentMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_vulnerabilityAssessmentMonitoringEffect')]"
+      },
+      "usersOrGroupsThatMayAccessThisComputerFromTheNetwork": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayAccessThisComputerFromTheNetwork')]"
+      },
+      "usersOrGroupsThatMayLogOnLocally": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayLogOnLocally')]"
+      },
+      "usersOrGroupsThatMayLogOnThroughRemoteDesktopServices": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayLogOnThroughRemoteDesktopServices')]"
+      },
+      "usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork')]"
+      },
+      "usersOrGroupsThatMayManageAuditingAndSecurityLog": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayManageAuditingAndSecurityLog')]"
+      },
+      "usersOrGroupsThatMayBackUpFilesAndDirectories": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayBackUpFilesAndDirectories')]"
+      },
+      "usersOrGroupsThatMayChangeTheSystemTime": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayChangeTheSystemTime')]"
+      },
+      "usersOrGroupsThatMayChangeTheTimeZone": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayChangeTheTimeZone')]"
+      },
+      "usersOrGroupsThatMayCreateATokenObject": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayCreateATokenObject')]"
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsABatchJob": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLoggingOnAsABatchJob')]"
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsAService": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLoggingOnAsAService')]"
+      },
+      "usersAndGroupsThatAreDeniedLocalLogon": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLocalLogon')]"
+      },
+      "usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices')]"
+      },
+      "userAndGroupsThatMayForceShutdownFromARemoteSystem": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_userAndGroupsThatMayForceShutdownFromARemoteSystem')]"
+      },
+      "usersAndGroupsThatMayRestoreFilesAndDirectories": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatMayRestoreFilesAndDirectories')]"
+      },
+      "usersAndGroupsThatMayShutDownTheSystem": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersAndGroupsThatMayShutDownTheSystem')]"
+      },
+      "usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects')]"
+      },
+      "systemUpdatesMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_systemUpdatesMonitoringEffect')]"
+      },
+      "sqlServerAuditingRetentionDaysMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_sqlServerAuditingRetentionDaysMonitoringEffect')]"
+      },
+      "windowsFirewallDomainUseProfileSettings": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainUseProfileSettings')]"
+      },
+      "windowsFirewallDomainBehaviorForOutboundConnections": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainBehaviorForOutboundConnections')]"
+      },
+      "windowsFirewallDomainApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainApplyLocalConnectionSecurityRules')]"
+      },
+      "windowsFirewallDomainApplyLocalFirewallRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainApplyLocalFirewallRules')]"
+      },
+      "windowsFirewallDomainDisplayNotifications": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainDisplayNotifications')]"
+      },
+      "windowsFirewallPrivateUseProfileSettings": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateUseProfileSettings')]"
+      },
+      "windowsFirewallPrivateBehaviorForOutboundConnections": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateBehaviorForOutboundConnections')]"
+      },
+      "windowsFirewallPrivateApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateApplyLocalConnectionSecurityRules')]"
+      },
+      "windowsFirewallPrivateApplyLocalFirewallRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateApplyLocalFirewallRules')]"
+      },
+      "windowsFirewallPrivateDisplayNotifications": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateDisplayNotifications')]"
+      },
+      "windowsFirewallPublicUseProfileSettings": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicUseProfileSettings')]"
+      },
+      "windowsFirewallPublicBehaviorForOutboundConnections": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicBehaviorForOutboundConnections')]"
+      },
+      "windowsFirewallPublicApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicApplyLocalConnectionSecurityRules')]"
+      },
+      "windowsFirewallPublicApplyLocalFirewallRules": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicApplyLocalFirewallRules')]"
+      },
+      "windowsFirewallPublicDisplayNotifications": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicDisplayNotifications')]"
+      },
+      "windowsFirewallDomainAllowUnicastResponse": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallDomainAllowUnicastResponse')]"
+      },
+      "windowsFirewallPrivateAllowUnicastResponse": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPrivateAllowUnicastResponse')]"
+      },
+      "windowsFirewallPublicAllowUnicastResponse": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_windowsFirewallPublicAllowUnicastResponse')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "namespaceAuthorizationRulesInServiceBusMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_namespaceAuthorizationRulesInServiceBusMonitoringEffect')]"
+      },
+      "kubernetesServiceRbacEnabledMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_kubernetesServiceRbacEnabledMonitoringEffect')]"
+      },
+      "diagnosticsLogsInSearchServiceMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_diagnosticsLogsInSearchServiceMonitoringEffect')]"
+      },
+      "microsoftNetworkClientDigitallySignCommunicationsAlways": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkClientDigitallySignCommunicationsAlways')]"
+      },
+      "microsoftNetworkClientSendUnencryptedPasswordToThirdpartySMBServers": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkClientSendUnencryptedPasswordToThirdpartySMBServers')]"
+      },
+      "microsoftNetworkServerAmountOfIdleTimeRequiredBeforeSuspendingSession": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerAmountOfIdleTimeRequiredBeforeSuspendingSession')]"
+      },
+      "microsoftNetworkServerDigitallySignCommunicationsAlways": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerDigitallySignCommunicationsAlways')]"
+      },
+      "microsoftNetworkServerDisconnectClientsWhenLogonHoursExpire": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_microsoftNetworkServerDisconnectClientsWhenLogonHoursExpire')]"
+      },
+      "disableIPForwardingMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_disableIPForwardingMonitoringEffect')]"
+      },
+      "threatDetectionTypesOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_threatDetectionTypesOnManagedInstanceMonitoringEffect')]"
+      },
+      "certificateStorePath": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateStorePath')]"
+      },
+      "expirationLimitInDays": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_expirationLimitInDays')]"
+      },
+      "certificateThumbprintsToInclude": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprintsToInclude')]"
+      },
+      "certificateThumbprintsToExclude": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_certificateThumbprintsToExclude')]"
+      },
+      "includeExpiredCertificates": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_includeExpiredCertificates')]"
+      },
+      "recoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_recoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders')]"
+      },
+      "accountsGuestAccountStatus": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_accountsGuestAccountStatus')]"
+      },
+      "networkAccessRemotelyAccessibleRegistryPaths": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessRemotelyAccessibleRegistryPaths')]"
+      },
+      "networkAccessRemotelyAccessibleRegistryPathsAndSubpaths": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessRemotelyAccessibleRegistryPathsAndSubpaths')]"
+      },
+      "networkAccessSharesThatCanBeAccessedAnonymously": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_networkAccessSharesThatCanBeAccessedAnonymously')]"
+      },
+      "externalAccountsWithOwnerPermissionsShouldBeRemovedFromYourSubscriptionEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_externalAccountsWithOwnerPermissionsShouldBeRemovedFromYourSubscriptionEffect')]"
+      },
+      "sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "value": "[parameters('mPAAcontrolsanddeployspecificVMExtensionstosupportauditrequirements_sqlDbVulnerabilityAssesmentMonitoringEffect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit Motion Picture Association of America (MPAA) controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/MPAA/artifacts/2b55d1eb-b82c-4c1a-89f9-de20d90e9f51",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "2b55d1eb-b82c-4c1a-89f9-de20d90e9f51"
+}

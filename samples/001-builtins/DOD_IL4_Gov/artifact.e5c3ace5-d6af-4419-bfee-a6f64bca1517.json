@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('allowedlocationsforresourcegroups_listOfAllowedLocations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations for resource groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/DOD_IL4_Gov/artifacts/e5c3ace5-d6af-4419-bfee-a6f64bca1517",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "e5c3ace5-d6af-4419-bfee-a6f64bca1517"
+}

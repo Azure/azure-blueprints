@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Data Security on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/IRS1075_Rev_11_2016_Gov/artifacts/ea991c95-2268-4259-b89d-0ad7e4dbea2d",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "ea991c95-2268-4259-b89d-0ad7e4dbea2d"
+}

@@ -1,0 +1,192 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/a169a624-5599-4385-a696-c8d643089fab",
+    "parameters": {
+      "installedApplicationsOnWindowsVM": {
+        "value": "[parameters('installedApplicationsOnWindowsVM')]"
+      },
+      "DeployDiagnosticSettingsforNetworkSecurityGroupsstoragePrefix": {
+        "value": "[parameters('DeployDiagnosticSettingsforNetworkSecurityGroupsstoragePrefix')]"
+      },
+      "DeployDiagnosticSettingsforNetworkSecurityGroupsrgName": {
+        "value": "[parameters('DeployDiagnosticSettingsforNetworkSecurityGroupsrgName')]"
+      },
+      "diagnosticsLogsInBatchAccountMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInBatchAccountMonitoringEffect')]"
+      },
+      "diagnosticsLogsInBatchAccountRetentionDays": {
+        "value": "[parameters('diagnosticsLogsInBatchAccountRetentionDays')]"
+      },
+      "ensureManagedInstanceTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
+        "value": "[parameters('ensureManagedInstanceTDEIsEncryptedWithYourOwnKeyMonitoringEffect')]"
+      },
+      "diskEncryptionMonitoringEffect": {
+        "value": "[parameters('diskEncryptionMonitoringEffect')]"
+      },
+      "diagnosticsLogsInSearchServiceMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInSearchServiceMonitoringEffect')]"
+      },
+      "diagnosticsLogsInSearchServiceRetentionDays": {
+        "value": "[parameters('diagnosticsLogsInSearchServiceRetentionDays')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "vulnerabilityAssesmentMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssesmentMonitoringEffect')]"
+      },
+      "EnableInsecureGuestLogons": {
+        "value": "[parameters('EnableInsecureGuestLogons')]"
+      },
+      "AllowSimultaneousConnectionsToTheInternetOrAWindowsDomain": {
+        "value": "[parameters('AllowSimultaneousConnectionsToTheInternetOrAWindowsDomain')]"
+      },
+      "TurnOffMulticastNameResolution": {
+        "value": "[parameters('TurnOffMulticastNameResolution')]"
+      },
+      "nextGenerationFirewallMonitoringEffect": {
+        "value": "[parameters('nextGenerationFirewallMonitoringEffect')]"
+      },
+      "ensureServerTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
+        "value": "[parameters('ensureServerTDEIsEncryptedWithYourOwnKeyMonitoringEffect')]"
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('apiAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "classicComputeVMsMonitoringEffect": {
+        "value": "[parameters('classicComputeVMsMonitoringEffect')]"
+      },
+      "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "value": "[parameters('disableUnrestrictedNetworkToStorageAccountMonitoringEffect')]"
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "value": "[parameters('adaptiveApplicationControlsMonitoringEffect')]"
+      },
+      "NetworkAccessRemotelyAccessibleRegistryPaths": {
+        "value": "[parameters('NetworkAccessRemotelyAccessibleRegistryPaths')]"
+      },
+      "NetworkAccessRemotelyAccessibleRegistryPathsAndSubpaths": {
+        "value": "[parameters('NetworkAccessRemotelyAccessibleRegistryPathsAndSubpaths')]"
+      },
+      "NetworkAccessSharesThatCanBeAccessedAnonymously": {
+        "value": "[parameters('NetworkAccessSharesThatCanBeAccessedAnonymously')]"
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('webAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "apiAppEnforceHttpsMonitoringEffectV2": {
+        "value": "[parameters('apiAppEnforceHttpsMonitoringEffectV2')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "value": "[parameters('jitNetworkAccessMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "kubernetesServiceRbacEnabledMonitoringEffect": {
+        "value": "[parameters('kubernetesServiceRbacEnabledMonitoringEffect')]"
+      },
+      "restrictAccessToManagementPortsMonitoringEffect": {
+        "value": "[parameters('restrictAccessToManagementPortsMonitoringEffect')]"
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "value": "[parameters('vmssOsVulnerabilitiesMonitoringEffect')]"
+      },
+      "diagnosticsLogsInEventHubMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInEventHubMonitoringEffect')]"
+      },
+      "diagnosticsLogsInEventHubRetentionDays": {
+        "value": "[parameters('diagnosticsLogsInEventHubRetentionDays')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "diagnosticsLogsInServiceFabricMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInServiceFabricMonitoringEffect')]"
+      },
+      "systemUpdatesMonitoringEffect": {
+        "value": "[parameters('systemUpdatesMonitoringEffect')]"
+      },
+      "DeployAzureBaselineSecurityOptionsAccountsAccountsGuestAccountStatus": {
+        "value": "[parameters('DeployAzureBaselineSecurityOptionsAccountsAccountsGuestAccountStatus')]"
+      },
+      "RecoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders": {
+        "value": "[parameters('RecoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders')]"
+      },
+      "AuditShutDownSystemImmediatelyIfUnableToLogSecurityAudits": {
+        "value": "[parameters('AuditShutDownSystemImmediatelyIfUnableToLogSecurityAudits')]"
+      },
+      "DeployAzureBaselineSystemAuditPoliciesDetailedTrackingAuditProcessTermination": {
+        "value": "[parameters('DeployAzureBaselineSystemAuditPoliciesDetailedTrackingAuditProcessTermination')]"
+      },
+      "WindowsFirewallDomainUseProfileSettings": {
+        "value": "[parameters('WindowsFirewallDomainUseProfileSettings')]"
+      },
+      "WindowsFirewallDomainBehaviorForOutboundConnections": {
+        "value": "[parameters('WindowsFirewallDomainBehaviorForOutboundConnections')]"
+      },
+      "WindowsFirewallDomainApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('WindowsFirewallDomainApplyLocalConnectionSecurityRules')]"
+      },
+      "WindowsFirewallDomainApplyLocalFirewallRules": {
+        "value": "[parameters('WindowsFirewallDomainApplyLocalFirewallRules')]"
+      },
+      "WindowsFirewallDomainDisplayNotifications": {
+        "value": "[parameters('WindowsFirewallDomainDisplayNotifications')]"
+      },
+      "WindowsFirewallPrivateUseProfileSettings": {
+        "value": "[parameters('WindowsFirewallPrivateUseProfileSettings')]"
+      },
+      "WindowsFirewallPrivateBehaviorForOutboundConnections": {
+        "value": "[parameters('WindowsFirewallPrivateBehaviorForOutboundConnections')]"
+      },
+      "WindowsFirewallPrivateApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('WindowsFirewallPrivateApplyLocalConnectionSecurityRules')]"
+      },
+      "WindowsFirewallPrivateApplyLocalFirewallRules": {
+        "value": "[parameters('WindowsFirewallPrivateApplyLocalFirewallRules')]"
+      },
+      "WindowsFirewallPrivateDisplayNotifications": {
+        "value": "[parameters('WindowsFirewallPrivateDisplayNotifications')]"
+      },
+      "WindowsFirewallPublicUseProfileSettings": {
+        "value": "[parameters('WindowsFirewallPublicUseProfileSettings')]"
+      },
+      "WindowsFirewallPublicBehaviorForOutboundConnections": {
+        "value": "[parameters('WindowsFirewallPublicBehaviorForOutboundConnections')]"
+      },
+      "WindowsFirewallPublicApplyLocalConnectionSecurityRules": {
+        "value": "[parameters('WindowsFirewallPublicApplyLocalConnectionSecurityRules')]"
+      },
+      "WindowsFirewallPublicApplyLocalFirewallRules": {
+        "value": "[parameters('WindowsFirewallPublicApplyLocalFirewallRules')]"
+      },
+      "WindowsFirewallPublicDisplayNotifications": {
+        "value": "[parameters('WindowsFirewallPublicDisplayNotifications')]"
+      },
+      "WindowsFirewallDomainAllowUnicastResponse": {
+        "value": "[parameters('WindowsFirewallDomainAllowUnicastResponse')]"
+      },
+      "WindowsFirewallPrivateAllowUnicastResponse": {
+        "value": "[parameters('WindowsFirewallPrivateAllowUnicastResponse')]"
+      },
+      "WindowsFirewallPublicAllowUnicastResponse": {
+        "value": "[parameters('WindowsFirewallPublicAllowUnicastResponse')]"
+      },
+      "CertificateThumbprints": {
+        "value": "[parameters('CertificateThumbprints')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit HITRUST/HIPAA controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/HIPAA/artifacts/8d253677-61e1-45c5-8b38-61689917c571",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "8d253677-61e1-45c5-8b38-61689917c571"
+}

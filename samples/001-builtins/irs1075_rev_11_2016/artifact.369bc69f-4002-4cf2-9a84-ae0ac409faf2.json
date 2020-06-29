@@ -1,0 +1,27 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/105e0327-6175-4eb2-9af4-1fba43bdb39d",
+    "parameters": {
+      "logAnalyticsWorkspaceIdforVMReporting": {
+        "value": "[parameters('logAnalyticsWorkspaceIdforVMReporting')]"
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      },
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToExcludeFromWindowsVMAdministratorsGroup')]"
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToIncludeInWindowsVMAdministratorsGroup')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit IRS1075 September 2016 controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/IRS1075_Rev_11_2016/artifacts/369bc69f-4002-4cf2-9a84-ae0ac409faf2",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "369bc69f-4002-4cf2-9a84-ae0ac409faf2"
+}

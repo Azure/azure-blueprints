@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/361c2074-3595-4e5d-8cab-4f21dffc835c",
+    "parameters": {
+      "effect": {
+        "value": "[parameters('deployAdvancedThreatProtectiononStorageAccounts_effect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Threat Protection on Storage Accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/0f81b0d6-9db6-4489-b164-d934577181fd",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "0f81b0d6-9db6-4489-b164-d934577181fd"
+}

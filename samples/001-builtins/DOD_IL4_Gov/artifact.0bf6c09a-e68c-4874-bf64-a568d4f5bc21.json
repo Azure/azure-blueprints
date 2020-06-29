@@ -1,0 +1,84 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/8d792a84-723c-4d92-a3c3-e4ed16a2d133",
+    "parameters": {
+      "listOfAllowedLocationsForResourcesAndResourceGroups": {
+        "value": "[parameters('listOfAllowedLocationsForResourcesAndResourceGroups')]"
+      },
+      "membersToIncludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToIncludeInAdministratorsLocalGroup')]"
+      },
+      "membersToExcludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToExcludeInAdministratorsLocalGroup')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('listOfResourceTypes')]"
+      },
+      "logAnalyticsWorkspaceIdForVMs": {
+        "value": "[parameters('logAnalyticsWorkspaceIdForVMs')]"
+      },
+      "longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect": {
+        "value": "[parameters('longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnServerMonitoringEffect')]"
+      },
+      "geoRedundancyEnabledForStorageAccountsEffect": {
+        "value": "[parameters('geoRedundancyEnabledForStorageAccountsEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForMySQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForMySQLEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect')]"
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('webAppEnforceHttpsMonitoringEffect')]"
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('functionAppEnforceHttpsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithWritePermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithReadPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountMonitoringEffect')]"
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "value": "[parameters('webAppRestrictCORSAccessMonitoringEffect')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForReadPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "DoD Impact Level 4"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/DOD_IL4_Gov/artifacts/0bf6c09a-e68c-4874-bf64-a568d4f5bc21",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "0bf6c09a-e68c-4874-bf64-a568d4f5bc21"
+}

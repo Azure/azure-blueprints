@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5ee9e9ed-0b42-41b7-8c9c-3cfb2fbe2069",
+    "parameters": {
+      "logAnalytics": {
+        "value": "[parameters('DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_logAnalytics')]"
+      },
+      "listOfImageIdToInclude": {
+        "value": "[parameters('DeployLogAnalyticsAgentforLinuxVMScaleSets(VMSS)_listOfImageIdToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Log Analytics Agent for Linux VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH/artifacts/d6ca3576-0aa2-4351-939b-012d3063a20d",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d6ca3576-0aa2-4351-939b-012d3063a20d"
+}

@@ -1,0 +1,27 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/e95f5a9f-57ad-4d03-bb0b-b1d16db93693",
+    "parameters": {
+      "logAnalyticsWorkspaceId": {
+        "value": "[parameters('[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_logAnalyticsWorkspaceId')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_listOfResourceTypes')]"
+      },
+      "membersToExclude": {
+        "value": "[parameters('[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_membersToExclude')]"
+      },
+      "membersToInclude": {
+        "value": "[parameters('[Preview]:AuditFedRAMPModeratecontrolsanddeployspecificVMExtensionstosupportauditrequirements_membersToInclude')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/63b8d309-77f5-4913-a245-6f726f0b8b40",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "63b8d309-77f5-4913-a245-6f726f0b8b40"
+}

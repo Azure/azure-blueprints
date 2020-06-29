@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/465f0161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require automatic OS image patching on Virtual Machine Scale Sets"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M_Gov/artifacts/704da510-795c-4b1d-86d9-4bb143e21468",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "704da510-795c-4b1d-86d9-4bb143e21468"
+}

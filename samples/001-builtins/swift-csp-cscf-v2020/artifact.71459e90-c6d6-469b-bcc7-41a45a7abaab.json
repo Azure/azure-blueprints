@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c9c29499-c1d1-4195-99bd-2ec9e3a9dc89",
+    "parameters": {
+      "storagePrefix": {
+        "value": "[parameters('storagePrefix')]"
+      },
+      "rgName": {
+        "value": "[parameters('rgName')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Diagnostic Settings for Network Security Groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/SWIFT-CSP-CSCF-v2020/artifacts/artifact.71459e90-c6d6-469b-bcc7-41a45a7abaab",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact.71459e90-c6d6-469b-bcc7-41a45a7abaab"
+}

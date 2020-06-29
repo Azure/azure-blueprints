@@ -1,0 +1,693 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "installedApplicationsOnWindowsVM": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Application names (supports wildcards)",
+          "description": "A semicolon-separated list of the names of the applications that should be installed. e.g. 'Microsoft SQL Server 2014 (64-bit); Microsoft Visual Studio Code' or 'Microsoft SQL Server 2014*' (to match any application starting with 'Microsoft SQL Server 2014')"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "DeployDiagnosticSettingsforNetworkSecurityGroupsstoragePrefix": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Storage Account Prefix for Regional Storage Account to deploy diagnostic settings for Network Security Groups",
+          "description": "This prefix will be combined with the network security group location to form the created storage account name."
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "DeployDiagnosticSettingsforNetworkSecurityGroupsrgName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Resource Group Name for Storage Account (must exist) to deploy diagnostic settings for Network Security Groups",
+          "description": "The resource group that the storage account will be created in. This resource group must already exist.",
+          "strongType": "ExistingResourceGroups"
+        },
+        "allowedValues": [
+        
+        ]
+      },
+      "diagnosticsLogsInBatchAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Batch accounts should be enabled",
+          "description": "Enable or disable the monitoring of diagnostic logs in Batch accounts"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInBatchAccountRetentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Required retention (in days) for logs in Batch accounts",
+          "description": "The required diagnostic logs retention period in days"
+        },
+        "defaultValue": "365",
+        "allowedValues": [
+        
+        ]
+      },
+      "ensureManagedInstanceTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "SQL managed instance TDE protector should be encrypted with your own key",
+          "description": "Enable or disable the monitoring of Transparent Data Encryption (TDE) with your own key support. TDE with your own key support provides increased transparency and control over the TDE Protector, increased security with an HSM-backed external service, and promotion of separation of duties."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diskEncryptionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Disk encryption should be applied on virtual machines",
+          "description": "Enable or disable the monitoring for VM disk encryption"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInSearchServiceMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Search services should be enabled",
+          "description": "Enable or disable the monitoring of diagnostic logs in Azure Search service"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInSearchServiceRetentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Required retention (in days) of logs in Azure Search service",
+          "description": "The required diagnostic logs retention period in days"
+        },
+        "defaultValue": "365",
+        "allowedValues": [
+        
+        ]
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerability assessment should be enabled on your SQL managed instances",
+          "description": "Audit SQL managed instances which do not have recurring vulnerability assessment scans enabled. Vulnerability assessment can discover, track, and help you remediate potential database vulnerabilities."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "vulnerabilityAssesmentMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities should be remediated by a Vulnerability Assessment solution",
+          "description": "Enable or disable the detection of VM vulnerabilities by a vulnerability assessment solution"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "EnableInsecureGuestLogons": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Enable insecure guest logons",
+          "description": "Specifies whether the SMB client will allow insecure guest logons to an SMB server."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "AllowSimultaneousConnectionsToTheInternetOrAWindowsDomain": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Allow simultaneous connections to the Internet or a Windows Domain",
+          "description": "Specify whether to prevent computers from connecting to both a domain based network and a non-domain based network at the same time. A value of 0 allows simultaneous connections, and a value of 1 blocks them."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "TurnOffMulticastNameResolution": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Turn off multicast name resolution",
+          "description": "Specifies whether LLMNR, a secondary name resolution protocol that transmits using multicast over a local subnet link on a single subnet, is enabled."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "nextGenerationFirewallMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Access through Internet facing endpoint should be restricted",
+          "description": "Enable or disable overly permissive inbound NSG rules monitoring"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "ensureServerTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "SQL server TDE protector should be encrypted with your own key",
+          "description": "Enable or disable the monitoring of Transparent Data Encryption (TDE) with your own key support. TDE with your own key support provides increased transparency and control over the TDE Protector, increased security with an HSM-backed external service, and promotion of separation of duties."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Remote debugging should be turned off for API App",
+          "description": "Enable or disable the monitoring of remote debugging for API App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "classicComputeVMsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual machines should be migrated to new Azure Resource Manager resources",
+          "description": "Enable or disable the monitoring of classic compute VMs"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+        ]
+      },
+      "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit unrestricted network access to storage accounts",
+          "description": "Enable or disable the monitoring of network access to storage account"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+        "Audit",
+        "Disabled"
+        ]
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Adaptive Application Controls should be enabled on virtual machines",
+          "description": "Enable or disable the monitoring of application whitelisting in Azure Security Center"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "NetworkAccessRemotelyAccessibleRegistryPaths": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Remotely accessible registry paths",
+          "description": "Specifies which registry paths will be accessible over the network, regardless of the users or groups listed in the access control list (ACL) of the `winreg` registry key."
+        },
+        "defaultValue": "System\\CurrentControlSet\\Control\\ProductOptions|#|System\\CurrentControlSet\\Control\\Server Applications|#|Software\\Microsoft\\Windows NT\\CurrentVersion",
+        "allowedValues": [
+        
+        ]
+      },
+      "NetworkAccessRemotelyAccessibleRegistryPathsAndSubpaths": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Remotely accessible registry paths and sub-paths",
+          "description": "Specifies which registry paths and sub-paths will be accessible over the network, regardless of the users or groups listed in the access control list (ACL) of the `winreg` registry key."
+        },
+        "defaultValue": "System\\CurrentControlSet\\Control\\Print\\Printers|#|System\\CurrentControlSet\\Services\\Eventlog|#|Software\\Microsoft\\OLAP Server|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Print|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows|#|System\\CurrentControlSet\\Control\\ContentIndex|#|System\\CurrentControlSet\\Control\\Terminal Server|#|System\\CurrentControlSet\\Control\\Terminal Server\\UserConfig|#|System\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Perflib|#|System\\CurrentControlSet\\Services\\SysmonLog",
+        "allowedValues": [
+        
+        ]
+      },
+      "NetworkAccessSharesThatCanBeAccessedAnonymously": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network access: Shares that can be accessed anonymously",
+          "description": "Specifies which network shares can be accessed by anonymous users. The default configuration for this policy setting has little effect because all users have to be authenticated before they can access shared resources on the server."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Remote debugging should be turned off for Web Application",
+          "description": "Enable or disable the monitoring of remote debugging for Web App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "apiAppEnforceHttpsMonitoringEffectV2": {
+        "type": "string",
+        "metadata": {
+          "displayName": "API App should only be accessible over HTTPS V2",
+          "description": "Enable or disable the monitoring of the use of HTTPS in API App V2"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+        "Audit",
+        "Disabled"
+        ]
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled accounts with write permissions on your subscription",
+          "description": "Enable or disable the monitoring of MFA for accounts with write permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Just-In-Time network access control should be applied on virtual machines",
+          "description": "Enable or disable the monitoring of network just In time access"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled on accounts with owner permissions on your subscription",
+          "description": "Enable or disable the monitoring of MFA for accounts with owner permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "kubernetesServiceRbacEnabledMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Role-Based Access Control (RBAC) should be used on Kubernetes Services",
+          "description": "Enable or disable the monitoring of Kubernetes Services without RBAC enabled"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+        "Audit",
+        "Disabled"
+        ]
+      },
+      "restrictAccessToManagementPortsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Management ports should be closed on your virtual machines",
+          "description": "Enable or disable the monitoring of open management ports on Virtual Machines"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated",
+          "description": "Enable or disable virtual machine scale sets OS vulnerabilities monitoring"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInEventHubMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Event Hub should be enabled",
+          "description": "Enable or disable the monitoring of diagnostic logs in Event Hub accounts"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInEventHubRetentionDays": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Required retention (in days) of logs in Event Hub accounts",
+          "description": "The required diagnostic logs retention period in days"
+        },
+        "defaultValue": "365",
+        "allowedValues": [
+        
+        ]
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System updates on virtual machine scale sets should be installed",
+          "description": "Enable or disable virtual machine scale sets reporting of system updates"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "diagnosticsLogsInServiceFabricMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Diagnostic logs in Virtual Machine Scale Sets should be enabled",
+          "description": "Enable or disable the monitoring of diagnostic logs in Service Fabric"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "systemUpdatesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System updates on virtual machine scale sets should be installed",
+          "description": "Enable or disable virtual machine scale sets reporting of system updates"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+        "AuditIfNotExists",
+        "Disabled"
+        ]
+      },
+      "DeployAzureBaselineSecurityOptionsAccountsAccountsGuestAccountStatus": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Accounts: Guest account status",
+          "description": "Specifies whether the local Guest account is disabled."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "RecoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Recovery console: Allow floppy copy and access to all drives and all folders",
+          "description": "Specifies whether to make the Recovery Console SET command available, which allows setting of recovery console environment variables."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "AuditShutDownSystemImmediatelyIfUnableToLogSecurityAudits": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit: Shut down system immediately if unable to log security audits",
+          "description": "Audits if the system will shut down when unable to log Security events."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "DeployAzureBaselineSystemAuditPoliciesDetailedTrackingAuditProcessTermination": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit Process Termination",
+          "description": "Specifies whether audit events are generated when a process has exited. Recommended for monitoring termination of critical processes."
+        },
+        "defaultValue": "No Auditing",
+        "allowedValues": [
+        "No Auditing",
+        "Success",
+        "Failure",
+        "Success and Failure"
+        ]
+      },
+      "WindowsFirewallDomainUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Use profile settings",
+          "description": "Specifies whether Windows Firewall with Advanced Security uses the settings for the Domain profile to filter network traffic. If you select Off, Windows Firewall with Advanced Security will not use any of the firewall rules or connection security rules for this profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallDomainBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Behavior for outbound connections",
+          "description": "Specifies the behavior for outbound connections for the Domain profile that do not match an outbound firewall rule. The default value of 0 means to allow connections, and a value of 1 means to block connections."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallDomainApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Behavior for outbound connections",
+          "description": "Specifies the behavior for outbound connections for the Domain profile that do not match an outbound firewall rule. The default value of 0 means to allow connections, and a value of 1 means to block connections."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallDomainApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Apply local firewall rules",
+          "description": "Specifies whether local administrators are allowed to create local firewall rules that apply together with firewall rules configured by Group Policy for the Domain profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallDomainDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Domain): Display notifications",
+          "description": "Specifies whether Windows Firewall with Advanced Security displays notifications to the user when a program is blocked from receiving inbound connections, for the Domain profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Use profile settings",
+          "description": "Specifies whether Windows Firewall with Advanced Security uses the settings for the Private profile to filter network traffic. If you select Off, Windows Firewall with Advanced Security will not use any of the firewall rules or connection security rules for this profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Behavior for outbound connections",
+          "description": "Specifies the behavior for outbound connections for the Private profile that do not match an outbound firewall rule. The default value of 0 means to allow connections, and a value of 1 means to block connections."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Apply local connection security rules",
+          "description": "Specifies whether local administrators are allowed to create connection security rules that apply together with connection security rules configured by Group Policy for the Private profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Apply local firewall rules",
+          "description": "Specifies whether local administrators are allowed to create local firewall rules that apply together with firewall rules configured by Group Policy for the Private profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Private): Display notifications",
+          "description": "Specifies whether Windows Firewall with Advanced Security displays notifications to the user when a program is blocked from receiving inbound connections, for the Private profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicUseProfileSettings": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Use profile settings",
+          "description": "Specifies whether Windows Firewall with Advanced Security uses the settings for the Public profile to filter network traffic. If you select Off, Windows Firewall with Advanced Security will not use any of the firewall rules or connection security rules for this profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicBehaviorForOutboundConnections": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Behavior for outbound connections",
+          "description": "Specifies the behavior for outbound connections for the Public profile that do not match an outbound firewall rule. The default value of 0 means to allow connections, and a value of 1 means to block connections."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicApplyLocalConnectionSecurityRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Apply local connection security rules",
+          "description": "Specifies whether local administrators are allowed to create connection security rules that apply together with connection security rules configured by Group Policy for the Public profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicApplyLocalFirewallRules": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Apply local firewall rules",
+          "description": "Specifies whether local administrators are allowed to create local firewall rules that apply together with firewall rules configured by Group Policy for the Public profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicDisplayNotifications": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall (Public): Display notifications",
+          "description": "Specifies whether Windows Firewall with Advanced Security displays notifications to the user when a program is blocked from receiving inbound connections, for the Public profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallDomainAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Domain: Allow unicast response",
+          "description": "Specifies whether Windows Firewall with Advanced Security permits the local computer to receive unicast responses to its outgoing multicast or broadcast messages; for the Domain profile."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPrivateAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Private: Allow unicast response",
+          "description": "Specifies whether Windows Firewall with Advanced Security permits the local computer to receive unicast responses to its outgoing multicast or broadcast messages; for the Private profile."
+        },
+        "defaultValue": "0",
+        "allowedValues": [
+        
+        ]
+      },
+      "WindowsFirewallPublicAllowUnicastResponse": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Windows Firewall: Public: Allow unicast response",
+          "description": "Specifies whether Windows Firewall with Advanced Security permits the local computer to receive unicast responses to its outgoing multicast or broadcast messages; for the Public profile."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+        
+        ]
+      },
+      "CertificateThumbprints": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate thumbprints",
+          "description": "A semicolon-separated list of certificate thumbprints that should exist under the Trusted Root certificate store (Cert:\\LocalMachine\\Root). e.g. THUMBPRINT1;THUMBPRINT2;THUMBPRINT3"
+        },
+        "allowedValues": [
+        
+        ]
+      }
+    },
+    "resourceGroups": {
+      
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2019-12-03T08:30:03+00:00",
+      "lastModified": "2019-12-03T08:30:03.3014438+00:00"
+    },
+    "displayName": "HIPAA",
+    "description": "Assigns policies that address a subset of HITRUST/HIPAA controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/HIPAA",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "HIPAA"
+}

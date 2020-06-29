@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy Advanced Data Security on SQL servers"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/2f49e58c-291d-4a68-9cc4-056ec914bc8c",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "2f49e58c-291d-4a68-9cc4-056ec914bc8c"
+}

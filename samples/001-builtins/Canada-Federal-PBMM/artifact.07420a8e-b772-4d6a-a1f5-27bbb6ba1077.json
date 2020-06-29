@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": [
+        "canadacentral",
+        "canadaeast"
+        ]
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations for resource groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/07420a8e-b772-4d6a-a1f5-27bbb6ba1077",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "07420a8e-b772-4d6a-a1f5-27bbb6ba1077"
+}

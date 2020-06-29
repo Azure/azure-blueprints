@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a9b99dd8-06c5-4317-8629-9d86a3c6e7d9",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Deploy network watcher when virtual networks are created"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/faef9190-8ed3-42d9-b542-0b680df1fbe6",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "faef9190-8ed3-42d9-b542-0b680df1fbe6"
+}

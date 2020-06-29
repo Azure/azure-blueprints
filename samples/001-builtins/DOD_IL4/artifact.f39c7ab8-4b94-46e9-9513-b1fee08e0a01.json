@@ -1,0 +1,93 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/8d792a84-723c-4d92-a3c3-e4ed16a2d133",
+    "parameters": {
+      "listOfAllowedLocationsForResourcesAndResourceGroups": {
+        "value": "[parameters('listOfAllowedLocationsForResourcesAndResourceGroups')]"
+      },
+      "membersToIncludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToIncludeInAdministratorsLocalGroup')]"
+      },
+      "membersToExcludeInAdministratorsLocalGroup": {
+        "value": "[parameters('membersToExcludeInAdministratorsLocalGroup')]"
+      },
+      "logAnalyticsWorkspaceIdForVMs": {
+        "value": "[parameters('logAnalyticsWorkspaceIdForVMs')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('listOfResourceTypes')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnServerMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnVirtualMachinesEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnVirtualMachinesEffect')]"
+      },
+      "geoRedundancyEnabledForStorageAccountsEffect": {
+        "value": "[parameters('geoRedundancyEnabledForStorageAccountsEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForMariaDBEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForMariaDBEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForMySQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForMySQLEffect')]"
+      },
+      "geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect": {
+        "value": "[parameters('geoRedundancyEnabledForAzureDatabaseForPostgreSQLEffect')]"
+      },
+      "adaptiveNetworkHardeningsMonitoringEffect": {
+        "value": "[parameters('adaptiveNetworkHardeningsMonitoringEffect')]"
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('webAppEnforceHttpsMonitoringEffect')]"
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('functionAppEnforceHttpsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithWritePermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithReadPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountMonitoringEffect')]"
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "value": "[parameters('webAppRestrictCORSAccessMonitoringEffect')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForReadPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect": {
+        "value": "[parameters('longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect')]"
+      }
+    },
+    "dependsOn": [
+
+    ],
+    "displayName": "DoD Impact Level 4"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/DOD_IL4/artifacts/f39c7ab8-4b94-46e9-9513-b1fee08e0a01",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "f39c7ab8-4b94-46e9-9513-b1fee08e0a01"
+}

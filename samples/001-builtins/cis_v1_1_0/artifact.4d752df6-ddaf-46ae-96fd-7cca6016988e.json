@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1a5bb27d-173f-493e-9568-eb56638dde4d",
+    "parameters": {
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "value": "[parameters('listOfRegionsWhereNetworkWatcherShouldBeEnabled')]"
+      },
+      "listOfApprovedVMExtensions": {
+        "value": "[parameters('listOfApprovedVMExtensions')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Audit CIS Microsoft Azure Foundations Benchmark 1.1.0 recommendations and deploy specific supporting VM Extensions"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CIS_V_1_1_0/artifacts/4d752df6-ddaf-46ae-96fd-7cca6016988e",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "4d752df6-ddaf-46ae-96fd-7cca6016988e"
+}

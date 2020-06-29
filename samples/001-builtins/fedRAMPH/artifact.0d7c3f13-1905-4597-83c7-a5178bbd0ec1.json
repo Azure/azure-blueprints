@@ -1,0 +1,24 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/75714362-cae7-409e-9b99-a8e5075b7fad",
+    "parameters": {
+      "logAnalytics_1": {
+        "value": "[parameters('EnableAzureMonitorforVMScaleSets(VMSS)_logAnalytics_1')]"
+      },
+      "listOfImageIdToInclude_windows": {
+        "value": "[parameters('EnableAzureMonitorforVMScaleSets(VMSS)_listOfImageIdToInclude_windows')]"
+      },
+      "listOfImageIdToInclude_linux": {
+        "value": "[parameters('EnableAzureMonitorforVMScaleSets(VMSS)_listOfImageIdToInclude_linux')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Enable Azure Monitor for VM Scale Sets (VMSS)"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH/artifacts/0d7c3f13-1905-4597-83c7-a5178bbd0ec1",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "0d7c3f13-1905-4597-83c7-a5178bbd0ec1"
+}

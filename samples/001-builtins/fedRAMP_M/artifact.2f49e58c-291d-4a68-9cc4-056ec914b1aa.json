@@ -1,0 +1,16 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a",
+    "parameters": {
+      
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Require encryption on Data Lake Store accounts"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/2f49e58c-291d-4a68-9cc4-056ec914b1aa",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "2f49e58c-291d-4a68-9cc4-056ec914b1aa"
+}

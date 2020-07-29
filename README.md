@@ -68,7 +68,9 @@ $publishedBp = Get-AzBlueprint -ManagementGroupId "DevMG" -Name "Boilerplate" -L
 $rgHash = @{ name="MyBoilerplateRG"; location = "eastus" }
 
 # all other (non-rg) parameters are listed in a single hashtable, with a key/value pair for each parameter
-$parameters = @{ principalIds="caeebed6-cfa8-45ff-9d8a-03dba4ef9a7d" }
+
+$user = Get-AzADUser -UserPrincipalName "user@domain.com"
+$parameters = @{ principalIds=$user.Id }
 
 # All of the resource group artifact hashtables are themselves grouped into a parent hashtable
 # the 'key' for each item in the table should match the RG placeholder name in the blueprint

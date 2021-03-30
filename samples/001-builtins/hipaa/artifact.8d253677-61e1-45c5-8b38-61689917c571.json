@@ -11,6 +11,33 @@
       "DeployDiagnosticSettingsforNetworkSecurityGroupsrgName": {
         "value": "[parameters('DeployDiagnosticSettingsforNetworkSecurityGroupsrgName')]"
       },
+      "CertificateThumbprints": {
+        "value": "[parameters('CertificateThumbprints')]"
+      },
+      "membersToExclude": {
+        "value": "[parameters('membersToExclude')]"
+      },
+      "workspaceId": {
+        "value": "[parameters('workspaceId')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('listOfResourceTypes')]"
+      },
+      "membersToInclude": {
+        "value": "[parameters('membersToInclude')]"
+      },
+      "listOfLocations": {
+        "value": "[parameters('listOfLocations')]"
+      },
+      "members": {
+        "value": "[parameters('members')]"
+      },
+      "operationName": {
+        "value": "[parameters('operationName')]"
+      },
+      "virtualNetworkId": {
+        "value": "[parameters('virtualNetworkId')]"
+      },
       "diagnosticsLogsInBatchAccountMonitoringEffect": {
         "value": "[parameters('diagnosticsLogsInBatchAccountMonitoringEffect')]"
       },
@@ -176,14 +203,86 @@
       "WindowsFirewallPublicAllowUnicastResponse": {
         "value": "[parameters('WindowsFirewallPublicAllowUnicastResponse')]"
       },
-      "CertificateThumbprints": {
-        "value": "[parameters('CertificateThumbprints')]"
+      "requiredRetentionDays": {
+        "value": "[parameters('requiredRetentionDays')]"
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInRedisCacheMonitoringEffect')]"
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "value": "[parameters('secureTransferToStorageAccountMonitoringEffect')]"
+      },
+      "usersOrGroupsThatMayAccessThisComputerFromTheNetwork": {
+        "value": "[parameters('usersOrGroupsThatMayAccessThisComputerFromTheNetwork')]"
+      },
+      "usersOrGroupsThatMayLogOnLocally": {
+        "value": "[parameters('usersOrGroupsThatMayLogOnLocally')]"
+      },
+      "usersOrGroupsThatMayLogOnThroughRemoteDesktopServices": {
+        "value": "[parameters('usersOrGroupsThatMayLogOnThroughRemoteDesktopServices')]"
+      },
+      "usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork": {
+        "value": "[parameters('usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork')]"
+      },
+      "usersOrGroupsThatMayManageAuditingAndSecurityLog": {
+        "value": "[parameters('usersOrGroupsThatMayManageAuditingAndSecurityLog')]"
+      },
+      "usersOrGroupsThatMayBackUpFilesAndDirectories": {
+        "value": "[parameters('usersOrGroupsThatMayBackUpFilesAndDirectories')]"
+      },
+      "usersOrGroupsThatMayChangeTheSystemTime": {
+        "value": "[parameters('usersOrGroupsThatMayChangeTheSystemTime')]"
+      },
+      "usersOrGroupsThatMayChangeTheTimeZone": {
+        "value": "[parameters('usersOrGroupsThatMayChangeTheTimeZone')]"
+      },
+      "usersOrGroupsThatMayCreateATokenObject": {
+        "value": "[parameters('usersOrGroupsThatMayCreateATokenObject')]"
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsABatchJob": {
+        "value": "[parameters('usersAndGroupsThatAreDeniedLoggingOnAsABatchJob')]"
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsAService": {
+        "value": "[parameters('usersAndGroupsThatAreDeniedLoggingOnAsAService')]"
+      },
+      "usersAndGroupsThatAreDeniedLocalLogon": {
+        "value": "[parameters('usersAndGroupsThatAreDeniedLocalLogon')]"
+      },
+      "usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices": {
+        "value": "[parameters('usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices')]"
+      },
+      "userAndGroupsThatMayForceShutdownFromARemoteSystem": {
+        "value": "[parameters('userAndGroupsThatMayForceShutdownFromARemoteSystem')]"
+      },
+      "usersAndGroupsThatMayRestoreFilesAndDirectories": {
+        "value": "[parameters('usersAndGroupsThatMayRestoreFilesAndDirectories')]"
+      },
+      "usersAndGroupsThatMayShutDownTheSystem": {
+        "value": "[parameters('usersAndGroupsThatMayShutDownTheSystem')]"
+      },
+      "usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects": {
+        "value": "[parameters('usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects')]"
+      },
+      "virtualMachinesShouldBeConnectedToAnApprovedVirtualNetworkEffect": {
+        "value": "[parameters('virtualMachinesShouldBeConnectedToAnApprovedVirtualNetworkEffect')]"
+      },
+      "uacAdminApprovalModeForTheBuiltinAdministratorAccount": {
+        "value": "[parameters('uacAdminApprovalModeForTheBuiltinAdministratorAccount')]"
+      },
+      "uacBehaviorOfTheElevationPromptForAdministratorsInAdminApprovalMode": {
+        "value": "[parameters('uacBehaviorOfTheElevationPromptForAdministratorsInAdminApprovalMode')]"
+      },
+      "uacDetectApplicationInstallationsAndPromptForElevation": {
+        "value": "[parameters('uacDetectApplicationInstallationsAndPromptForElevation')]"
+      },
+      "uacRunAllAdministratorsInAdminApprovalMode": {
+        "value": "[parameters('uacRunAllAdministratorsInAdminApprovalMode')]"
       }
     },
     "dependsOn": [
-    
+
     ],
-    "displayName": "Audit HITRUST/HIPAA controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "HITRUST/HIPAA"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/HIPAA/artifacts/8d253677-61e1-45c5-8b38-61689917c571",

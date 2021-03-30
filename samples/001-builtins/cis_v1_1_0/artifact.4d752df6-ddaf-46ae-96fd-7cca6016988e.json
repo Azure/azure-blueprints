@@ -12,7 +12,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Audit CIS Microsoft Azure Foundations Benchmark 1.1.0 recommendations and deploy specific supporting VM Extensions"
+    "displayName": "CIS Microsoft Azure Foundations Benchmark 1.1.0"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/CIS_V_1_1_0/artifacts/4d752df6-ddaf-46ae-96fd-7cca6016988e",

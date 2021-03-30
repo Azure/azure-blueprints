@@ -1,0 +1,21 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1a5bb27d-173f-493e-9568-eb56638dde4d",
+    "parameters": {
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "value": "[parameters('listOfRegionsWhereNetworkWatcherShouldBeEnabled')]"
+      },
+      "listOfApprovedVMExtensions": {
+        "value": "[parameters('listOfApprovedVMExtensions')]"
+      }
+    },
+    "dependsOn": [
+
+    ],
+    "displayName": "CIS Microsoft Azure Foundations Benchmark 1.1.0"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/cis_v1_1_0_Gov/artifacts/6bdd6a3d-9fb0-445b-8a7f-effb6646a06a",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "6bdd6a3d-9fb0-445b-8a7f-effb6646a06a"
+}

@@ -1,0 +1,192 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/27272c0b-c225-4cc3-b8b0-f2534b093077",
+    "parameters": {
+      "membersToExclude": {
+        "value": "[parameters('membersToExclude')]"
+      },
+      "logAnalyticsWorkspaceId": {
+        "value": "[parameters('logAnalyticsWorkspaceId')]"
+      },
+      "vulnerabilityAssessmentEmailSettingForReceivingScanReportsEffect": {
+        "value": "[parameters('vulnerabilityAssessmentEmailSettingForReceivingScanReportsEffect')]"
+      },
+      "adaptiveNetworkHardeningsMonitoringEffect": {
+        "value": "[parameters('adaptiveNetworkHardeningsMonitoringEffect')]"
+      },
+      "identityDesignateMoreThanOneOwnerMonitoringEffect": {
+        "value": "[parameters('identityDesignateMoreThanOneOwnerMonitoringEffect')]"
+      },
+      "diskEncryptionMonitoringEffect": {
+        "value": "[parameters('diskEncryptionMonitoringEffect')]"
+      },
+      "functionAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('functionAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "sqlDbEncryptionMonitoringEffect": {
+        "value": "[parameters('sqlDbEncryptionMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "aadAuthenticationInSqlServerMonitoringEffect": {
+        "value": "[parameters('aadAuthenticationInSqlServerMonitoringEffect')]"
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInRedisCacheMonitoringEffect')]"
+      },
+      "vmssEndpointProtectionMonitoringEffect": {
+        "value": "[parameters('vmssEndpointProtectionMonitoringEffect')]"
+      },
+      "listOfImageIdToIncludeWindows": {
+        "value": "[parameters('listOfImageIdToIncludeWindows')]"
+      },
+      "listOfImageIdToIncludeLinux": {
+        "value": "[parameters('listOfImageIdToIncludeLinux')]"
+      },
+      "auditUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "value": "[parameters('auditUnrestrictedNetworkToStorageAccountMonitoringEffect')]"
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "value": "[parameters('vmssOsVulnerabilitiesMonitoringEffect')]"
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "value": "[parameters('secureTransferToStorageAccountMonitoringEffect')]"
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "value": "[parameters('adaptiveApplicationControlsMonitoringEffect')]"
+      },
+      "identityDesignateLessThanOwnersMonitoringEffect": {
+        "value": "[parameters('identityDesignateLessThanOwnersMonitoringEffect')]"
+      },
+      "serverVulnerabilityAssessmentEffect": {
+        "value": "[parameters('serverVulnerabilityAssessmentEffect')]"
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "value": "[parameters('webAppRestrictCORSAccessMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithWritePermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountMonitoringEffect')]"
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('functionAppEnforceHttpsMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentMonitoringEffect')]"
+      },
+      "logProfilesForActivityLogEffect": {
+        "value": "[parameters('logProfilesForActivityLogEffect')]"
+      },
+      "listOfResourceTypes": {
+        "value": "[parameters('listOfResourceTypes')]"
+      },
+      "systemUpdatesMonitoringEffect": {
+        "value": "[parameters('systemUpdatesMonitoringEffect')]"
+      },
+      "apiAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('apiAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "anitmalwareRequiredForWindowsServersEffect": {
+        "value": "[parameters('anitmalwareRequiredForWindowsServersEffect')]"
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('webAppEnforceHttpsMonitoringEffect')]"
+      },
+      "vnetEnableDDoSProtectionMonitoringEffect": {
+        "value": "[parameters('vnetEnableDDoSProtectionMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "sqlServerAdvancedDataSecurityMonitoringEffect": {
+        "value": "[parameters('sqlServerAdvancedDataSecurityMonitoringEffect')]"
+      },
+      "sqlManagedInstanceAdvancedDataSecurityMonitoringEffect": {
+        "value": "[parameters('sqlManagedInstanceAdvancedDataSecurityMonitoringEffect')]"
+      },
+      "endpointProtectionMonitoringEffect": {
+        "value": "[parameters('endpointProtectionMonitoringEffect')]"
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "value": "[parameters('jitNetworkAccessMonitoringEffect')]"
+      },
+      "minimumTLSVersion": {
+        "value": "[parameters('minimumTLSVersion')]"
+      },
+      "aadAuthenticationInServiceFabricMonitoringEffect": {
+        "value": "[parameters('aadAuthenticationInServiceFabricMonitoringEffect')]"
+      },
+      "apiAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('apiAppEnforceHttpsMonitoringEffect')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('webAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "systemConfigurationsMonitoringEffect": {
+        "value": "[parameters('systemConfigurationsMonitoringEffect')]"
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForReadPermissionsMonitoringEffect')]"
+      },
+      "enforcePasswordHistory": {
+        "value": "[parameters('enforcePasswordHistory')]"
+      },
+      "maximumPasswordAge": {
+        "value": "[parameters('maximumPasswordAge')]"
+      },
+      "minimumPasswordAge": {
+        "value": "[parameters('minimumPasswordAge')]"
+      },
+      "minimumPasswordLength": {
+        "value": "[parameters('minimumPasswordLength')]"
+      },
+      "passwordMustMeetComplexityRequirements": {
+        "value": "[parameters('passwordMustMeetComplexityRequirements')]"
+      },
+      "containerBenchmarkMonitoringEffect": {
+        "value": "[parameters('containerBenchmarkMonitoringEffect')]"
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('apiAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnServerMonitoringEffect')]"
+      },
+      "webAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('webAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "networkSecurityGroupsOnVirtualMachinesMonitoringEffect": {
+        "value": "[parameters('networkSecurityGroupsOnVirtualMachinesMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "functionAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('functionAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "value": "[parameters('sqlDbVulnerabilityAssesmentMonitoringEffect')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Australian Government ISM PROTECTED"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/Australia-IRAP/artifacts/cc6a9858-19d4-4ec7-a02c-3595fe553133",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "cc6a9858-19d4-4ec7-a02c-3595fe553133"
+}

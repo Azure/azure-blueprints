@@ -1,0 +1,216 @@
+{
+    "properties": {
+        "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.1",
+            "parameters": {
+                "namePrefix": {
+                    "type": "string",
+                    "metadata": {
+                        "displayName": "Prefix for resources and resource groups",
+                        "description": "This string will be used as a prefix for all resource and resource group names."
+                    }
+                },
+                "hubName": {
+                    "type": "string",
+                    "defaultValue": "hub-shared",
+                    "metadata": {
+                        "displayName": "Hub name",
+                        "description": "Name for the hub."
+                    }
+                },
+                "logsRetentionInDays": {
+                    "type": "int",
+                    "defaultValue": 365,
+                    "minValue": 0,
+                    "maxValue": 365,
+                    "metadata": {
+                        "displayName": "Log retention (days)",
+                        "description": "Number of days that logs will be retained; entering '0' will retain logs indefinitely."
+                    }
+                },
+                "deployHub": {
+                    "type": "bool",
+                    "defaultValue": true,
+                    "metadata": {
+                        "displayName": "Deploy hub",
+                        "description": "Enter 'true' or 'false' to specify whether the assignment will deploy the hub components of the architecture."
+                    }
+                }
+            },
+            "variables": {
+                "deployment-prefix": "[toLower(concat(parameters('namePrefix'), '-', parameters('hubName')))]",
+                "unique-string": "[uniqueString(subscription().id, concat(variables('deployment-prefix')))]",
+                "diagnostic-storage-account-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+                "diagnostic-storage-account-name": "[toLower(substring(replace(concat(variables('diagnostic-storage-account-prefix'), variables('unique-string'), variables('unique-string')), '-', ''), 0, 23) )]",
+                "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+                "oms-workspace-resource-group": "[concat(variables('deployment-prefix'), '-rg')]",
+                "oms-workspace-subscription-id": "[subscription().subscriptionId]",
+                "pricing": "Standard"
+            },
+            "resources": [
+                {
+                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "apiVersion": "2017-05-01-preview",
+                    "name": "service",
+                    "condition": "[parameters('deployHub')]",
+                    "dependsOn": [],
+                    "tags": {
+                        "component": "hub-security-center"
+                    },
+                    "properties": {
+                        "storageAccountId": "[concat('/subscriptions/', variables('oms-workspace-subscription-id'), '/resourceGroups/', variables('oms-workspace-resource-group'), '/providers/Microsoft.Storage/storageAccounts/', variables('diagnostic-storage-account-name'))]",
+                        "workspaceId": "[concat('/subscriptions/', variables('oms-workspace-subscription-id'), '/resourceGroups/', variables('oms-workspace-resource-group'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]",
+                        "logs": [
+                            {
+                                "category": "Administrative",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "Alert",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "Autoscale",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "Policy",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "Recommendation",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "ResourceHealth",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "Security",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            },
+                            {
+                                "category": "ServiceHealth",
+                                "enabled": true,
+                                "retentionPolicy": {
+                                    "enabled": true,
+                                    "days": "[parameters('logsRetentionInDays')]"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "Microsoft.Security/pricings",
+                    "apiVersion": "2017-08-01-preview",
+                    "name": "default",
+                    "condition": "[parameters('deployHub')]",
+                    "tags": {
+                        "tagName": "hub-security-center"
+                    },
+                    "properties": {
+                        "pricingTier": "[variables('pricing')]"
+                    }
+                },
+                {
+                    "type": "Microsoft.Security/pricings",
+                    "apiVersion": "2018-06-01",
+                    "name": "StorageAccounts",
+                    "condition": "[parameters('deployHub')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Security/pricings/default')]"
+                    ],
+                    "tags": {
+                        "component": "hub-security-center"
+                    },
+                    "properties": {
+                        "pricingTier": "[variables('pricing')]"
+                    }
+                },
+                {
+                    "type": "Microsoft.Security/pricings",
+                    "apiVersion": "2018-06-01",
+                    "name": "SqlServers",
+                    "condition": "[parameters('deployHub')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Security/pricings/StorageAccounts')]"
+                    ],
+                    "tags": {
+                        "component": "hub-security-center"
+                    },
+                    "properties": {
+                        "pricingTier": "[variables('pricing')]"
+                    }
+                },
+                {
+                    "type": "Microsoft.Security/pricings",
+                    "apiVersion": "2018-06-01",
+                    "name": "VirtualMachines",
+                    "condition": "[parameters('deployHub')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Security/pricings/SqlServers')]"
+                    ],
+                    "tags": {
+                        "component": "hub-security-center"
+                    },
+                    "properties": {
+                        "pricingTier": "[variables('pricing')]"
+                    }
+                }
+            ],
+            "outputs": {}
+        },
+        "parameters": {
+            "namePrefix": {
+                "value": "[parameters('namePrefix')]"
+            },
+            "hubName": {
+                "value": "[parameters('hubName')]"
+            },
+            "logsRetentionInDays": {
+                "value": "[parameters('logsRetentionInDays')]"
+            },
+            "deployHub": {
+                "value": "[parameters('deployHub')]"
+            }
+        },
+        "dependsOn": [
+            "hub-shared-security-log"
+        ],
+        "displayName": "Azure Security Center template",
+        "description": "Azure Security Center template."
+    },
+    "kind": "template",
+    "id": "/providers/Microsoft.Blueprint/blueprints/ASBF_Gov/artifacts/hub-security-center",
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "hub-security-center"
+}

@@ -18,7 +18,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "[Preview]: Audit Canada Federal PBMM controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "Canada Federal PBMM"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/CanadaFederalPBMMBlueprint4/artifacts/07420a8e-b772-4d6a-a1f5-27bbb6ba1446",

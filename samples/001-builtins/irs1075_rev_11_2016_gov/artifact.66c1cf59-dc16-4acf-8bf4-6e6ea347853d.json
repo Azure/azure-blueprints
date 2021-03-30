@@ -18,7 +18,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Audit IRS1075 September 2016 controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "IRS1075 September 2016"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/IRS1075_Rev_11_2016_Gov/artifacts/66c1cf59-dc16-4acf-8bf4-6e6ea347853d",

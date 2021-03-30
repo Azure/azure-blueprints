@@ -1,0 +1,322 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be excluded in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that must be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be included in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfOnlyMembersInWindowsVMAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that Windows VM Administrators group must *only* include",
+          "description": "A semicolon-separated list of all the expected members of the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of regions where Network Watcher should be enabled",
+          "description": "To see a complete list of regions use Get-AzLocation",
+          "strongType": "location"
+        },
+        "defaultValue": [
+          "australiacentral",
+          "australiacentral2",
+          "australiaeast",
+          "australiasoutheast",
+          "brazilsouth",
+          "canadacentral",
+          "canadaeast",
+          "centralindia",
+          "centralus",
+          "eastasia",
+          "eastus",
+          "eastus2",
+          "francecentral",
+          "francesouth",
+          "germanynorth",
+          "germanywestcentral",
+          "global",
+          "japaneast",
+          "japanwest",
+          "koreacentral",
+          "koreasouth",
+          "northcentralus",
+          "northeurope",
+          "norwayeast",
+          "norwaywest",
+          "southafricanorth",
+          "southafricawest",
+          "southcentralus",
+          "southeastasia",
+          "southindia",
+          "switzerlandnorth",
+          "switzerlandwest",
+          "uaecentral",
+          "uaenorth",
+          "uksouth",
+          "ukwest",
+          "westcentralus",
+          "westeurope",
+          "westindia",
+          "westus",
+          "westus2"
+        ],
+        "allowedValues": [
+          "australiacentral",
+          "australiacentral2",
+          "australiaeast",
+          "australiasoutheast",
+          "brazilsouth",
+          "canadacentral",
+          "canadaeast",
+          "centralindia",
+          "centralus",
+          "eastasia",
+          "eastus",
+          "eastus2",
+          "francecentral",
+          "francesouth",
+          "germanynorth",
+          "germanywestcentral",
+          "global",
+          "japaneast",
+          "japanwest",
+          "koreacentral",
+          "koreasouth",
+          "northcentralus",
+          "northeurope",
+          "norwayeast",
+          "norwaywest",
+          "southafricanorth",
+          "southafricawest",
+          "southcentralus",
+          "southeastasia",
+          "southindia",
+          "switzerlandnorth",
+          "switzerlandwest",
+          "uaecentral",
+          "uaenorth",
+          "uksouth",
+          "ukwest",
+          "westcentralus",
+          "westeurope",
+          "westindia",
+          "westus",
+          "westus2"
+        ]
+      },
+      "approvedVirtualNetworkForVMs": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual network where VMs should be connected",
+          "description": "Example: /subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Network/virtualNetworks/Name",
+          "strongType": "Microsoft.Network/virtualNetworks"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "approvedNetworkGatewayforVirtualNetworks": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Network gateway that virtual networks should use",
+          "description": "Example: /subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroup/providers/Microsoft.Network/virtualNetworkGateways/Name",
+          "strongType": "Microsoft.Network/virtualNetworkGateways"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfWorkspaceIDsForLogAnalyticsAgent": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of workspace IDs where Log Analytics agents should connect",
+          "description": "A semicolon-separated list of the workspace IDs that the Log Analytics agent should be connected to"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled",
+          "description": "Audit diagnostic setting for selected resource types"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "PHPLatestVersion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest PHP version",
+          "description": "Latest supported PHP version for App Services"
+        },
+        "defaultValue": "7.3",
+        "allowedValues": [
+
+        ]
+      },
+      "JavaLatestVersion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Java version",
+          "description": "Latest supported Java version for App Services"
+        },
+        "defaultValue": "11",
+        "allowedValues": [
+
+        ]
+      },
+      "WindowsPythonLatestVersion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Windows Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.6",
+        "allowedValues": [
+
+        ]
+      },
+      "LinuxPythonLatestVersion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Linux Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.8",
+        "allowedValues": [
+
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2020-04-15T07:47:59+00:00",
+      "lastModified": "2020-04-15T07:47:59.3837912+00:00"
+    },
+    "displayName": "Azure Security Benchmark",
+    "description": "Assigns policies to address specific recommendations from the Azure Security Benchmark."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/ASB_Gov",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "ASB_Gov"
+}

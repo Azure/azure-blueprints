@@ -1,0 +1,244 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "membersToExcludeInLocalAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of users that should be excluded in the Administrators local group; Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "membersToIncludeInLocalAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that must be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of users that should be included in the Administrators local group; Ex: Administrator; myUser1; myUser2"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "listOfLocationsForNetworkWatcher": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of regions where Network Watcher should be enabled",
+          "description": "Audit if Network Watcher is not enabled for region(s).",
+          "strongType": "location"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "logAnalyticsWorkspaceIDForVMAgents": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace ID for VM agent reporting",
+          "description": "ID (GUID) of the Log Analytics workspace where VMs agents should report."
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "pHPLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest PHP version",
+          "description": "Latest supported PHP version for App Services"
+        },
+        "defaultValue": "7.3",
+        "allowedValues": [
+
+        ]
+      },
+      "windowsImagesToAddToLogAgentAuditScope": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of Windows VM images that support Log Analytics agent to add to audit scope",
+          "description": "A semicolon-separated list of images; Ex: /subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "linuxImagesToAddToLogAgentAuditScope": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of Linux VM images that support Log Analytics agent to add to audit scope",
+          "description": "A semicolon-separated list of images; Ex: /subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage"
+        },
+        "defaultValue": [
+
+        ],
+        "allowedValues": [
+
+        ]
+      },
+      "javaLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Java version",
+          "description": "Latest supported Java version for App Services"
+        },
+        "defaultValue": "11",
+        "allowedValues": [
+
+        ]
+      },
+      "windowsPythonLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Windows Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.6",
+        "allowedValues": [
+
+        ]
+      },
+      "linuxPythonLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Linux Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.8",
+        "allowedValues": [
+
+        ]
+      },
+      "listOfResourceTypesForDiagnosticLogs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled",
+          "description": "Audit diagnostic setting for selected resource types"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "minimumTLSVersionForWindowsServers": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Minimum TLS version for Windows web servers",
+          "description": "The minimum TLS protocol version that should be enabled on Windows web servers."
+        },
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2"
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2020-06-15T11:39:06+00:00",
+      "lastModified": "2020-06-15T11:39:06.9102566+00:00"
+    },
+    "displayName": "NIST SP 800-171 R2",
+    "description": "Assigns policies to address specific NIST SP 800-171 R2 requirements."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-171-R2_Gov",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "NIST-SP-800-171-R2_Gov"
+}

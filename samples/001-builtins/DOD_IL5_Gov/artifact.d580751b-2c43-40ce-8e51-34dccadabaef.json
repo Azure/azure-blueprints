@@ -1,0 +1,288 @@
+{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/f9a961fa-3241-4b20-adc4-bbf8ad9d7197",
+    "parameters": {
+      "membersToIncludeInLocalAdministratorsGroup": {
+        "value": "[parameters('membersToIncludeInLocalAdministratorsGroup')]"
+      },
+      "membersToExcludeInLocalAdministratorsGroup": {
+        "value": "[parameters('membersToExcludeInLocalAdministratorsGroup')]"
+      },
+      "listOfResourceTypesForDiagnosticLogs": {
+        "value": "[parameters('listOfResourceTypesForDiagnosticLogs')]"
+      },
+      "logAnalyticsWorkspaceIDForVMAgents": {
+        "value": "[parameters('logAnalyticsWorkspaceIDForVMAgents')]"
+      },
+      "listOfLocationsForNetworkWatcher": {
+        "value": "[parameters('listOfLocationsForNetworkWatcher')]"
+      },
+      "MinimumTLSVersionForWindowsServers": {
+        "value": "[parameters('MinimumTLSVersionForWindowsServers')]"
+      },
+      "PHPLatestVersionForAppServices": {
+        "value": "[parameters('PHPLatestVersionForAppServices')]"
+      },
+      "JavaLatestVersionForAppServices": {
+        "value": "[parameters('JavaLatestVersionForAppServices')]"
+      },
+      "WindowsPythonLatestVersionForAppServices": {
+        "value": "[parameters('WindowsPythonLatestVersionForAppServices')]"
+      },
+      "LinuxPythonLatestVersionForAppServices": {
+        "value": "[parameters('LinuxPythonLatestVersionForAppServices')]"
+      },
+      "WindowsImagesToAddToLogAgentAuditScope": {
+        "value": "[parameters('WindowsImagesToAddToLogAgentAuditScope')]"
+      },
+      "LinuxImagesToAddToLogAgentAuditScope": {
+        "value": "[parameters('LinuxImagesToAddToLogAgentAuditScope')]"
+      },
+      "identityDesignateMoreThanOneOwnerMonitoringEffect": {
+        "value": "[parameters('identityDesignateMoreThanOneOwnerMonitoringEffect')]"
+      },
+      "diskEncryptionMonitoringEffect": {
+        "value": "[parameters('diskEncryptionMonitoringEffect')]"
+      },
+      "emailNotificationToSubscriptionOwnerHighSeverityAlertsEnabledEffect": {
+        "value": "[parameters('emailNotificationToSubscriptionOwnerHighSeverityAlertsEnabledEffect')]"
+      },
+      "functionAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('functionAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "ensureDotNetFrameworkLatestForFunctionAppEffect": {
+        "value": "[parameters('ensureDotNetFrameworkLatestForFunctionAppEffect')]"
+      },
+      "sqlDbEncryptionMonitoringEffect": {
+        "value": "[parameters('sqlDbEncryptionMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnManagedInstanceMonitoringEffect')]"
+      },
+      "ensurePHPVersionLatestForAPIAppEffect": {
+        "value": "[parameters('ensurePHPVersionLatestForAPIAppEffect')]"
+      },
+      "aadAuthenticationInSqlServerMonitoringEffect": {
+        "value": "[parameters('aadAuthenticationInSqlServerMonitoringEffect')]"
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "value": "[parameters('diagnosticsLogsInRedisCacheMonitoringEffect')]"
+      },
+      "vmssEndpointProtectionMonitoringEffect": {
+        "value": "[parameters('vmssEndpointProtectionMonitoringEffect')]"
+      },
+      "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "value": "[parameters('disableUnrestrictedNetworkToStorageAccountMonitoringEffect')]"
+      },
+      "sqlManagedInstanceAdvancedDataSecurityEmailsMonitoringEffect": {
+        "value": "[parameters('sqlManagedInstanceAdvancedDataSecurityEmailsMonitoringEffect')]"
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "value": "[parameters('vmssOsVulnerabilitiesMonitoringEffect')]"
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "value": "[parameters('secureTransferToStorageAccountMonitoringEffect')]"
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "value": "[parameters('adaptiveApplicationControlsMonitoringEffect')]"
+      },
+      "geoRedundantBackupShouldBeEnabledForAzureDatabaseForPostgreSQLEffect": {
+        "value": "[parameters('geoRedundantBackupShouldBeEnabledForAzureDatabaseForPostgreSQLEffect')]"
+      },
+      "ensureJavaVersionLatestForWebAppEffect": {
+        "value": "[parameters('ensureJavaVersionLatestForWebAppEffect')]"
+      },
+      "identityDesignateLessThanOwnersMonitoringEffect": {
+        "value": "[parameters('identityDesignateLessThanOwnersMonitoringEffect')]"
+      },
+      "securityContactEmailAddressForSubscriptionEffect": {
+        "value": "[parameters('securityContactEmailAddressForSubscriptionEffect')]"
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "value": "[parameters('webAppRestrictCORSAccessMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithWritePermissionsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithReadPermissionsMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountMonitoringEffect')]"
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('functionAppEnforceHttpsMonitoringEffect')]"
+      },
+      "ensurePythonVersionLatestForWebAppEffect": {
+        "value": "[parameters('ensurePythonVersionLatestForWebAppEffect')]"
+      },
+      "ensurePythonVersionLatestForFunctionAppEffect": {
+        "value": "[parameters('ensurePythonVersionLatestForFunctionAppEffect')]"
+      },
+      "ensurePHPVersionLatestForWebAppEffect": {
+        "value": "[parameters('ensurePHPVersionLatestForWebAppEffect')]"
+      },
+      "ensurePythonVersionLatestForAPIAppEffect": {
+        "value": "[parameters('ensurePythonVersionLatestForAPIAppEffect')]"
+      },
+      "vulnerabilityAssessmentMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentMonitoringEffect')]"
+      },
+      "geoRedundantBackupShouldBeEnabledForAzureDatabaseForMySQLEffect": {
+        "value": "[parameters('geoRedundantBackupShouldBeEnabledForAzureDatabaseForMySQLEffect')]"
+      },
+      "ensureDotNetFrameworkLatestForWebAppEffect": {
+        "value": "[parameters('ensureDotNetFrameworkLatestForWebAppEffect')]"
+      },
+      "systemUpdatesMonitoringEffect": {
+        "value": "[parameters('systemUpdatesMonitoringEffect')]"
+      },
+      "ensureJavaVersionLatestForAPIAppEffect": {
+        "value": "[parameters('ensureJavaVersionLatestForAPIAppEffect')]"
+      },
+      "ensureHTTPVersionLatestForWebAppEffect": {
+        "value": "[parameters('ensureHTTPVersionLatestForWebAppEffect')]"
+      },
+      "apiAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('apiAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForWritePermissionsMonitoringEffect')]"
+      },
+      "sqlServerAdvancedDataSecurityEmailsMonitoringEffect": {
+        "value": "[parameters('sqlServerAdvancedDataSecurityEmailsMonitoringEffect')]"
+      },
+      "ensureHTTPVersionLatestForAPIAppEffect": {
+        "value": "[parameters('ensureHTTPVersionLatestForAPIAppEffect')]"
+      },
+      "microsoftIaaSAntimalwareExtensionShouldBeDeployedOnWindowsServersEffect": {
+        "value": "[parameters('microsoftIaaSAntimalwareExtensionShouldBeDeployedOnWindowsServersEffect')]"
+      },
+      "ensureJavaVersionLatestForFunctionAppEffect": {
+        "value": "[parameters('ensureJavaVersionLatestForFunctionAppEffect')]"
+      },
+      "nextGenerationFirewallMonitoringEffect": {
+        "value": "[parameters('nextGenerationFirewallMonitoringEffect')]"
+      },
+      "securityCenterStandardPricingTierShouldBeSelectedEffect": {
+        "value": "[parameters('securityCenterStandardPricingTierShouldBeSelectedEffect')]"
+      },
+      "useRbacRulesMonitoringEffect": {
+        "value": "[parameters('useRbacRulesMonitoringEffect')]"
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('webAppEnforceHttpsMonitoringEffect')]"
+      },
+      "sqlServerAuditingMonitoringEffect": {
+        "value": "[parameters('sqlServerAuditingMonitoringEffect')]"
+      },
+      "theLogAnalyticsAgentShouldBeInstalledOnVirtualMachinesEffect": {
+        "value": "[parameters('theLogAnalyticsAgentShouldBeInstalledOnVirtualMachinesEffect')]"
+      },
+      "vnetEnableDDoSProtectionMonitoringEffect": {
+        "value": "[parameters('vnetEnableDDoSProtectionMonitoringEffect')]"
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForOwnerPermissionsMonitoringEffect')]"
+      },
+      "ensurePHPVersionLatestForFunctionAppEffect": {
+        "value": "[parameters('ensurePHPVersionLatestForFunctionAppEffect')]"
+      },
+      "sqlServerAdvancedDataSecurityMonitoringEffect": {
+        "value": "[parameters('sqlServerAdvancedDataSecurityMonitoringEffect')]"
+      },
+      "sqlManagedInstanceAdvancedDataSecurityMonitoringEffect": {
+        "value": "[parameters('sqlManagedInstanceAdvancedDataSecurityMonitoringEffect')]"
+      },
+      "sqlManagedInstanceAdvancedDataSecurityEmailAdminsMonitoringEffect": {
+        "value": "[parameters('sqlManagedInstanceAdvancedDataSecurityEmailAdminsMonitoringEffect')]"
+      },
+      "endpointProtectionMonitoringEffect": {
+        "value": "[parameters('endpointProtectionMonitoringEffect')]"
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "value": "[parameters('jitNetworkAccessMonitoringEffect')]"
+      },
+      "securityContactPhoneNumberShouldBeProvidedForSubscriptionEffect": {
+        "value": "[parameters('securityContactPhoneNumberShouldBeProvidedForSubscriptionEffect')]"
+      },
+      "aadAuthenticationInServiceFabricMonitoringEffect": {
+        "value": "[parameters('aadAuthenticationInServiceFabricMonitoringEffect')]"
+      },
+      "apiAppEnforceHttpsMonitoringEffect": {
+        "value": "[parameters('apiAppEnforceHttpsMonitoringEffect')]"
+      },
+      "threatDetectionTypesOnManagedInstanceMonitoringEffect": {
+        "value": "[parameters('threatDetectionTypesOnManagedInstanceMonitoringEffect')]"
+      },
+      "geoRedundantStorageShouldBeEnabledForStorageAccountsEffect": {
+        "value": "[parameters('geoRedundantStorageShouldBeEnabledForStorageAccountsEffect')]"
+      },
+      "ensureDotNetFrameworkLatestForAPIAppEffect": {
+        "value": "[parameters('ensureDotNetFrameworkLatestForAPIAppEffect')]"
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "value": "[parameters('vmssSystemUpdatesMonitoringEffect')]"
+      },
+      "sqlServerAdvancedDataSecurityEmailAdminsMonitoringEffect": {
+        "value": "[parameters('sqlServerAdvancedDataSecurityEmailAdminsMonitoringEffect')]"
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('webAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect": {
+        "value": "[parameters('longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect')]"
+      },
+      "systemConfigurationsMonitoringEffect": {
+        "value": "[parameters('systemConfigurationsMonitoringEffect')]"
+      },
+      "ensureHTTPVersionLatestForFunctionAppEffect": {
+        "value": "[parameters('ensureHTTPVersionLatestForFunctionAppEffect')]"
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "value": "[parameters('identityEnableMFAForReadPermissionsMonitoringEffect')]"
+      },
+      "threatDetectionTypesOnServerMonitoringEffect": {
+        "value": "[parameters('threatDetectionTypesOnServerMonitoringEffect')]"
+      },
+      "containerBenchmarkMonitoringEffect": {
+        "value": "[parameters('containerBenchmarkMonitoringEffect')]"
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "value": "[parameters('apiAppDisableRemoteDebuggingMonitoringEffect')]"
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "value": "[parameters('vulnerabilityAssessmentOnServerMonitoringEffect')]"
+      },
+      "theLogAnalyticsAgentShouldBeInstalledOnVirtualMachineScaleSetsEffect": {
+        "value": "[parameters('theLogAnalyticsAgentShouldBeInstalledOnVirtualMachineScaleSetsEffect')]"
+      },
+      "webAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('webAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "value": "[parameters('identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect')]"
+      },
+      "functionAppRequireLatestTlsMonitoringEffect": {
+        "value": "[parameters('functionAppRequireLatestTlsMonitoringEffect')]"
+      },
+      "kubernetesServiceVersionUpToDateMonitoringEffect": {
+        "value": "[parameters('kubernetesServiceVersionUpToDateMonitoringEffect')]"
+      },
+      "sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "value": "[parameters('sqlDbVulnerabilityAssesmentMonitoringEffect')]"
+      }
+    },
+    "dependsOn": [
+
+    ],
+    "displayName": "DoD Impact Level 5"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/DOD_IL5_Gov/artifacts/d580751b-2c43-40ce-8e51-34dccadabaef",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "d580751b-2c43-40ce-8e51-34dccadabaef"
+}

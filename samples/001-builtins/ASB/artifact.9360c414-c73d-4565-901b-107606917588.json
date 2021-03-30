@@ -1,0 +1,51 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/42a694ed-f65e-42b2-aa9e-8052e9740a92",
+    "parameters": {
+      "listOfMembersToExcludeFromWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToExcludeFromWindowsVMAdministratorsGroup')]"
+      },
+      "listOfMembersToIncludeInWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfMembersToIncludeInWindowsVMAdministratorsGroup')]"
+      },
+      "listOfOnlyMembersInWindowsVMAdministratorsGroup": {
+        "value": "[parameters('listOfOnlyMembersInWindowsVMAdministratorsGroup')]"
+      },
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "value": "[parameters('listOfRegionsWhereNetworkWatcherShouldBeEnabled')]"
+      },
+      "approvedVirtualNetworkForVMs": {
+        "value": "[parameters('approvedVirtualNetworkForVMs')]"
+      },
+      "approvedNetworkGatewayforVirtualNetworks": {
+        "value": "[parameters('approvedNetworkGatewayforVirtualNetworks')]"
+      },
+      "listOfWorkspaceIDsForLogAnalyticsAgent": {
+        "value": "[parameters('listOfWorkspaceIDsForLogAnalyticsAgent')]"
+      },
+      "listOfResourceTypesWithDiagnosticLogsEnabled": {
+        "value": "[parameters('listOfResourceTypesWithDiagnosticLogsEnabled')]"
+      },
+      "PHPLatestVersion": {
+        "value": "[parameters('PHPLatestVersion')]"
+      },
+      "JavaLatestVersion": {
+        "value": "[parameters('JavaLatestVersion')]"
+      },
+      "WindowsPythonLatestVersion": {
+        "value": "[parameters('WindowsPythonLatestVersion')]"
+      },
+      "LinuxPythonLatestVersion": {
+        "value": "[parameters('LinuxPythonLatestVersion')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Azure Security Benchmark"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ASB/artifacts/9360c414-c73d-4565-901b-107606917588",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "9360c414-c73d-4565-901b-107606917588"
+}

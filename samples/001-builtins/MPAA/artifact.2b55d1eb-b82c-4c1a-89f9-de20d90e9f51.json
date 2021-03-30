@@ -228,7 +228,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Audit Motion Picture Association of America (MPAA) controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "Motion Picture Association of America (MPAA)"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/MPAA/artifacts/2b55d1eb-b82c-4c1a-89f9-de20d90e9f51",

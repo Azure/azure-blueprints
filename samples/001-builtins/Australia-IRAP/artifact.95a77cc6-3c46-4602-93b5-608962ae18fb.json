@@ -1,0 +1,18 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[parameters('allowedlocationsforresourcegroups_listOfAllowedLocations')]"
+      }
+    },
+    "dependsOn": [
+    
+    ],
+    "displayName": "Allowed locations for resource groups"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/Australia-IRAP/artifacts/95a77cc6-3c46-4602-93b5-608962ae18fb",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "95a77cc6-3c46-4602-93b5-608962ae18fb"
+}

@@ -1,0 +1,255 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "namePrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for resources and resource groups",
+            "description": "This string will be used as a prefix for all resource and resource group names."
+          }
+        },
+        "hubName": {
+          "type": "string",
+          "defaultValue": "hub-shared",
+          "metadata": {
+            "displayName": "Hub name",
+            "description": "Name for the hub."
+          }
+        },
+        "logsRetentionInDays": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention (days)",
+            "description": "Number of days that logs will be retained; entering '0' will retain logs indefinitely."
+          }
+        },
+        "deployHub": {
+          "type": "bool",
+          "defaultValue": true,
+          "metadata": {
+            "displayName": "Deploy hub",
+            "description": "Enter 'true' or 'false' to specify whether the assignment will deploy the hub components of the architecture."
+          }
+        }
+      },
+      "variables": {
+        "location": "[resourceGroup().location]",
+        "deployment-prefix": "[toLower(concat(parameters('namePrefix'), '-', parameters('hubName')))]",
+        "oms-workspace-resource-group": "[concat(variables('deployment-prefix'), '-rg')]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "vnet-resource-group": "[concat(variables('deployment-prefix'), '-rg')]",
+        "unique-string": "[uniqueString(subscription().id, concat(variables('deployment-prefix')))]",
+        "diagnostic-storage-account-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storage-account-name": "[toLower(substring(replace(concat(variables('diagnostic-storage-account-prefix'), variables('unique-string'), variables('unique-string')), '-', ''), 0, 23) )]",
+        "vnet-name": "[concat(variables('deployment-prefix'), '-vnet')]",
+        "vpn-gw-subnet-id": "[concat(resourceId(variables('vnet-resource-group'), 'Microsoft.Network/virtualNetworks', variables('vnet-name')) , '/subnets/GatewaySubnet')]",
+        "vpn-gw-ip-name": "[concat(variables('deployment-prefix'), '-vpn-gw-ip')]",
+        "vpn-gw-ip-id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('vpn-gw-ip-name'))]",
+        "vpn-gw-name": "[concat(variables('deployment-prefix'), '-vpn-gw')]"
+      },
+      "resources": [
+        {
+          "type": "Microsoft.Network/publicIPAddresses",
+          "apiVersion": "2019-11-01",
+          "name": "[variables('vpn-gw-ip-name')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "sku": {
+            "name": "Basic"
+          },
+          "tags": {
+            "component": "hub-shared-network-gateway"
+          },
+          "properties": {
+            "publicIPAllocationMethod": "Dynamic",
+            "publicIPAddressVersion": "IPv4"
+          }
+        },
+        {
+          "type": "Microsoft.Network/publicIPAddresses/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "name": "[concat(variables('vpn-gw-ip-name'), '/Microsoft.Insights/service')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[variables('vpn-gw-ip-name')]"
+          ],
+          "tags": {
+            "component": "hub-shared-network-gateway"
+          },
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resource-group'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storage-account-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resource-group'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "logs": [
+              {
+                "category": "DDoSProtectionNotifications",
+                "enabled": true
+              },
+              {
+                "category": "DDoSMitigationFlowLogs",
+                "enabled": true
+              },
+              {
+                "category": "DDoSMitigationReports",
+                "enabled": true
+              }
+            ],
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "timeGrain": null,
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Network/virtualNetworkGateways",
+          "apiVersion": "2020-05-01",
+          "name": "[variables('vpn-gw-name')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[variables('vpn-gw-ip-name')]"
+          ],
+          "tags": {
+            "component": "hub-shared-network-gateway"
+          },
+          "properties": {
+            "enablePrivateIpAddress": false,
+            "ipConfigurations": [
+              {
+                "name": "default",
+                "properties": {
+                  "privateIPAllocationMethod": "Dynamic",
+                  "publicIPAddress": {
+                    "id": "[variables('vpn-gw-ip-id')]"
+                  },
+                  "subnet": {
+                    "id": "[variables('vpn-gw-subnet-id')]"
+                  }
+                }
+              }
+            ],
+            "sku": {
+              "name": "VpnGw2",
+              "tier": "VpnGw2"
+            },
+            "gatewayType": "Vpn",
+            "vpnType": "RouteBased",
+            "enableBgp": false,
+            "activeActive": false,
+            "vpnGatewayGeneration": "Generation2"
+          }
+        },
+        {
+          "type": "Microsoft.Network/virtualNetworkGateways/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "name": "[concat(variables('vpn-gw-name'), '/Microsoft.Insights/service')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[variables('vpn-gw-name')]"
+          ],
+          "tags": {
+            "component": "hub-shared-network-gateway"
+          },
+          "properties": {
+            "storageAccountId": "[resourceId(variables('oms-workspace-resource-group'), 'Microsoft.Storage/storageAccounts', variables('diagnostic-storage-account-name'))]",
+            "workspaceId": "[resourceId(variables('oms-workspace-resource-group'), 'Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "logs": [
+              {
+                "category": "GatewayDiagnosticLog",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              },
+              {
+                "category": "TunnelDiagnosticLog",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              },
+              {
+                "category": "RouteDiagnosticLog",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              },
+              {
+                "category": "IKEDiagnosticLog",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              },
+              {
+                "category": "P2SDiagnosticLog",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              }
+            ],
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "timeGrain": null,
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": {}
+    },
+    "parameters": {
+      "namePrefix": {
+        "value": "[parameters('namePrefix')]"
+      },
+      "hubName": {
+        "value": "[parameters('hubName')]"
+      },
+      "logsRetentionInDays": {
+        "value": "[parameters('logsRetentionInDays')]"
+      },
+      "deployHub": {
+        "value": "[parameters('deployHub')]"
+      }
+    },
+    "dependsOn": [
+      "hub-shared-security-log",
+      "hub-shared-network-nsg",
+      "hub-shared-network-vnet"
+    ],
+    "resourceGroup": "HubResourceGroup",
+    "displayName": "Azure VPN Gateway template",
+    "description": "Azure VPN Gateway template."
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ASBF/artifacts/hub-shared-network-gateway",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "hub-shared-network-gateway"
+}

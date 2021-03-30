@@ -9,7 +9,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Blueprint initiative for ISO 27001"
+    "displayName": "ISO 27001:2013"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/ISO_27001/artifacts/d94ecab2-96d3-4c6a-8d3f-fd3b4177341b",

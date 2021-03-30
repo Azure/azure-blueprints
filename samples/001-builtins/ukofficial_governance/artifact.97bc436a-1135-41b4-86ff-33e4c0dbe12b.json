@@ -9,7 +9,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "[Preview]: Audit UK OFFICIAL and UK NHS controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "UK OFFICIAL and UK NHS"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/UKOFFICIAL_Governance/artifacts/97bc436a-1135-41b4-86ff-33e4c0dbe12b",

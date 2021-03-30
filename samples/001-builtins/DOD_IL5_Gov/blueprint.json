@@ -1,0 +1,1160 @@
+{
+  "properties": {
+    "parameters": {
+      "membersToIncludeInLocalAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that must be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of users that should be included in the Administrators local group; Ex: Administrator; myUser1; myUser2"
+        }
+      },
+      "membersToExcludeInLocalAdministratorsGroup": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of users that should be excluded in the Administrators local group; Ex: Administrator; myUser1; myUser2"
+        }
+      },
+      "listOfResourceTypesForDiagnosticLogs": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "logAnalyticsWorkspaceIDForVMAgents": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics workspace ID for VM agent reporting",
+          "description": "ID (GUID) of the Log Analytics workspace where VMs agents should report"
+        }
+      },
+      "listOfLocationsForNetworkWatcher": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of regions where Network Watcher should be enabled",
+          "description": "To see a complete list of regions use Get-AzLocation",
+          "strongType": "location"
+        }
+      },
+      "MinimumTLSVersionForWindowsServers": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Minimum TLS version for Windows web servers",
+          "description": "The minimum TLS protocol version that should be enabled on Windows web servers"
+        },
+        "allowedValues": [
+          "1.1",
+          "1.2"
+        ],
+        "defaultValue": "1.2"
+      },
+      "PHPLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest PHP version",
+          "description": "Latest supported PHP version for App Services"
+        },
+        "defaultValue": "7.3"
+      },
+      "JavaLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Java version",
+          "description": "Latest supported Java version for App Services"
+        },
+        "defaultValue": "11"
+      },
+      "WindowsPythonLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Windows Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.6"
+      },
+      "LinuxPythonLatestVersionForAppServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest Linux Python version",
+          "description": "Latest supported Python version for App Services"
+        },
+        "defaultValue": "3.8"
+      },
+      "WindowsImagesToAddToLogAgentAuditScope": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of Windows VM images that support Log Analytics agent to add to audit scope",
+          "description": "A semicolon-separated list of images; Ex: /subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage"
+        },
+        "defaultValue": []
+      },
+      "LinuxImagesToAddToLogAgentAuditScope": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of Linux VM images that support Log Analytics agent to add to audit scope",
+          "description": "A semicolon-separated list of images; Ex: /subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage"
+        },
+        "defaultValue": []
+      },
+      "identityDesignateMoreThanOneOwnerMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: There should be more than one owner assigned to your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "diskEncryptionMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Disk encryption should be applied on virtual machines",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "emailNotificationToSubscriptionOwnerHighSeverityAlertsEnabledEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Email notification to subscription owner for high severity alerts should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "functionAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Remote debugging should be turned off for Function Apps",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureDotNetFrameworkLatestForFunctionAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that '.NET Framework' version is the latest, if used as a part of the Function App",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlDbEncryptionMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Transparent Data Encryption on SQL databases should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerability assessment should be enabled on your SQL managed instances",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePHPVersionLatestForAPIAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'PHP version' is the latest, if used as a part of the Api app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "aadAuthenticationInSqlServerMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: An Azure Active Directory administrator should be provisioned for SQL servers",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Only secure connections to your Redis Cache should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vmssEndpointProtectionMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Endpoint protection solution should be installed on virtual machine scale sets",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Audit unrestricted network access to storage accounts",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlManagedInstanceAdvancedDataSecurityEmailsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced data security settings for SQL managed instance should contain an email address to receive security alerts",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerabilities in security configuration on your virtual machine scale sets should be remediated",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Secure transfer to storage accounts should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Adaptive Application Controls should be enabled on virtual machines",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "geoRedundantBackupShouldBeEnabledForAzureDatabaseForPostgreSQLEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Geo-redundant backup should be enabled for Azure Database for PostgreSQL",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureJavaVersionLatestForWebAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Java version' is the latest, if used as a part of the Web app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityDesignateLessThanOwnersMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: A maximum of 3 owners should be designated for your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "securityContactEmailAddressForSubscriptionEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: A security contact email address should be provided for your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: CORS should not allow every resource to access your Web Applications",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: External accounts with write permissions should be removed from your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityRemoveExternalAccountWithReadPermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: External accounts with read permissions should be removed from your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Deprecated accounts should be removed from your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Function App should only be accessible over HTTPS",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePythonVersionLatestForWebAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Python version' is the latest, if used as a part of the Web app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePythonVersionLatestForFunctionAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Python version' is the latest, if used as a part of the Function app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePHPVersionLatestForWebAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'PHP version' is the latest, if used as a part of the WEB app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePythonVersionLatestForAPIAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Python version' is the latest, if used as a part of the Api app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vulnerabilityAssessmentMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerabilities should be remediated by a Vulnerability Assessment solution",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "geoRedundantBackupShouldBeEnabledForAzureDatabaseForMySQLEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Geo-redundant backup should be enabled for Azure Database for MySQL",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureDotNetFrameworkLatestForWebAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that '.NET Framework' version is the latest, if used as a part of the Web app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "systemUpdatesMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: System updates should be installed on your machines",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureJavaVersionLatestForAPIAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Java version' is the latest, if used as a part of the Api app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureHTTPVersionLatestForWebAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'HTTP Version' is the latest, if used to run the Web app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "apiAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Latest TLS version should be used in your API App",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: MFA should be enabled accounts with write permissions on your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlServerAdvancedDataSecurityEmailsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced data security settings for SQL server should contain an email address to receive security alerts",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureHTTPVersionLatestForAPIAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'HTTP Version' is the latest, if used to run the Api app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "microsoftIaaSAntimalwareExtensionShouldBeDeployedOnWindowsServersEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Microsoft IaaSAntimalware extension should be deployed on Windows servers",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureJavaVersionLatestForFunctionAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'Java version' is the latest, if used as a part of the Function app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "nextGenerationFirewallMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Access through Internet facing endpoint should be restricted",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "securityCenterStandardPricingTierShouldBeSelectedEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Security Center standard pricing tier should be selected",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "useRbacRulesMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Audit usage of custom RBAC rules",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Web Application should only be accessible over HTTPS",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlServerAuditingMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Auditing on SQL server should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "theLogAnalyticsAgentShouldBeInstalledOnVirtualMachinesEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: The Log Analytics agent should be installed on virtual machines",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vnetEnableDDoSProtectionMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: DDoS Protection Standard should be enabled",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: MFA should be enabled on accounts with owner permissions on your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensurePHPVersionLatestForFunctionAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'PHP version' is the latest, if used as a part of the Function app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlServerAdvancedDataSecurityMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced data security should be enabled on your SQL servers",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlManagedInstanceAdvancedDataSecurityMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced data security should be enabled on your SQL managed instances",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlManagedInstanceAdvancedDataSecurityEmailAdminsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Email notifications to admins and subscription owners should be enabled in SQL managed instance advanced data security settings",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "endpointProtectionMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Monitor missing Endpoint Protection in Azure Security Center",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Just-In-Time network access control should be applied on virtual machines",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "securityContactPhoneNumberShouldBeProvidedForSubscriptionEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: A security contact phone number should be provided for your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "aadAuthenticationInServiceFabricMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Service Fabric clusters should only use Azure Active Directory for client authentication",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "apiAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: API App should only be accessible over HTTPS",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "threatDetectionTypesOnManagedInstanceMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced Threat Protection types should be set to 'All' in SQL managed instance Advanced Data Security settings",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "geoRedundantStorageShouldBeEnabledForStorageAccountsEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Geo-redundant storage should be enabled for Storage Accounts",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureDotNetFrameworkLatestForAPIAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that '.NET Framework' version is the latest, if used as a part of the API app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: System updates on virtual machine scale sets should be installed",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlServerAdvancedDataSecurityEmailAdminsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Email notifications to admins and subscription owners should be enabled in SQL server advanced data security settings",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Remote debugging should be turned off for Web Applications",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "longtermGeoRedundantBackupEnabledAzureSQLDatabasesEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Long-term geo-redundant backup should be enabled for Azure SQL Databases",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "systemConfigurationsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerabilities in security configuration on your machines should be remediated",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "ensureHTTPVersionLatestForFunctionAppEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Ensure that 'HTTP Version' is the latest, if used to run the Function app",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: MFA should be enabled on accounts with read permissions on your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "threatDetectionTypesOnServerMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Advanced Threat Protection types should be set to 'All' in SQL server Advanced Data Security settings",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "containerBenchmarkMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerabilities in container security configurations should be remediated",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Remote debugging should be turned off for API Apps",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Deprecated accounts with owner permissions should be removed from your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerability assessment should be enabled on your SQL servers",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "theLogAnalyticsAgentShouldBeInstalledOnVirtualMachineScaleSetsEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: The Log Analytics agent should be installed on Virtual Machine Scale Sets",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "webAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Latest TLS version should be used in your Web App",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: External accounts with owner permissions should be removed from your subscription",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "functionAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Latest TLS version should be used in your Function App",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "kubernetesServiceVersionUpToDateMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: [Preview]: Kubernetes Services should be upgraded to a non-vulnerable Kubernetes version",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      },
+      "sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "type": "string",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect for policy: Vulnerabilities on your SQL databases should be remediated",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        }
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2020-03-06T11:53:13+00:00",
+      "lastModified": "2020-03-06T11:53:13.2782125+00:00"
+    },
+    "displayName": "DoD Impact Level 5",
+    "description": "Assigns policies to address specific DOD Impact Level 5 controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/DOD_IL5_Gov",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "DOD_IL5_Gov"
+}

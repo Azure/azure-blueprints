@@ -9,7 +9,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "[Preview]: Audit PCI v3.2.1:2018 controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "PCI v3.2.1:2018"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/PCI_DSS_3_2_1/artifacts/a1d69d60-3bc3-46eb-a05e-1abc7f7ef4ba",

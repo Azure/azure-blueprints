@@ -1,0 +1,1429 @@
+{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "namePrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for resources and resource groups",
+            "description": "This string will be used as a prefix for all resource and resource group names."
+          }
+        },
+        "hubName": {
+          "type": "string",
+          "defaultValue": "hub-shared",
+          "metadata": {
+            "displayName": "Hub name",
+            "description": "Name for the hub."
+          }
+        },
+        "logsRetentionInDays": {
+          "type": "int",
+          "defaultValue": 365,
+          "minValue": 0,
+          "maxValue": 365,
+          "metadata": {
+            "displayName": "Log retention (days)",
+            "description": "Number of days that logs will be retained; entering '0' will retain logs indefinitely."
+          }
+        },
+        "workspaceLocation": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Log Analytics workspace location",
+            "description": "Location where Log Analytics workspace will be created; run `Get-AzLocation | Where-Object Providers -like 'Microsoft.OperationalInsights' | Select DisplayName` in Azure PowersShell to see available regions."
+          }
+        },
+        "automationAccountId": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+            "displayName": "Azure Automation account ID (optional)",
+            "description": "Automation account resource ID; used to create a linked service between Log Analytics and an Automation account."
+          }
+        },
+        "deployHub": {
+          "type": "bool",
+          "defaultValue": true,
+          "metadata": {
+            "displayName": "Deploy hub",
+            "description": "Enter 'true' or 'false' to specify whether the assignment will deploy the hub components of the architecture."
+          }
+        }
+      },
+      "variables": {
+        "location": "[resourceGroup().location]",
+        "deployment-prefix": "[toLower(concat(parameters('namePrefix'), '-', parameters('hubName')))]",
+        "unique-string": "[uniqueString(subscription().id, concat(variables('deployment-prefix')))]",
+        "diagnostic-storage-account-prefix": "[concat(replace(variables('deployment-prefix'), '-', ''), 'diag')]",
+        "diagnostic-storage-account-name": "[toLower(substring(replace(concat(variables('diagnostic-storage-account-prefix'), variables('unique-string'), variables('unique-string')), '-', ''), 0, 23) )]",
+        "oms-workspace-name": "[concat(variables('deployment-prefix'), '-log')]",
+        "log-analytics-search-version": 1,
+        "solutions": [
+          {
+            "name": "[concat('Updates', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "Updates"
+          },
+          {
+            "name": "[concat('AzureAutomation', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "AzureAutomation"
+          },
+          {
+            "name": "[concat('AntiMalware', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "AntiMalware"
+          },
+          {
+            "name": "[concat('SQLAssessment', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "SQLAssessment"
+          },
+          {
+            "name": "[concat('Security', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "Security"
+          },
+          {
+            "name": "[concat('ChangeTracking', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "ChangeTracking"
+          },
+          {
+            "name": "[concat('KeyVaultAnalytics', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "KeyVaultAnalytics"
+          },
+          {
+            "name": "[concat('AzureSQLAnalytics', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "AzureSQLAnalytics"
+          },
+          {
+            "name": "[concat('ServiceMap', '(', variables('oms-workspace-name'), ')')]",
+            "galleryName": "ServiceMap"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2020-03-01-preview",
+          "location": "[parameters('workspaceLocation')]",
+          "name": "[variables('oms-workspace-name')]",
+          "condition": "[parameters('deployHub')]",
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "features": {
+              "searchVersion": "[variables('log-analytics-search-version')]"
+            },
+            "sku": {
+              "name": "PerGB2018"
+            },
+            "retentionInDays": "[parameters('logsRetentionInDays')]"
+          },
+          "resources": [
+            {
+              "type": "savedSearches",
+              "apiVersion": "2020-03-01-preview",
+              "name": "VMSSQueries",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "etag": "*",
+                "DisplayName": "VMSS Instance Count",
+                "Category": "Security",
+                "Query": "Event | where Source == \"ServiceFabricNodeBootstrapAgent\" | summarize AggregatedValue = count() by Computer"
+              }
+            },
+            {
+              "type": "savedSearches",
+              "apiVersion": "2020-03-01-preview",
+              "name": "AzureFirewallThreatDeny",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "etag": "*",
+                "DisplayName": "Azure Threat Deny",
+                "Category": "Security",
+                "Query": "AzureDiagnostics | where ResourceType == 'AZUREFIREWALLS' and msg_s contains 'Deny'"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "[subscription().subscriptionId]",
+              "location": "[parameters('workspaceLocation')]",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "AzureActivityLog",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "linkedResourceId": "[concat(subscription().Id, '/providers/microsoft.insights/eventTypes/management')]"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "applicationEvent",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsEvent",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "eventLogName": "Application",
+                "eventTypes": [
+                  {
+                    "eventType": "Error"
+                  },
+                  {
+                    "eventType": "Warning"
+                  },
+                  {
+                    "eventType": "Information"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "systemEvent",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsEvent",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "eventLogName": "System",
+                "eventTypes": [
+                  {
+                    "eventType": "Error"
+                  },
+                  {
+                    "eventType": "Warning"
+                  },
+                  {
+                    "eventType": "Information"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Processor",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Processor Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter2",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Processor",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Privileged Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter3",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Processor",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% User Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter4",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Processor",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Processor Frequency"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter5",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Process",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Thread Count"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter6",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Process",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Handle Count"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter7",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "System",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "System Up Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter8",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "System",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Context Switches/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter9",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "System",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Processor Queue Length"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter10",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "System",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Processes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter11",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Committed Bytes In Use"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter12",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Available MBytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter13",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Available Bytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter14",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Committed Bytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter15",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Cache Bytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter16",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Pool Paged Bytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter17",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Pool Nonpaged Bytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter18",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Pages/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter19",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Memory",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Page Faults/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter20",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Process",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Working Set"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter21",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Process",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Working Set - Private"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter22",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Disk Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter23",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Disk Read Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter24",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Disk Write Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter25",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Idle Time"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter26",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Bytes/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter27",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Read Bytes/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter28",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Write Bytes/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter29",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Transfers/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter30",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Reads/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter31",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Disk Writes/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter32",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Avg. Disk sec/Transfer"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter33",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Avg. Disk sec/Read"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter34",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Avg. Disk sec/Write"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter35",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Avg. Disk Queue Length"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter36",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Avg. Disk Write Queue Length"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter37",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "% Free Space"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter38",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "LogicalDisk",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Free Megabytes"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter39",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Bytes Total/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter40",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Bytes Sent/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter41",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Bytes Received/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter42",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Packets/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter43",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Packets Sent/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter44",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Packets Received/sec"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter45",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Packets Outbound Errors"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "windowsPerfCounter46",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "WindowsPerformanceCounter",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "objectName": "Network Interface",
+                "instanceName": "*",
+                "intervalSeconds": 60,
+                "counterName": "Packets Received Errors"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "sampleIISLog1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "IISLogs",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "state": "OnPremiseEnabled"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "sampleSyslog1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "LinuxSyslog",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "syslogName": "kern",
+                "syslogSeverities": [
+                  {
+                    "severity": "emerg"
+                  },
+                  {
+                    "severity": "alert"
+                  },
+                  {
+                    "severity": "crit"
+                  },
+                  {
+                    "severity": "err"
+                  },
+                  {
+                    "severity": "warning"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "sampleSyslogCollection1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "LinuxSyslogCollection",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "state": "Enabled"
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "sampleLinuxPerf1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "LinuxPerformanceObject",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "performanceCounters": [
+                  {
+                    "counterName": "% Used Inodes"
+                  },
+                  {
+                    "counterName": "Free Megabytes"
+                  },
+                  {
+                    "counterName": "% Used Space"
+                  },
+                  {
+                    "counterName": "Disk Transfers/sec"
+                  },
+                  {
+                    "counterName": "Disk Reads/sec"
+                  },
+                  {
+                    "counterName": "Disk Writes/sec"
+                  }
+                ],
+                "objectName": "Logical Disk",
+                "instanceName": "*",
+                "intervalSeconds": 10
+              }
+            },
+            {
+              "type": "datasources",
+              "apiVersion": "2020-03-01-preview",
+              "name": "sampleLinuxPerfCollection1",
+              "condition": "[parameters('deployHub')]",
+              "dependsOn": [
+                "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+              ],
+              "kind": "LinuxPerformanceCollection",
+              "tags": {
+                "component": "hub-shared-security-log"
+              },
+              "properties": {
+                "state": "Enabled"
+              }
+            }
+          ]
+        },
+        {
+          "type": "Microsoft.Resources/deployments",
+          "apiVersion": "2019-10-01",
+          "name": "nestedTemplate",
+          "condition": "[parameters('deployHub')]",
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "mode": "Incremental",
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {},
+              "variables": {},
+              "resources": []
+            },
+            "parameters": {}
+          }
+        },
+        {
+          "type": "Microsoft.OperationsManagement/solutions",
+          "apiVersion": "2015-11-01-preview",
+          "name": "[concat(variables('solutions')[copyIndex()].name)]",
+          "location": "[parameters('workspaceLocation')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[concat('Microsoft.OperationalInsights/workspaces/', variables('oms-workspace-name'))]"
+          ],
+          "copy": {
+            "name": "solutionCopy",
+            "count": "[length(variables('solutions'))]",
+            "mode": "Serial"
+          },
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]"
+          },
+          "plan": {
+            "name": "[variables('solutions')[copyIndex()].name]",
+            "product": "[concat('OMSGallery/', variables('solutions')[copyIndex()].galleryName)]",
+            "promotionCode": "",
+            "publisher": "Microsoft"
+          }
+        },
+        {
+          "comments": "*Log Analytics Workspace resource lock*",
+          "type": "Microsoft.OperationalInsights/workspaces/providers/locks",
+          "apiVersion": "2017-04-01",
+          "name": "[concat(variables('oms-workspace-name'), '/Microsoft.Authorization/logAnalyticsDoNotDelete')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[variables('oms-workspace-name')]"
+          ],
+          "properties": {
+            "level": "CannotDelete"
+          }
+        },
+        {
+          "comments": "*Diagnostic storage account*",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2019-06-01",
+          "name": "[variables('diagnostic-storage-account-name')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "kind": "StorageV2",
+          "sku": {
+            "name": "Standard_GRS"
+          },
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "encryption": {
+              "keySource": "Microsoft.Storage",
+              "services": {
+                "blob": {
+                  "enabled": true
+                },
+                "file": {
+                  "enabled": true
+                }
+              }
+            },
+            "allowBlobPublicAccess": false,
+            "supportsHttpsTrafficOnly": true,
+            "networkAcls": {
+              "bypass": "AzureServices",
+              "defaultAction": "Deny"
+            }
+          }
+        },
+        {
+          "type": "Microsoft.Storage/storageAccounts/providers/locks",
+          "apiVersion": "2016-09-01",
+          "name": "[concat(variables('diagnostic-storage-account-name'), '/Microsoft.Authorization/storageDoNotDelete')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', variables('diagnostic-storage-account-name'))]"
+          ],
+          "comments": "Resource lock on diagnostic storage account",
+          "properties": {
+            "level": "CannotDelete"
+          }
+        },
+        {
+          "type": "Microsoft.OperationalInsights/workspaces/storageinsightconfigs",
+          "apiVersion": "2020-03-01-preview",
+          "name": "[concat(variables('oms-workspace-name'), '/', variables('diagnostic-storage-account-name'))]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[concat('Microsoft.Storage/storageAccounts/', variables('diagnostic-storage-account-name'))]"
+          ],
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "containers": [],
+            "tables": [
+              "WADWindowsEventLogsTable",
+              "WADETWEventTable",
+              "WADServiceFabric*EventTable",
+              "LinuxsyslogVer2v0"
+            ],
+            "storageAccount": {
+              "id": "[resourceId('Microsoft.Storage/storageAccounts/', variables('diagnostic-storage-account-name'))]",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('diagnostic-storage-account-name')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+            }
+          }
+        },
+        {
+          "type": "Microsoft.OperationalInsights/workspaces/linkedServices",
+          "apiVersion": "2020-03-01-preview",
+          "name": "[concat(variables('oms-workspace-name'), '/' , 'Automation')]",
+          "location": "[parameters('workspaceLocation')]",
+          "condition": "[and(parameters('deployHub'), not(empty(parameters('automationAccountId'))))]",
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "resourceId": "[parameters('automationAccountId')]"
+          }
+        },
+        {
+          "type": "Microsoft.OperationalInsights/workspaces/providers/diagnosticSettings",
+          "apiVersion": "2017-05-01-preview",
+          "name": "[concat(variables('oms-workspace-name'),'/Microsoft.Insights/service')]",
+          "location": "[variables('location')]",
+          "condition": "[parameters('deployHub')]",
+          "dependsOn": [
+            "[variables('oms-workspace-name')]",
+            "[variables('diagnostic-storage-account-name')]"
+          ],
+          "tags": {
+            "component": "hub-shared-security-log"
+          },
+          "properties": {
+            "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('diagnostic-storage-account-name'))]",
+            "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('oms-workspace-name'))]",
+            "metrics": [
+              {
+                "category": "AllMetrics",
+                "enabled": true,
+                "retentionPolicy": {
+                  "enabled": true,
+                  "days": "[parameters('logsRetentionInDays')]"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": {}
+    },
+    "parameters": {
+      "namePrefix": {
+        "value": "[parameters('namePrefix')]"
+      },
+      "hubName": {
+        "value": "[parameters('hubName')]"
+      },
+      "logsRetentionInDays": {
+        "value": "[parameters('logsRetentionInDays')]"
+      },
+      "workspaceLocation": {
+        "value": "[parameters('hub-shared-security-log_workspaceLocation')]"
+      },
+      "automationAccountId": {
+        "value": "[parameters('hub-shared-security-log_automationAccountId')]"
+      },
+      "deployHub": {
+        "value": "[parameters('deployHub')]"
+      }
+    },
+    "resourceGroup": "HubResourceGroup",
+    "displayName": "Azure Log Analytics and Diagnostics template",
+    "description": "Azure Log Analytics and Diagnostics template."
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ASBF_Gov/artifacts/hub-shared-security-log",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "hub-shared-security-log"
+}

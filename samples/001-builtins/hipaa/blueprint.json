@@ -8,7 +8,7 @@
           "description": "A semicolon-separated list of the names of the applications that should be installed. e.g. 'Microsoft SQL Server 2014 (64-bit); Microsoft Visual Studio Code' or 'Microsoft SQL Server 2014*' (to match any application starting with 'Microsoft SQL Server 2014')"
         },
         "allowedValues": [
-        
+
         ]
       },
       "DeployDiagnosticSettingsforNetworkSecurityGroupsstoragePrefix": {
@@ -18,7 +18,7 @@
           "description": "This prefix will be combined with the network security group location to form the created storage account name."
         },
         "allowedValues": [
-        
+
         ]
       },
       "DeployDiagnosticSettingsforNetworkSecurityGroupsrgName": {
@@ -29,7 +29,207 @@
           "strongType": "ExistingResourceGroups"
         },
         "allowedValues": [
-        
+
+        ]
+      },
+      "CertificateThumbprints": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Certificate thumbprints",
+          "description": "A semicolon-separated list of certificate thumbprints that should exist under the Trusted Root certificate store (Cert:\\LocalMachine\\Root). e.g. THUMBPRINT1;THUMBPRINT2;THUMBPRINT3"
+        },
+        "allowedValues": [
+
+        ]
+      },
+      "membersToExclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be excluded in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "workspaceId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of workspace IDs where Log Analytics agents should connect",
+          "description": "A semicolon-separated list of the workspace IDs that the Log Analytics agent should be connected to"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "listOfResourceTypes": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled",
+          "description": "Audit diagnostic setting for selected resource types"
+        },
+        "defaultValue": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ],
+        "allowedValues": [
+          "Microsoft.AnalysisServices/servers",
+          "Microsoft.ApiManagement/service",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.Automation/automationAccounts",
+          "Microsoft.ContainerInstance/containerGroups",
+          "Microsoft.ContainerRegistry/registries",
+          "Microsoft.ContainerService/managedClusters",
+          "Microsoft.Batch/batchAccounts",
+          "Microsoft.Cdn/profiles/endpoints",
+          "Microsoft.CognitiveServices/accounts",
+          "Microsoft.DocumentDB/databaseAccounts",
+          "Microsoft.DataFactory/factories",
+          "Microsoft.DataLakeAnalytics/accounts",
+          "Microsoft.DataLakeStore/accounts",
+          "Microsoft.EventGrid/eventSubscriptions",
+          "Microsoft.EventGrid/topics",
+          "Microsoft.EventHub/namespaces",
+          "Microsoft.Network/expressRouteCircuits",
+          "Microsoft.Network/azureFirewalls",
+          "Microsoft.HDInsight/clusters",
+          "Microsoft.Devices/IotHubs",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/loadBalancers",
+          "Microsoft.Logic/integrationAccounts",
+          "Microsoft.Logic/workflows",
+          "Microsoft.DBforMySQL/servers",
+          "Microsoft.Network/networkInterfaces",
+          "Microsoft.Network/networkSecurityGroups",
+          "Microsoft.DBforPostgreSQL/servers",
+          "Microsoft.PowerBIDedicated/capacities",
+          "Microsoft.Network/publicIPAddresses",
+          "Microsoft.RecoveryServices/vaults",
+          "Microsoft.Cache/redis",
+          "Microsoft.Relay/namespaces",
+          "Microsoft.Search/searchServices",
+          "Microsoft.ServiceBus/namespaces",
+          "Microsoft.SignalRService/SignalR",
+          "Microsoft.Sql/servers/databases",
+          "Microsoft.Sql/servers/elasticPools",
+          "Microsoft.StreamAnalytics/streamingjobs",
+          "Microsoft.TimeSeriesInsights/environments",
+          "Microsoft.Network/trafficManagerProfiles",
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.Compute/virtualMachineScaleSets",
+          "Microsoft.Network/virtualNetworks",
+          "Microsoft.Network/virtualNetworkGateways"
+        ]
+      },
+      "membersToInclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that must be included in Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be included in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "listOfLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of regions where Network Watcher should be enabled",
+          "description": "To see a complete list of regions use Get-AzLocation",
+          "strongType": "location"
+        },
+        "defaultValue": [],
+        "allowedValues": [
+
+        ]
+      },
+      "members": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users that Windows VM Administrators group must *only* include",
+          "description": "A semicolon-separated list of all the expected members of the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
+        ]
+      },
+      "operationName": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Operation Name",
+          "description": "Administrative Operation name for which activity log alert should be configured"
+        },
+        "defaultValue": "Microsoft.Sql/servers/firewallRules/write",
+        "allowedValues": [
+          "Microsoft.Sql/servers/firewallRules/write",
+          "Microsoft.Sql/servers/firewallRules/delete",
+          "Microsoft.Network/networkSecurityGroups/write",
+          "Microsoft.Network/networkSecurityGroups/delete",
+          "Microsoft.ClassicNetwork/networkSecurityGroups/write",
+          "Microsoft.ClassicNetwork/networkSecurityGroups/delete",
+          "Microsoft.Network/networkSecurityGroups/securityRules/write",
+          "Microsoft.Network/networkSecurityGroups/securityRules/delete",
+          "Microsoft.ClassicNetwork/networkSecurityGroups/securityRules/write",
+          "Microsoft.ClassicNetwork/networkSecurityGroups/securityRules/delete"
+        ]
+      },
+      "virtualNetworkId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Virtual network where VMs should be connected",
+          "description": "Resource Id of the virtual network. Example: /subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Network/virtualNetworks/Name"
+        },
+        "defaultValue": "",
+        "allowedValues": [
+
         ]
       },
       "diagnosticsLogsInBatchAccountMonitoringEffect": {
@@ -40,8 +240,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInBatchAccountRetentionDays": {
@@ -52,7 +252,7 @@
         },
         "defaultValue": "365",
         "allowedValues": [
-        
+
         ]
       },
       "ensureManagedInstanceTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
@@ -63,8 +263,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diskEncryptionMonitoringEffect": {
@@ -75,8 +275,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInSearchServiceMonitoringEffect": {
@@ -87,8 +287,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInSearchServiceRetentionDays": {
@@ -99,7 +299,7 @@
         },
         "defaultValue": "365",
         "allowedValues": [
-        
+
         ]
       },
       "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
@@ -110,8 +310,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "vulnerabilityAssesmentMonitoringEffect": {
@@ -122,8 +322,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "EnableInsecureGuestLogons": {
@@ -134,7 +334,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "AllowSimultaneousConnectionsToTheInternetOrAWindowsDomain": {
@@ -145,7 +345,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "TurnOffMulticastNameResolution": {
@@ -156,7 +356,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "nextGenerationFirewallMonitoringEffect": {
@@ -167,8 +367,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "ensureServerTDEIsEncryptedWithYourOwnKeyMonitoringEffect": {
@@ -179,8 +379,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "apiAppDisableRemoteDebuggingMonitoringEffect": {
@@ -191,8 +391,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "classicComputeVMsMonitoringEffect": {
@@ -203,9 +403,9 @@
         },
         "defaultValue": "Audit",
         "allowedValues": [
-        "Audit",
-        "Deny",
-        "Disabled"
+          "Audit",
+          "Deny",
+          "Disabled"
         ]
       },
       "disableUnrestrictedNetworkToStorageAccountMonitoringEffect": {
@@ -216,8 +416,8 @@
         },
         "defaultValue": "Audit",
         "allowedValues": [
-        "Audit",
-        "Disabled"
+          "Audit",
+          "Disabled"
         ]
       },
       "adaptiveApplicationControlsMonitoringEffect": {
@@ -228,8 +428,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "NetworkAccessRemotelyAccessibleRegistryPaths": {
@@ -240,7 +440,7 @@
         },
         "defaultValue": "System\\CurrentControlSet\\Control\\ProductOptions|#|System\\CurrentControlSet\\Control\\Server Applications|#|Software\\Microsoft\\Windows NT\\CurrentVersion",
         "allowedValues": [
-        
+
         ]
       },
       "NetworkAccessRemotelyAccessibleRegistryPathsAndSubpaths": {
@@ -251,7 +451,7 @@
         },
         "defaultValue": "System\\CurrentControlSet\\Control\\Print\\Printers|#|System\\CurrentControlSet\\Services\\Eventlog|#|Software\\Microsoft\\OLAP Server|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Print|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows|#|System\\CurrentControlSet\\Control\\ContentIndex|#|System\\CurrentControlSet\\Control\\Terminal Server|#|System\\CurrentControlSet\\Control\\Terminal Server\\UserConfig|#|System\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration|#|Software\\Microsoft\\Windows NT\\CurrentVersion\\Perflib|#|System\\CurrentControlSet\\Services\\SysmonLog",
         "allowedValues": [
-        
+
         ]
       },
       "NetworkAccessSharesThatCanBeAccessedAnonymously": {
@@ -262,7 +462,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "webAppDisableRemoteDebuggingMonitoringEffect": {
@@ -273,8 +473,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "apiAppEnforceHttpsMonitoringEffectV2": {
@@ -285,8 +485,8 @@
         },
         "defaultValue": "Audit",
         "allowedValues": [
-        "Audit",
-        "Disabled"
+          "Audit",
+          "Disabled"
         ]
       },
       "identityEnableMFAForWritePermissionsMonitoringEffect": {
@@ -297,8 +497,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "jitNetworkAccessMonitoringEffect": {
@@ -309,8 +509,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
@@ -321,8 +521,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "kubernetesServiceRbacEnabledMonitoringEffect": {
@@ -333,8 +533,8 @@
         },
         "defaultValue": "Audit",
         "allowedValues": [
-        "Audit",
-        "Disabled"
+          "Audit",
+          "Disabled"
         ]
       },
       "restrictAccessToManagementPortsMonitoringEffect": {
@@ -345,8 +545,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "vmssOsVulnerabilitiesMonitoringEffect": {
@@ -357,8 +557,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInEventHubMonitoringEffect": {
@@ -369,8 +569,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInEventHubRetentionDays": {
@@ -381,7 +581,7 @@
         },
         "defaultValue": "365",
         "allowedValues": [
-        
+
         ]
       },
       "vmssSystemUpdatesMonitoringEffect": {
@@ -392,8 +592,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "diagnosticsLogsInServiceFabricMonitoringEffect": {
@@ -404,8 +604,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "systemUpdatesMonitoringEffect": {
@@ -416,8 +616,8 @@
         },
         "defaultValue": "AuditIfNotExists",
         "allowedValues": [
-        "AuditIfNotExists",
-        "Disabled"
+          "AuditIfNotExists",
+          "Disabled"
         ]
       },
       "DeployAzureBaselineSecurityOptionsAccountsAccountsGuestAccountStatus": {
@@ -428,7 +628,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "RecoveryConsoleAllowFloppyCopyAndAccessToAllDrivesAndAllFolders": {
@@ -439,7 +639,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "AuditShutDownSystemImmediatelyIfUnableToLogSecurityAudits": {
@@ -450,7 +650,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "DeployAzureBaselineSystemAuditPoliciesDetailedTrackingAuditProcessTermination": {
@@ -461,10 +661,10 @@
         },
         "defaultValue": "No Auditing",
         "allowedValues": [
-        "No Auditing",
-        "Success",
-        "Failure",
-        "Success and Failure"
+          "No Auditing",
+          "Success",
+          "Failure",
+          "Success and Failure"
         ]
       },
       "WindowsFirewallDomainUseProfileSettings": {
@@ -475,7 +675,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallDomainBehaviorForOutboundConnections": {
@@ -486,7 +686,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallDomainApplyLocalConnectionSecurityRules": {
@@ -497,7 +697,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallDomainApplyLocalFirewallRules": {
@@ -508,7 +708,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallDomainDisplayNotifications": {
@@ -519,7 +719,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateUseProfileSettings": {
@@ -530,7 +730,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateBehaviorForOutboundConnections": {
@@ -541,7 +741,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateApplyLocalConnectionSecurityRules": {
@@ -552,7 +752,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateApplyLocalFirewallRules": {
@@ -563,7 +763,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateDisplayNotifications": {
@@ -574,7 +774,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicUseProfileSettings": {
@@ -585,7 +785,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicBehaviorForOutboundConnections": {
@@ -596,7 +796,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicApplyLocalConnectionSecurityRules": {
@@ -607,7 +807,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicApplyLocalFirewallRules": {
@@ -618,7 +818,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicDisplayNotifications": {
@@ -629,7 +829,7 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallDomainAllowUnicastResponse": {
@@ -640,7 +840,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPrivateAllowUnicastResponse": {
@@ -651,7 +851,7 @@
         },
         "defaultValue": "0",
         "allowedValues": [
-        
+
         ]
       },
       "WindowsFirewallPublicAllowUnicastResponse": {
@@ -662,22 +862,293 @@
         },
         "defaultValue": "1",
         "allowedValues": [
-        
+
         ]
       },
-      "CertificateThumbprints": {
+      "requiredRetentionDays": {
         "type": "string",
         "metadata": {
-          "displayName": "Certificate thumbprints",
-          "description": "A semicolon-separated list of certificate thumbprints that should exist under the Trusted Root certificate store (Cert:\\LocalMachine\\Root). e.g. THUMBPRINT1;THUMBPRINT2;THUMBPRINT3"
+          "displayName": "Required retention (in days) of logs in Data Lake Store accounts",
+          "description": "The required diagnostic logs retention period in days"
         },
+        "defaultValue": "365",
         "allowedValues": [
-        
+
+        ]
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect for policy: [Only secure connections to your Redis Cache should be enabled]",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect for policy: [Secure transfer to storage accounts should be enabled]",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "usersOrGroupsThatMayAccessThisComputerFromTheNetwork": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may access this computer from the network",
+          "description": "Specifies which remote users on the network are permitted to connect to the computer. This does not include Remote Desktop Connection."
+        },
+        "defaultValue": "Administrators, Authenticated Users",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayLogOnLocally": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may log on locally",
+          "description": "Specifies which users or groups can interactively log on to the computer. Users who attempt to log on via Remote Desktop Connection or IIS also require this user right."
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayLogOnThroughRemoteDesktopServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may log on through Remote Desktop Services",
+          "description": "Specifies which users or groups are permitted to log on as a Terminal Services client, Remote Desktop, or for Remote Assistance."
+        },
+        "defaultValue": "Administrators, Remote Desktop Users",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatAreDeniedAccessToThisComputerFromTheNetwork": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied access from the network",
+          "description": "Specifies which users or groups are explicitly prohibited from connecting across the network."
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayManageAuditingAndSecurityLog": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may manage auditing and security log",
+          "description": "Specifies users and groups permitted to change the auditing options for files and directories and clear the Security log."
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayBackUpFilesAndDirectories": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may back up files and directories",
+          "description": "Specifies users and groups allowed to circumvent file and directory permissions to back up the system."
+        },
+        "defaultValue": "Administrators, Backup Operators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayChangeTheSystemTime": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may change the system time",
+          "description": "Specifies which users and groups are permitted to change the time and date on the internal clock of the computer."
+        },
+        "defaultValue": "Administrators, LOCAL SERVICE",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayChangeTheTimeZone": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may change the time zone",
+          "description": "Specifies which users and groups are permitted to change the time zone of the computer."
+        },
+        "defaultValue": "Administrators, LOCAL SERVICE",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayCreateATokenObject": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may create a token object",
+          "description": "Specifies which users and groups are permitted to create an access token, which may provide elevated rights to access sensitive data."
+        },
+        "defaultValue": "No One",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsABatchJob": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied logging on as a batch job",
+          "description": "Specifies which users and groups are explicitly not permitted to log on to the computer as a batch job (i.e. scheduled task)."
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatAreDeniedLoggingOnAsAService": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied logging on as a service",
+          "description": "Specifies which service accounts are explicitly not permitted to register a process as a service."
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatAreDeniedLocalLogon": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied local logon",
+          "description": "Specifies which users and groups are explicitly not permitted to log on to the computer."
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatAreDeniedLogOnThroughRemoteDesktopServices": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that are denied log on through Remote Desktop Services",
+          "description": "Specifies which users and groups are explicitly not permitted to log on to the computer via Terminal Services/Remote Desktop Client."
+        },
+        "defaultValue": "Guests",
+        "allowedValues": [
+
+        ]
+      },
+      "userAndGroupsThatMayForceShutdownFromARemoteSystem": {
+        "type": "string",
+        "metadata": {
+          "displayName": "User and groups that may force shutdown from a remote system",
+          "description": "Specifies which users and groups are permitted to shut down the computer from a remote location on the network."
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatMayRestoreFilesAndDirectories": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that may restore files and directories",
+          "description": "Specifies which users and groups are permitted to bypass file, directory, registry, and other persistent object permissions when restoring backed up files and directories."
+        },
+        "defaultValue": "Administrators, Backup Operators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersAndGroupsThatMayShutDownTheSystem": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users and groups that may shut down the system",
+          "description": "Specifies which users and groups who are logged on locally to the computers in your environment are permitted to shut down the operating system with the Shut Down command."
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "usersOrGroupsThatMayTakeOwnershipOfFilesOrOtherObjects": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Users or groups that may take ownership of files or other objects",
+          "description": "Specifies which users and groups are permitted to take ownership of files, folders, registry keys, processes, or threads. This user right bypasses any permissions that are in place to protect objects to give ownership to the specified user."
+        },
+        "defaultValue": "Administrators",
+        "allowedValues": [
+
+        ]
+      },
+      "virtualMachinesShouldBeConnectedToAnApprovedVirtualNetworkEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Effect for policy: [Virtual machines should be connected to an approved virtual network]",
+          "description": "Azure Policy effect for this policy; for more information about effects, visit https://aka.ms/policyeffects"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "uacAdminApprovalModeForTheBuiltinAdministratorAccount": {
+        "type": "string",
+        "metadata": {
+          "displayName": "UAC: Admin Approval Mode for the Built-in Administrator account",
+          "description": "Specifies the behavior of Admin Approval Mode for the built-in Administrator account."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "uacBehaviorOfTheElevationPromptForAdministratorsInAdminApprovalMode": {
+        "type": "string",
+        "metadata": {
+          "displayName": "UAC: Behavior of the elevation prompt for administrators in Admin Approval Mode",
+          "description": "Specifies the behavior of the elevation prompt for administrators."
+        },
+        "defaultValue": "2",
+        "allowedValues": [
+
+        ]
+      },
+      "uacDetectApplicationInstallationsAndPromptForElevation": {
+        "type": "string",
+        "metadata": {
+          "displayName": "UAC: Detect application installations and prompt for elevation",
+          "description": "Specifies the behavior of application installation detection for the computer."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
+        ]
+      },
+      "uacRunAllAdministratorsInAdminApprovalMode": {
+        "type": "string",
+        "metadata": {
+          "displayName": "UAC: Run all administrators in Admin Approval Mode",
+          "description": "Specifies the behavior of all User Account Control (UAC) policy settings for the computer."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+
         ]
       }
     },
     "resourceGroups": {
-      
+
     },
     "targetScope": "subscription",
     "status": {

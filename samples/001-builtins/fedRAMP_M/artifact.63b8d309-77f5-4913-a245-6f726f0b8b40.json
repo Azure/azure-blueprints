@@ -18,7 +18,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Audit FedRAMP Moderate controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "FedRAMP Moderate"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMP_M/artifacts/63b8d309-77f5-4913-a245-6f726f0b8b40",

@@ -13,10 +13,8 @@
         ],
         "allowedValues": [
         "Standard_ZRS",
-        "Premium_LRS",
         "Standard_GRS",
         "Standard_RAGRS",
-        "Standard_ZRS",
         "Premium_LRS",
         "Standard_LRS"
         ]

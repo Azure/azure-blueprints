@@ -1,0 +1,729 @@
+﻿{
+  "properties": {
+    "parameters": {
+      "membersToExclude": {
+        "type": "string",
+        "metadata": {
+          "displayName": "List of users excluded from Windows VM Administrators group",
+          "description": "A semicolon-separated list of members that should be excluded in the Administrators local group. Ex: Administrator; myUser1; myUser2"
+        }
+      },
+      "logAnalyticsWorkspaceId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Id that VMs should be configured for",
+          "description": "This is the Id (GUID) of the Log Analytics Workspace that the VMs should be configured for."
+        }
+      },
+      "vulnerabilityAssessmentEmailSettingForReceivingScanReportsEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerability Assessment settings for SQL server should contain an email address to receive scan reports",
+          "description": "Enable or disable the monitoring of Vulnerability Assessment settings for SQL server should contain an email address to receive scan reports"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "adaptiveNetworkHardeningsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Adaptive Network Hardening recommendations should be applied on internet facing virtual machines",
+          "description": "Enable or disable the monitoring of Internet-facing virtual machines for Network Security Group traffic hardening recommendations"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityDesignateMoreThanOneOwnerMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "There should be more than one owner assigned to your subscription",
+          "description": "Enable or disable the monitoring of minimum owners in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "diskEncryptionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Disk encryption should be applied on virtual machines",
+          "description": "Enable or disable the monitoring for VM disk encryption"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "functionAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Remote debugging should be turned off for Function App",
+          "description": "Enable or disable the monitoring of remote debugging for Function App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "sqlDbEncryptionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Transparent Data Encryption on SQL databases should be enabled",
+          "description": "Enable or disable the monitoring of unencrypted SQL databases"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "vulnerabilityAssessmentOnManagedInstanceMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerability assessment should be enabled on your SQL managed instances",
+          "description": "Audit SQL managed instances which do not have recurring vulnerability assessment scans enabled. Vulnerability assessment can discover, track, and help you remediate potential database vulnerabilities."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "aadAuthenticationInSqlServerMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "An Azure Active Directory administrator should be provisioned for SQL servers",
+          "description": "Enable or disable the monitoring of an Azure AD admininistrator for SQL server"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "diagnosticsLogsInRedisCacheMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Only secure connections to your Redis Cache should be enabled",
+          "description": "Enable or disable the monitoring of diagnostic logs in Azure Redis Cache"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "vmssEndpointProtectionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Endpoint protection solution should be installed on virtual machine scale sets",
+          "description": "Enable or disable the monitoring of virtual machine scale sets endpoint protection monitoring"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "listOfImageIdToIncludeWindows": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Windows OS to add to scope",
+          "description": "Example value: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": [
+
+        ]
+      },
+      "listOfImageIdToIncludeLinux": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Optional: List of VM images that have supported Linux OS to add to scope",
+          "description": "Example value: '/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage'"
+        },
+        "defaultValue": [
+
+        ]
+      },
+      "auditUnrestrictedNetworkToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Audit unrestricted network access to storage accounts",
+          "description": "Enable or disable the monitoring of network access to storage account"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "vmssOsVulnerabilitiesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated",
+          "description": "Enable or disable the monitoring of virtual machine scale sets OS vulnerabilities monitoring"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "secureTransferToStorageAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Secure transfer to storage accounts should be enabled",
+          "description": "Enable or disable the monitoring of secure transfer to storage account"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "adaptiveApplicationControlsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Adaptive Application Controls should be enabled on virtual machines",
+          "description": "Enable or disable the monitoring of allowed application list in Azure Security Center"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityDesignateLessThanOwnersMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "A maximum of 3 owners should be designated for your subscription",
+          "description": "Enable or disable the monitoring of maximum owners in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "serverVulnerabilityAssessmentEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "[Preview] Vulnerability Assessment should be enabled on Virtual Machines",
+          "description": "Enable or disable the detection of VM vulnerabilities by Azure Security Center Vulnerability Assessment"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "webAppRestrictCORSAccessMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "CORS should not allow every resource to access your Web Application",
+          "description": "Enable or disable the monitoring of CORS restrictions for Web Application"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityRemoveExternalAccountWithWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "External accounts with write permissions should be removed from your subscription",
+          "description": "Enable or disable the monitoring of external acounts with write permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityRemoveDeprecatedAccountMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Deprecated accounts should be removed from your subscription",
+          "description": "Enable or disable the monitoring of deprecated acounts in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "functionAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Function App should only be accessible over HTTPS v2",
+          "description": "Enable or disable the monitoring of the use of HTTPS in Function App v2"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "vulnerabilityAssessmentMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities should be remediated by a Vulnerability Assessment solution",
+          "description": "Enable or disable the detection of VM vulnerabilities by a vulnerability assessment solution"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "logProfilesForActivityLogEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Azure subscriptions should have a log profile for Activity Log",
+          "description": "Enable or disable the monitoring of a log profile for Activity Log in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "listOfResourceTypes": {
+        "type": "array",
+        "metadata": {
+          "displayName": "List of resource types that should have diagnostic logs enabled",
+          "strongType": "resourceTypes"
+        }
+      },
+      "systemUpdatesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System updates should be installed on your machines",
+          "description": "Enable or disable the monitoring of system updates reporting"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "apiAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest TLS version should be used for App Service",
+          "description": "Enable or disable the monitoring of the latest TLS version in App Service"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityEnableMFAForWritePermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled accounts with write permissions on your subscription",
+          "description": "Enable or disable the monitoring of MFA for accounts with write permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "anitmalwareRequiredForWindowsServersEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Microsoft IaaSAntimalware extension should be deployed on Windows servers",
+          "description": "Enable or disable the monitoring of Windows server VMs without Microsoft IaaSAntimalware extension deployed"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "webAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Web Application should only be accessible over HTTPS v2",
+          "description": "Enable or disable the monitoring of the use of HTTPS in Web App v2"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "vnetEnableDDoSProtectionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "DDoS Protection Standard should be enabled",
+          "description": "Enable or disable the monitoring of DDoS protection for all virtual networks with a subnet that is part of an application gateway with a public IP."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityEnableMFAForOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled on accounts with owner permissions on your subscription",
+          "description": "Enable or disable the monitoring of MFA for accounts with owner permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "sqlServerAdvancedDataSecurityMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Advanced data security should be enabled on your SQL servers",
+          "description": "Enable or disable the monitoring of SQL servers without Advanced Data Security"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "sqlManagedInstanceAdvancedDataSecurityMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Advanced data security should be enabled on your SQL managed instances",
+          "description": "Enable or disable the monitoring of SQL managed instances without Advanced Data Security"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "endpointProtectionMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Monitor missing endpoint protection in Azure Security Center",
+          "description": "Enable or disable the monitoring of endpoint protection"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "jitNetworkAccessMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Just-in-time network access control should be applied on virtual machines",
+          "description": "Enable or disable the monitoring of network just-in-time access"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "minimumTLSVersion": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Minimum TLS version",
+          "description": "The minimum TLS protocol version that should be enabled. Windows web servers with lower TLS versions will be marked as non-compliant."
+        },
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2"
+        ]
+      },
+      "aadAuthenticationInServiceFabricMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Service Fabric clusters should only use Azure Active Directory for client authentication",
+          "description": "Enable or disable the monitoring of Azure Active Directory for client authentication in Service Fabric"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "apiAppEnforceHttpsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "App Service should only be accessible over HTTPS v2",
+          "description": "Enable or disable the monitoring of the use of HTTPS v2 in App Service"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "vmssSystemUpdatesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "System updates on virtual machine scale sets should be installed",
+          "description": "Enable or disable the monitoring of virtual machine scale sets system updates reporting"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "webAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Remote debugging should be turned off for Web Application",
+          "description": "Enable or disable the monitoring of remote debugging for Web App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "systemConfigurationsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities in security configuration on your machines should be remediated",
+          "description": "Enable or disable the monitoring of OS vulnerabilities (based on a configured baseline)"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityEnableMFAForReadPermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "MFA should be enabled on accounts with read permissions on your subscription",
+          "description": "Enable or disable the monitoring of MFA for accounts with read permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "enforcePasswordHistory": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Enforce password history",
+          "description": "Specifies limits on password reuse - how many times a new password must be created for a user account before the password can be repeated."
+        },
+        "defaultValue": "24"
+      },
+      "maximumPasswordAge": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Maximum password age",
+          "description": "Specifies the maximum number of days that may elapse before a user account password must be changed. The format of the value is two integers separated by a comma, denoting an inclusive range."
+        },
+        "defaultValue": "1,70"
+      },
+      "minimumPasswordAge": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Minimum password age",
+          "description": "Specifies the minimum number of days that must elapse before a user account password can be changed."
+        },
+        "defaultValue": "1"
+      },
+      "minimumPasswordLength": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Minimum password length",
+          "description": "Specifies the minimum number of characters that a user account password may contain."
+        },
+        "defaultValue": "10"
+      },
+      "passwordMustMeetComplexityRequirements": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Password must meet complexity requirements",
+          "description": "Specifies whether a user account password must be complex. If required, a complex password must not contain part of user's account name or full name; be at least 6 characters long; contain a mix of uppercase, lowercase, number, and non-alphabetic characters."
+        },
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1"
+        ]
+      },
+      "containerBenchmarkMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities in container security configurations should be remediated",
+          "description": "Enable or disable the monitoring of container benchmark"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "apiAppDisableRemoteDebuggingMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Remote debugging should be turned off for App Service",
+          "description": "Enable or disable the monitoring of remote debugging for App Service"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityRemoveDeprecatedAccountWithOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Deprecated accounts with owner permissions should be removed from your subscription",
+          "description": "Enable or disable the monitoring of deprecated acounts with owner permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "vulnerabilityAssessmentOnServerMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerability assessment should be enabled on your SQL servers",
+          "description": "Audit Azure SQL servers which do not have recurring vulnerability assessment scans enabled. Vulnerability assessment can discover, track, and help you remediate potential database vulnerabilities."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "webAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest TLS version should be used in your Web App",
+          "description": "Enable or disable the monitoring of the latest TLS version in Web App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "networkSecurityGroupsOnVirtualMachinesMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Internet-facing virtual machines should be protected with Network Security Groups",
+          "description": "Enable or disable the monitoring of NSGs on VMs"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "identityRemoveExternalAccountWithOwnerPermissionsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "External accounts with owner permissions should be removed from your subscription",
+          "description": "Enable or disable the monitoring of external acounts with owner permissions in subscription"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "functionAppRequireLatestTlsMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Latest TLS version should be used in your Function App",
+          "description": "Enable or disable the monitoring of the latest TLS version in Function App"
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "sqlDbVulnerabilityAssesmentMonitoringEffect": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Vulnerabilities on your SQL databases should be remediated",
+          "description": "Enable or disable the monitoring of Vulnerability Assessment scan results and recommendations for how to remediate database vulnerabilities."
+        },
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "allowedlocationsforresourcegroups_listOfAllowedLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed locations for resource groups"
+        },
+        "defaultValue": [
+          "Australia Central",
+          "Australia Central2",
+          "Australia East",
+          "Australia Southeast"
+        ],
+        "allowedValues": [
+          "Australia Central",
+          "Australia Central2",
+          "Australia East",
+          "Australia Southeast"
+        ]
+      },
+      "allowedlocations_listOfAllowedLocations": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Allowed locations"
+        },
+        "defaultValue": [
+          "Australia Central",
+          "Australia Central2",
+          "Australia East",
+          "Australia Southeast"
+        ],
+        "allowedValues": [
+          "Australia Central",
+          "Australia Central2",
+          "Australia East",
+          "Australia Southeast"
+        ]
+      }
+    },
+    "resourceGroups": {
+
+    },
+    "targetScope": "subscription",
+    "status": {
+      "timeCreated": "2020-05-20T07:56:32+00:00",
+      "lastModified": "2020-05-20T07:56:32.0602492+00:00"
+    },
+    "displayName": "Australian Government ISM PROTECTED",
+    "description": "Deploys and configures policies mapped to specific Australian Government Information Security Manual (ISM) controls."
+  },
+  "id": "/providers/Microsoft.Blueprint/blueprints/Australia-IRAP",
+  "type": "Microsoft.Blueprint/blueprints",
+  "name": "Australia-IRAP"
+}

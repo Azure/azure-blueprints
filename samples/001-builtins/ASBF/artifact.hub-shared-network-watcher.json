@@ -1,0 +1,67 @@
+﻿{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "networkWatcherName": {
+          "defaultValue": "[concat('NetworkWatcher_', parameters('networkWatcherLocation'))]",
+          "type": "string",
+          "metadata": {
+            "displayName": "Network Watcher name",
+            "description": "Name for the Network Watcher resource."
+          }
+        },
+        "networkWatcherLocation": {
+          "defaultValue": "[resourceGroup().location]",
+          "type": "string",
+          "metadata": {
+            "displayName": "Network Watcher location",
+            "description": "Location for the Network Watcher resource."
+          }
+        },
+        "deployHub": {
+          "type": "bool",
+          "defaultValue": true,
+          "metadata": {
+            "displayName": "Deploy hub",
+            "description": "Enter 'true' or 'false' to specify whether the assignment will deploy the hub components of the architecture."
+          }
+        }
+      },
+      "variables": {},
+      "resources": [
+        {
+          "type": "Microsoft.Network/networkWatchers",
+          "apiVersion": "2020-06-01",
+          "name": "[parameters('networkWatcherName')]",
+          "location": "[parameters('networkWatcherLocation')]",
+          "condition": "[parameters('deployHub')]",
+          "tags": {
+            "component": "hub-shared-network-vnet"
+          },
+          "properties": {}
+        }
+      ],
+      "outputs": {}
+    },
+    "parameters": {
+      "networkWatcherName": {
+        "value": "[parameters('networkWatcherName')]"
+      },
+      "networkWatcherLocation": {
+        "value": "[parameters('networkWatcherLocation')]"
+      },
+      "deployHub": {
+        "value": "[parameters('deployHub')]"
+      }
+    },
+    "resourceGroup": "NetworkWatcherResourceGroup",
+    "displayName": "Azure Network Watcher template",
+    "description": "Azure Network Watcher template."
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/ASBF/artifacts/hub-shared-network-watcher",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "hub-shared-network-watcher"
+}

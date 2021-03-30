@@ -16,7 +16,7 @@
       }
     },
     "dependsOn": [],
-    "displayName": "[Preview]: Audit NIST SP 800-53 R4 controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "NIST SP 800-53 R4"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-53-R4-AzGov/artifacts/18e5b847-d4b8-44f6-846a-6698f1af9631",

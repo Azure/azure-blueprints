@@ -1,0 +1,51 @@
+﻿{
+  "properties": {
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/03055927-78bd-4236-86c0-f36125a10dc9",
+    "parameters": {
+      "membersToExcludeInLocalAdministratorsGroup": {
+        "value": "[parameters('membersToExcludeInLocalAdministratorsGroup')]"
+      },
+      "membersToIncludeInLocalAdministratorsGroup": {
+        "value": "[parameters('membersToIncludeInLocalAdministratorsGroup')]"
+      },
+      "listOfLocationsForNetworkWatcher": {
+        "value": "[parameters('listOfLocationsForNetworkWatcher')]"
+      },
+      "logAnalyticsWorkspaceIDForVMAgents": {
+        "value": "[parameters('logAnalyticsWorkspaceIDForVMAgents')]"
+      },
+      "pHPLatestVersionForAppServices": {
+        "value": "[parameters('pHPLatestVersionForAppServices')]"
+      },
+      "windowsImagesToAddToLogAgentAuditScope": {
+        "value": "[parameters('windowsImagesToAddToLogAgentAuditScope')]"
+      },
+      "linuxImagesToAddToLogAgentAuditScope": {
+        "value": "[parameters('linuxImagesToAddToLogAgentAuditScope')]"
+      },
+      "javaLatestVersionForAppServices": {
+        "value": "[parameters('javaLatestVersionForAppServices')]"
+      },
+      "windowsPythonLatestVersionForAppServices": {
+        "value": "[parameters('windowsPythonLatestVersionForAppServices')]"
+      },
+      "linuxPythonLatestVersionForAppServices": {
+        "value": "[parameters('linuxPythonLatestVersionForAppServices')]"
+      },
+      "listOfResourceTypesForDiagnosticLogs": {
+        "value": "[parameters('listOfResourceTypesForDiagnosticLogs')]"
+      },
+      "minimumTLSVersionForWindowsServers": {
+        "value": "[parameters('minimumTLSVersionForWindowsServers')]"
+      }
+    },
+    "dependsOn": [
+
+    ],
+    "displayName": "NIST SP 800-171 R2"
+  },
+  "kind": "policyAssignment",
+  "id": "/providers/Microsoft.Blueprint/blueprints/NIST-SP-800-171-R2/artifacts/7c7cea7a-becd-41b9-8f8a-4414927c73e9",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "7c7cea7a-becd-41b9-8f8a-4414927c73e9"
+}

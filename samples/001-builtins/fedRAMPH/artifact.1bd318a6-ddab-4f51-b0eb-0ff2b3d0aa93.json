@@ -84,7 +84,7 @@
     "dependsOn": [
     
     ],
-    "displayName": "Audit FedRAMP High controls and deploy specific VM Extensions to support audit requirements"
+    "displayName": "FedRAMP High"
   },
   "kind": "policyAssignment",
   "id": "/providers/Microsoft.Blueprint/blueprints/FedRAMPH/artifacts/1bd318a6-ddab-4f51-b0eb-0ff2b3d0aa93",

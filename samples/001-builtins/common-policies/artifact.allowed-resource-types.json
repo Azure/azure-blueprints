@@ -6,7 +6,7 @@
         "value": "[parameters('blueprintAllowedResourceTypes')]"
       }
     },
-    "resourceGroup": "ProdRG",
+    "resourceGroup": "Blueprints",
     "dependsOn": [],
     "displayName": "Allowed resource types"
   },

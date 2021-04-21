@@ -7,7 +7,7 @@
           "displayName": "Tag Name",
           "description": "Tag name for each resource that gets created"
         },
-        "defaultValue": "costCenter"
+        "defaultValue": "Blueprints"
       },
       "tagValue": {
         "type": "string",
@@ -15,7 +15,7 @@
           "displayName": "Tag Value",
           "description": "Tag value for each resource that gets created"
         },
-        "defaultValue": "My Cost Center"
+        "defaultValue": "Blueprints"
       },
       "blueprintAllowedLocations": {
         "type": "array",
@@ -35,10 +35,10 @@
       }
     },
     "resourceGroups": {
-      "ProdRG": {
+      "Blueprints": {
         "dependsOn": [],
         "metadata": {
-          "displayName": "Production resource group"
+          "displayName": "common-policies"
         }
       }
     },

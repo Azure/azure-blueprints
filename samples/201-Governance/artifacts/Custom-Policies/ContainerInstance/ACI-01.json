@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+    },
+    "variables": {},
+    "resources": [
+    {
+        "name": "ACI01Policy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "apiVersion": "2019-09-01",
+        "properties": {
+          "policyType": "Custom",
+          "mode": "all",
+          "displayName": "Use of public IP address and ports should be carefully reviewed for Azure Containers",
+          "description": "Use of public IP address and ports should be carefully reviewed for Azure Containers",
+          "policyRule": {
+               "if": {
+            "allOf": [{
+                    "field": "type",
+                    "equals": "Microsoft.ContainerInstance/containerGroups"
+                },
+                {
+                    "field": "Microsoft.ContainerInstance/containerGroups/ipAddress.type",
+                    "equals": "Public"
+                }
+            ]
+        },
+        "then": {
+            "effect": "audit"
+        }
+    
+           },
+          "metadata": {},
+          "parameters": {}
+        }
+      },
+      {
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "ACI review network access-IPandPorts",
+        "apiVersion": "2019-09-01",
+        "dependsOn": [
+            "ACI01Policy"
+        ],
+        "properties": {
+            "scope": "[subscription().id]",
+            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'ACI01Policy')]"
+        }
+    }
+    ]
+},
+ "displayName": "ACI review network access",
+ "parameters": {
+      }
+},
+"type": "Microsoft.Blueprint/blueprints/artifacts",
+"name": "PolicyTemplate-HBS-ACI-01"
+}

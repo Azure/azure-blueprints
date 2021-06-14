@@ -1,0 +1,67 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {},
+        "variables": {},
+        "resources": [
+        {
+            "name": "BAT07Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "Audit if RDP is allowed on batch pool",
+                "policyType": "Custom",
+                "mode": "All",
+                "description": "Audit if RDP is allowed on batch pool",
+                "policyRule": {
+                  "if": {
+                    "allOf": [
+                      {
+                        "field": "type",
+                        "equals": "Microsoft.Batch/batchAccounts/pools"
+                      },
+                      {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Batch/batchAccounts/pools/networkConfiguration.endpointConfiguration.inboundNatPools[*].backendPort",
+                            "equals": 3389
+                          },
+                          {
+                            "field": "Microsoft.Batch/batchAccounts/pools/networkConfiguration.endpointConfiguration.inboundNatPools[*].networkSecurityGroupRules[*].access",
+                            "equals": "Allow"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "then": {
+                    "effect": "audit"
+                  }
+                }
+              }
+          },
+          {
+          "type": "Microsoft.Authorization/policyAssignments",
+          "name": "Audit if RDP is allowed on batch pool",
+          "apiVersion": "2019-09-01",
+          "dependsOn": [
+              "BAT07Policy"
+          ],
+          "properties": {
+              "scope": "[subscription().id]",
+              "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'BAT07Policy')]"
+          }
+      }
+  ]
+  },
+  "displayName": "Audit if RDP is allowed on batch pool",
+  "parameters": {
+  }
+  },
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "PolicyTemplate-HBS-BAT-07"
+  }

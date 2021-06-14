@@ -1,0 +1,78 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "SQL07Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "Indexed",
+              "displayName": "Enable SQL Server audit",
+              "description": "Enable SQL Server audit with selected event types and retention period of minimum 365 days",
+              "policyRule": {
+                "if": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Sql/servers/auditingSettings"
+            },
+            {
+              "anyOf": [
+                {
+                  "field": "Microsoft.Sql/servers/auditingSettings/default.state",
+                  "equals": "Disabled"
+                },
+                {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Sql/servers/auditingSettings/default.state",
+                      "equals": "Enabled"
+                    },
+                    {
+                      "field": "Microsoft.Sql/servers/auditingSettings/default.storageEndpoint",
+                      "equals": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "then": {
+          "effect": "audit"
+        }
+          },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+          {
+                "type": "Microsoft.Authorization/policyAssignments",
+                "name": "Enable SQL Server audit",
+                "apiVersion": "2019-09-01",
+                "dependsOn": [
+                    "SQL07Policy"
+                ],
+                "properties": {
+                    "scope": "[subscription().id]",
+                    "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'SQL07Policy')]"
+                }
+            }
+         ]
+        },
+        "displayName": "Enable SQL Server audit",
+        "parameters": {
+        }
+        },
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "PolicyTemplate-HBS-SQL-07"
+    }

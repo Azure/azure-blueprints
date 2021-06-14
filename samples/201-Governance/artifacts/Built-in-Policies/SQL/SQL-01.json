@@ -1,0 +1,11 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "An Azure Active Directory administrator should be provisioned for SQL servers",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f314764-cb73-4fc9-b863-8eca98ac36e9",
+      "description": "Audit provisioning of an Azure Active Directory administrator for your SQL server to enable Azure AD authentication. Azure AD authentication enables simplified permission management and centralized identity management of database users and other Microsoft services",
+      "parameters": {
+      }
+    }
+  }
+

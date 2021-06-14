@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+    },
+    "variables": {},
+    "resources": [
+    {
+        "name": "AAS07Policy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "apiVersion": "2019-09-01",
+        "properties": {
+          "policyType": "Custom",
+          "mode": "all",
+          "displayName": "Plan Backup for Azure Analysis Services",
+          "description": "Backup must be planned for Analysis Services",
+          "policyRule": {
+            "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.AnalysisServices/servers"
+                }, 
+                {
+                    "field": "Microsoft.AnalysisServices/servers/backupBlobContainerUri",
+                    "exists": "False"
+                }
+            ]
+        },
+        "then": {
+            "effect": "audit"
+            }
+           },
+          "metadata": {},
+          "parameters": {}
+        }
+      },
+     {
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "Plan Backup for Azure Analysis Services",
+        "apiVersion": "2019-09-01",
+        "dependsOn": [
+            "AAS07Policy"
+        ],
+        "properties": {
+            "scope": "[subscription().id]",
+            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'AAS07Policy')]"
+        }
+    }
+    ]
+},
+      "displayName": "Plan Backup for Azure Analysis Services",
+      "parameters": {
+      }
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "PolicyTemplate-HBS-AAS-07"
+}

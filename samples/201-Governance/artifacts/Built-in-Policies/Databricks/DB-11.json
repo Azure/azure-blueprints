@@ -1,0 +1,13 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Audit diagnostic setting - Databricks",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7f89b1eb-583c-429a-8828-af049802c1d9",
+      "description": "Audit diagnostic setting for selected resource types - Databricks - enabling logs and metrics for Vnet peerings",
+      "parameters": {
+        "listOfResourceTypes": {
+          "value": ["Microsoft.Databricks/workspaces/virtualNetworkPeerings"]
+        }
+      }
+    }
+}

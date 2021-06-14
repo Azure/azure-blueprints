@@ -1,0 +1,14 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Manage certificate validity period - 12 months",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a075868-4c26-42ef-914c-5bc007359560",
+      "description": "This policy manages the maximum validity period for certificates in months - default - 12 months",
+      "parameters": {
+        "maximumValidityInMonths" : {
+          "value": 12  
+        }
+      }
+    }
+}
+

@@ -1,0 +1,13 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Azure Cosmos DB accounts should have firewall rules",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/862e97cf-49fc-4a5c-9de4-40d4e2e7c8eb",
+      "description": "Audit or deny resources that do not have any IP rules configured and allow all networks by default. Accounts that have at least one IP rule defined with the virtual network filter enabled are deemed compliant. Accounts disabling public access are also deemed compliant.",
+      "parameters": {
+        "effect": {
+          "value": "[parameters('effect')]"
+        }
+      }
+    }
+}

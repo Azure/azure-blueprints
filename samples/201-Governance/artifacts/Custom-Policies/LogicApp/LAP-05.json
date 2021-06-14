@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "LAP05Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "all",
+              "displayName": "IP ranges required to access data of LogicApp run history",
+              "description": "Must provide IP ranges for contents to prevent unauthorized access to inputs/outputs data of Logic App run history",
+              "policyRule": {
+             "if": {
+              "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Logic/workflows"
+              },
+              {
+                "field": "Microsoft.Logic/workflows/accessControl.contents.allowedCallerIpAddresses[*]",
+                "exists": "False"
+              }
+            ]
+          },
+          "then": {
+            "effect": "audit"
+          }
+          },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+        {
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "IP ranges required to access data of LogicApp run history",
+        "apiVersion": "2019-09-01",
+        "dependsOn": [
+            "LAP05Policy"
+        ],
+        "properties": {
+            "scope": "[subscription().id]",
+            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'LAP05Policy')]"
+        }
+    }
+]
+},
+"displayName": "IP ranges required to access data of LogicApp run history",
+"parameters": {
+}
+},
+"type": "Microsoft.Blueprint/blueprints/artifacts",
+"name": "PolicyTemplate-HBS-LAP-05"
+}

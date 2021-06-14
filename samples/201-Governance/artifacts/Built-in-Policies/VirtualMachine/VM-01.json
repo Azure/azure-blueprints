@@ -1,0 +1,11 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Disk encryption should be applied on virtual machines",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0961003e-5a0a-4549-abde-af6a37f2724d",
+      "description": "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations.",
+      "parameters": {
+      }
+    }
+  }
+

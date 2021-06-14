@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "description": "This blueprint sets selective Azure Audit policy assignments on the subscription",
+        "targetScope": "subscription",
+        "parameters": {
+            "effect": {
+                "type": "string",
+                "defaultValue": "Audit",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "action of all the policies within this Blueprint"
+                }
+            }
+        }
+    }
+}

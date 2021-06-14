@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "LAP04Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "all",
+              "displayName": "If Logic App fires on an HTTP Request then IP ranges for triggers in Logic Apps",
+              "description": "If Logic App fires on an HTTP Request (e.g. Request or Webhook) then provide IP ranges for triggers to prevent unauthorized access",
+              "policyRule": {
+                 "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Logic/workflows"
+              },
+              {
+                "field": "Microsoft.Logic/workflows/accessControl.triggers.allowedCallerIpAddresses[*]",
+                "exists": "False"
+              }
+            ]
+          },
+          "then": {
+            "effect": "audit"
+          }
+              },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+        {
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "IP ranges for triggers in LogicApp",
+        "apiVersion": "2019-09-01",
+        "dependsOn": [
+            "LAP04Policy"
+        ],
+        "properties": {
+            "scope": "[subscription().id]",
+            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'LAP04Policy')]"
+        }
+    }
+]
+},
+"displayName": "IP ranges for triggers in LogicApp",
+"parameters": {
+}
+},
+"type": "Microsoft.Blueprint/blueprints/artifacts",
+"name": "PolicyTemplate-HBS-LAP-04"
+}

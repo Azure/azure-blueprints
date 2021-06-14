@@ -1,0 +1,11 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "System updates should be installed on your machines",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86b3d65f-7626-441e-b690-81a8b71cff60",
+      "description": "Missing security system updates on your servers will be monitored by Azure Security Center as recommendations",
+      "parameters": {
+      }
+    }
+  }
+

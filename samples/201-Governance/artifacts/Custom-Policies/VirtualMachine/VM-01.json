@@ -1,0 +1,64 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "VM01Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "Indexed",
+              "displayName": "VirtualMachine Latest OS Version",
+              "description": "Virtual Machine should have latest OS version installed",
+              "policyRule": {
+                "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                      },
+                      {
+                        "not": {
+                          "field": "Microsoft.Compute/virtualMachines/storageProfile.imageReference.version",
+                          "equals": "latest"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "audit"
+                }
+               },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+          {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "VirtualMachine Latest OS Version",
+            "apiVersion": "2019-09-01",
+            "dependsOn": [
+                "VM01Policy"
+            ],
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'VM01Policy')]"
+            }
+        }
+     ]
+    },
+    "displayName": "VirtualMachine Latest OS Version",
+    "parameters": {
+    }
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "PolicyTemplate-HBS-VM-01"
+}

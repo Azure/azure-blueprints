@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+     "parameters": {
+    },
+    "variables": {},
+    "resources": [
+    {
+        "name": "COS03Policy",
+        "type": "Microsoft.Authorization/policyDefinitions",
+        "apiVersion": "2019-09-01",
+        "properties": {
+          "policyType": "Custom",
+          "mode": "all",
+          "displayName": "Do not use 'Eventual' consistency for Cosmos DB",
+          "description": "Do not use 'Eventual' consistency for Cosmos DB, if not audit as Non-Complaint resources",
+          "policyRule": {
+              "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.DocumentDB/databaseAccounts"
+          },
+          {
+            "field": "Microsoft.DocumentDB/databaseAccounts/consistencyPolicy.defaultConsistencyLevel",
+            "equals": "Eventual"
+          }
+        ]
+      },
+      "then": {
+        "effect": "audit"
+      }   
+           },
+          "metadata": {},
+          "parameters": {}
+        }
+      },
+      {
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "Do not use 'Eventual' consistency for Cosmos DB",
+        "apiVersion": "2019-09-01",
+        "dependsOn": [
+            "COS03Policy"
+        ],
+        "properties": {
+            "scope": "[subscription().id]",
+            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'COS03Policy')]"
+        }
+    }
+    ]
+},
+ "displayName": "Do not use 'Eventual' consistency for Cosmos DB",
+      "parameters": {
+      }
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "PolicyTemplate-HBS-COS-03"
+}

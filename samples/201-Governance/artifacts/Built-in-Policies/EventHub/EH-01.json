@@ -1,0 +1,11 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "All authorization rules except RootManageSharedAccessKey should be removed from Event Hub namespace",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b278e460-7cfc-4451-8294-cccc40a940d7",
+      "description": "Event Hub clients should not use a namespace level access policy that provides access to all queues and topics in a namespace. To align with the least privilege security model, you should create access policies at the entity level for queues and topics to provide access to only the specific entity",
+      "parameters": {
+      }
+    }
+  }
+

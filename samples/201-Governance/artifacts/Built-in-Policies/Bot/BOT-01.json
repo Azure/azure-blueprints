@@ -1,0 +1,13 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Audit diagnostic setting - BOT Service",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7f89b1eb-583c-429a-8828-af049802c1d9",
+      "description": "Audit diagnostic setting for selected resource types - Bot Services, channels and connections",
+      "parameters": {
+        "listOfResourceTypes": {
+          "value": ["Microsoft.BotService/botServices","Microsoft.BotService/botServices/channels","Microsoft.BotService/botServices/connections"]
+        }
+      }
+    }
+}

@@ -203,7 +203,7 @@
                       ],
                       "sourceIpGroups": [],
                       "destinationAddresses": [
-                        "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('azure-fw-ip-name'))).ipAddress]"
+                        "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('azure-fw-ip-name')), '2019-11-01').ipAddress]"
                       ],
                       "destinationPorts": [
                         "3389"

@@ -1,0 +1,98 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+            "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "variables": {},
+            "resources": [
+                {
+                "name": "KV05Policy",
+                "type": "Microsoft.Authorization/policyDefinitions",
+                "apiVersion": "2019-09-01",
+                "properties": {
+                "displayName": "Advanced access policies for Key Vault",
+                "policyType": "Custom",
+                "mode": "all",
+                "description": "Advanced access policies must be configured on a need basis, True to allow and False to deny. the policy will audit if the access rules has different rules than stated in policy",
+                "parameters": {
+                "EnableforDeployment": {
+                "type": "string",
+                "metadata": {
+                "displayName": "EnableforDeployment",
+                "description": "Azure Virtual Machines for deployment"
+                                },
+                "defaultValue": "True"
+                                },
+                "EnableforDisk": {
+                "type": "string",
+                "metadata": {
+                "displayName": "EnableforDisk",
+                "description": "Azure Resource Manager for template deployment"
+                                },
+                "defaultValue": "True"
+                                },
+                "EnableforTemplate": {
+                "type": "string",
+                "metadata": {
+                "displayName": "EnableforTemplate",
+                "description": "Azure Disk Encryption for volume encryption"
+                                },
+                "defaultValue": "True"
+                                }
+                },
+                "policyRule": {
+                "if": {
+                    "allOf": [
+                        {
+                          "field": "type",
+                          "equals": "Microsoft.KeyVault/vaults"
+                        },
+                        {
+                        "allOf": 
+                        [
+                            {
+                            "field": "Microsoft.KeyVault/vaults/enabledForDeployment",
+                            "equals": "[[parameters('EnableforDeployment')]"
+                            },
+                            {
+                            "field": "Microsoft.KeyVault/vaults/enabledForDiskEncryption",
+                            "equals": "[[parameters('EnableforDisk')]"
+                            },
+                            {
+                            "field": "Microsoft.KeyVault/vaults/enabledForTemplateDeployment",
+                            "equals": "[[parameters('EnableforTemplate')]"
+                            }
+                        ]
+                        }
+                            ]
+                            },
+                "then": {
+                "effect": "audit"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "Microsoft.Authorization/policyAssignments",
+                        "name": "Advanced access policies for Key Vault",
+                        "apiVersion": "2019-09-01",
+                        "dependsOn": [
+                            "KV05Policy"
+                        ],
+                        "properties": {
+                            "scope": "[subscription().id]",
+                            "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'KV05Policy')]"
+                        }
+                    }
+                ]
+    },
+    "displayName": "Advanced access policies for Key Vault",
+         "parameters": {
+         }
+   },
+   "type": "Microsoft.Blueprint/blueprints/artifacts",
+   "name": "PolicyTemplate-HBS-KV-05"
+}

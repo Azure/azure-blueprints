@@ -1,0 +1,69 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "VM10windowsPolicy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+            "displayName": "IaaSDiagnostics extension must be enabled on WindowsVM",
+            "policyType": "Custom",
+            "mode": "All",
+            "description": "Diagnostics (IaaSDiagnostics extension on Windows) must be enabled on Virtual Machine if not then audit .",
+        
+            "policyRule": {
+            "if": {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+            },
+            "then": {
+            "effect": "auditIfNotExists",
+            "details": {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                    "equals": "Microsoft.Azure.Diagnostics"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                    "equals": "IaaSDiagnostics"
+                  }
+                ]
+              }
+            }
+          }
+            }
+        },
+        "metadata": {}  
+            },
+            {
+              "type": "Microsoft.Authorization/policyAssignments",
+              "name": "IaaSDiagnostics extension on WindowsVM",
+              "apiVersion": "2019-09-01",
+              "dependsOn": [
+                  "VM10windowsPolicy"
+              ],
+              "properties": {
+                  "scope": "[subscription().id]",
+                  "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'VM10windowsPolicy')]"
+              }
+          }
+      ]
+      },
+      "displayName": "IaaSDiagnostics extension on WindowsVM",
+      "parameters": {
+      }
+      },
+      "type": "Microsoft.Blueprint/blueprints/artifacts",
+      "name": "PolicyTemplate-HBS-VM-10-windows"
+      }

@@ -1,0 +1,13 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Audit diagnostic setting - Microsoft/DataFactory - all data factories",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7f89b1eb-583c-429a-8828-af049802c1d9",
+      "description": "Audit diagnostic setting for selected resource types - Data Factory",
+      "parameters": {
+        "listOfResourceTypes": {
+          "value": ["Microsoft.DataFactory/dataFactories/diagnosticSettings"]
+        }
+      }
+    }
+}

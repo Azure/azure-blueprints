@@ -1,0 +1,70 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template":{
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "CDN02Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "CDN endpoints must use HTTPS",
+                "policyType": "Custom",
+                "mode": "all",
+                "description": "CDN endpoints must use HTTPS protocol while providing data to the client browser/machine or while fetching data from the origin server",
+                "parameters": {},
+                "policyRule": {
+                    "if": {
+                      "allOf": [
+                        {
+                          "field": "type",
+                          "equals": "Microsoft.Cdn/profiles/endpoints"
+                        },
+                        {
+                        "anyOf": [
+                        {
+                          "field": "microsoft.cdn/profiles/endpoints/isHttpAllowed",
+                          "equals": "True"
+                        },
+                        {
+                          "field": "microsoft.cdn/profiles/endpoints/isHttpsAllowed",
+                          "equals": "False"
+                        }
+                        ]
+                        }
+                      ]
+                    },
+                    "then": {
+                      "effect": "audit"
+                    }
+                  }
+              }
+          },
+          {
+              "type": "Microsoft.Authorization/policyAssignments",
+              "name": "CDN endpoints must use HTTPS",
+              "apiVersion": "2019-09-01",
+              "dependsOn": [
+                  "CDN02Policy"
+              ],
+              "properties": {
+                  "scope": "[subscription().id]",
+                  "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'CDN02Policy')]"
+              }
+          }
+          ]
+      },
+       "displayName": "CDN endpoints must use HTTPS",
+            "parameters": {
+            }
+          },
+          "type": "Microsoft.Blueprint/blueprints/artifacts",
+          "name": "PolicyTemplate-HBS-CDN-02"
+}
+       

@@ -1,0 +1,11 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "Microsoft IaaSAntimalware extension should be deployed on Windows servers",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9b597639-28e4-48eb-b506-56b05d366257",
+      "description": "This policy audits any Windows server VM without Microsoft IaaSAntimalware extension deployed.",
+      "parameters": {
+      }
+    }
+  }
+

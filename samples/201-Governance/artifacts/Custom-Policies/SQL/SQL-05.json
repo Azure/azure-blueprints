@@ -1,0 +1,70 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": { 
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "SQL05Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+            "displayName": "SQL Server firewall should be enabled",
+            "policyType": "Custom",
+            "mode": "All",
+            "description": "audit if firewall not enabled .\n",
+       
+            "parameters": {},
+            "policyRule": {
+            "if": {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+            } ,
+            "then": {
+            "effect": "auditIfNotExists",
+            "details": {
+              "type": "Microsoft.Sql/servers/firewallRules",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Sql/servers/firewallRules/startIpAddress",
+                    "exists": true
+                  },
+                  {
+                    "field": "Microsoft.Sql/servers/firewallRules/endIpAddress",
+                    "exists": "true"
+                  }
+                ]
+              }
+            }
+            }
+            }
+            },
+            "metadata": {} 
+        },
+        {
+              "type": "Microsoft.Authorization/policyAssignments",
+              "name": "SQL Server firewall should be enabled",
+              "apiVersion": "2019-09-01",
+              "dependsOn": [
+                  "SQL05Policy"
+              ],
+              "properties": {
+                  "scope": "[subscription().id]",
+                  "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'SQL05Policy')]"
+              }
+          }
+       ]
+      },
+      "displayName": "SQL Server firewall should be enabled",
+      "parameters": {
+      }
+      },
+      "type": "Microsoft.Blueprint/blueprints/artifacts",
+      "name": "PolicyTemplate-HBS-SQL-05"
+  }

@@ -1,0 +1,70 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "HDI01Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "all",
+              "displayName": "HDInsight must have supported HDI cluster version",
+              "description": "HDInsight must have supported HDI cluster version",
+              "policyRule": {
+              "if": {
+              "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.HDInsight/clusters"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.HDInsight/clusters/clusterVersion",
+                    "notLike": "3.6*"
+                  },
+                  {
+                    "field": "Microsoft.HDInsight/clusters/clusterVersion",
+                    "notLike": "4.0*"
+                  }
+                ]
+              }
+            ]
+          },
+          "then": {
+            "effect": "audit"
+          } 
+          },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+          {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "HDInsight with supported HDIcluster ver",
+            "apiVersion": "2019-09-01",
+            "dependsOn": [
+                "HDI01Policy"
+            ],
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'HDI01Policy')]"
+            }
+        }
+        ]
+    },
+     "displayName": "HDInsight with supported HDIcluster ver",
+          "parameters": {
+          }
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "PolicyTemplate-HBS-HDI-01"
+}

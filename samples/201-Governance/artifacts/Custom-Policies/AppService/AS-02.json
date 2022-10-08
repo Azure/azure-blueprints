@@ -1,0 +1,66 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "AS02Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "Custom domain must have SSL Binding",
+                "policyType": "Custom",
+                "mode": "All",
+                "description": "Custom domain with SSL binding must be configured for App Service, it doesnt check the default domain of app service, as it is always secured",
+                "policyRule": {
+                  "if": {
+                    "allOf": [
+                      {
+                        "field": "type",
+                        "equals": "Microsoft.Web/sites"
+                      },
+                      {
+                        "not": {
+                          "field": "Microsoft.Web/sites/hostNameSslStates[*].name",
+                          "like": "*azurewebsites.net"
+                        }
+                      },
+                      {
+                        "field": "Microsoft.Web/sites/hostNameSslStates[*].sslState",
+                        "equals": "Disabled"
+                      }
+                    ]
+                  },
+                  "then": {
+                    "effect": "audit"
+                  }
+                }
+              }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "Custom domain must have SSL Binding",
+            "apiVersion": "2019-09-01",
+            "dependsOn": [
+                "AS02Policy"
+            ],
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'AS02Policy')]"
+            }
+        }
+        ]
+    },
+     "displayName": "Custom domain must have SSL Binding",
+          "parameters": {
+          }
+        },
+        "type": "Microsoft.Blueprint/blueprints/artifacts",
+        "name": "PolicyTemplate-HBS-AS-02"
+    }

@@ -1,0 +1,13 @@
+{
+    "kind": "policyAssignment",
+    "properties": {
+      "displayName": "API Application should only be accessible over HTTPS",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b7ddfbdc-1260-477d-91fd-98bd9be789a6",
+      "description": "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks.",
+      "parameters": {
+        "effect": {
+          "value": "[parameters('effect')]"
+        }
+      }
+    }
+}

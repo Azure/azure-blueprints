@@ -1,0 +1,62 @@
+{
+    "kind" : "template",
+    "properties": {
+    "dependsOn": [],
+    "template": {
+        "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+         "parameters": {
+        },
+        "variables": {},
+        "resources": [
+        {
+            "name": "VM04Policy",
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2019-09-01",
+            "properties": {
+              "policyType": "Custom",
+              "mode": "all",
+              "displayName": "NSG must be configured for Virtual Machine",
+              "description": "NSG must be configured for Virtual Machine",
+              "policyRule": {
+                "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "field": "Microsoft.Network/networkInterfaces/networkSecurityGroup.id",
+                        "exists": "false"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "audit"
+                }
+               },
+              "metadata": {},
+              "parameters": {}
+            }
+          },
+          {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "NSG must be configured for VMs",
+            "apiVersion": "2019-09-01",
+            "dependsOn": [
+                "VM04Policy"
+            ],
+            "properties": {
+                "scope": "[subscription().id]",
+                "policyDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/policyDefinitions', 'VM04Policy')]"
+            }
+        }
+     ]
+    },
+    "displayName": "NSG must be configured for VMs",
+    "parameters": {
+    }
+    },
+    "type": "Microsoft.Blueprint/blueprints/artifacts",
+    "name": "PolicyTemplate-HBS-VM-04"
+}

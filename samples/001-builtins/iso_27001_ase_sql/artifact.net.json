@@ -343,6 +343,13 @@
             }
           },
           {
+            "name": "to-mgmt-38",
+            "properties": {
+              "addressPrefix": "13.69.64.128/32",
+              "nextHopType": "Internet"
+            }
+          },
+          {
             "name": "default",
             "properties": {
               "addressPrefix": "0.0.0.0/0",

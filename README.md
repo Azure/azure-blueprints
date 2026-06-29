@@ -4,6 +4,24 @@ Last edited: 7-3-19
 -->
 # Managing Blueprints as Code
 
+> [!IMPORTANT]
+> **Azure Blueprints (Preview) is being retired on January 31, 2027**, with a phased retirement beginning July 31, 2026. At retirement, the API stops responding, the Azure CLI and Azure PowerShell commands stop working, and Blueprints is removed from the Azure portal. **Export any blueprint definitions, versions, and assignments you want to keep before January 31, 2027** — anything not exported is deleted and can't be recovered.
+>
+> **Recommended migration:** move to [Azure Deployment Stacks](https://learn.microsoft.com/azure/azure-resource-manager/bicep/deployment-stacks) for resource grouping, lifecycle management, and deny-assignment (lock) enforcement, and publish your templates as [template specs](https://learn.microsoft.com/azure/azure-resource-manager/bicep/template-specs) or store them in Git for versioning.
+>
+> **Phased timeline**
+> - **Jul 31, 2026** — no new blueprint definitions or versions
+> - **Oct 31, 2026** — no edits to definitions; no new assignments
+> - **Dec 31, 2026** — no edits to existing assignments
+> - **Jan 31, 2027** — Azure Blueprints is retired
+>
+> **Resources**
+> - Announcement & full timeline: https://aka.ms/AzureBlueprintsRetirementAnnouncement
+> - Migration guidance: https://aka.ms/AzureBlueprintsMigration
+> - FAQ: https://aka.ms/AzureBlueprintsRetirementFAQ
+>
+> Have a retirement-related question? [Open a retirement question / issue](https://github.com/Azure/azure-blueprints/issues/new?template=retirement-question.yml).
+
 Using the Blueprints in the Azure Portal is a great way to get started with Blueprints or to use Blueprints on a small-ish scale, but often you’ll want to manage your Blueprints as code for a variety of reasons, such as:
 * Sharing blueprints
 * Keeping blueprints in source control

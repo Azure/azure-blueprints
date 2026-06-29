@@ -1,0 +1,69 @@
+name: Azure Blueprints retirement question / issue
+description: Ask a question or report a problem related to the Azure Blueprints (Preview) retirement and migration.
+title: "[Retirement]: "
+labels: ["retirement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Azure Blueprints (Preview) is being retired on **January 31, 2027**, with a phased retirement beginning **July 31, 2026**.
+
+        Most questions are answered in the official resources — please skim these first:
+        - [Retirement announcement & full timeline](https://aka.ms/AzureBlueprintsRetirementAnnouncement)
+        - [Migration guidance](https://aka.ms/AzureBlueprintsMigration)
+        - [Retirement FAQ](https://aka.ms/AzureBlueprintsRetirementFAQ)
+
+        Please don't include subscription IDs, tenant IDs, secrets, or other sensitive details in this issue.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your retirement question or issue
+      description: What would you like help with? Include any concerns about the timeline or a specific migration blocker.
+      placeholder: e.g. How do I preserve my blueprint locks (deny assignments) after retirement?
+    validations:
+      required: true
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What is this mostly about?
+      options:
+        - Migration guidance (Deployment Stacks / template specs)
+        - Retirement timeline or phased dates
+        - Resource locks / deny assignments
+        - Exporting blueprint definitions, versions, or assignments
+        - Policy or role assignments
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: current-usage
+    attributes:
+      label: How are you using Azure Blueprints today?
+      description: Briefly describe your definitions, assignments, scope (management group / subscription), and artifact types. Keep it free of sensitive identifiers.
+      placeholder: e.g. ~10 definitions assigned at a management group scope, using policy + role + template artifacts and resource locks.
+    validations:
+      required: false
+  - type: dropdown
+    id: migration-target
+    attributes:
+      label: Migration path you're considering
+      description: Which replacement are you evaluating? See the migration guidance for details.
+      options:
+        - Not sure yet
+        - Azure Deployment Stacks
+        - Template specs
+        - Git-based templates
+        - Azure Policy (for policy assignments)
+        - Other / a combination
+    validations:
+      required: false
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Before you submit
+      options:
+        - label: I've reviewed the retirement announcement, migration guidance, and FAQ linked above.
+          required: true
+        - label: This issue does not contain subscription IDs, tenant IDs, secrets, or other sensitive data.
+          required: true

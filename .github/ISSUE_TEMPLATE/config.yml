@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Azure Blueprints retirement announcement & timeline
+    url: https://aka.ms/AzureBlueprintsRetirementAnnouncement
+    about: Official announcement, the phased retirement timeline, and what changes at each phase.
+  - name: Migrate from Azure Blueprints
+    url: https://aka.ms/AzureBlueprintsMigration
+    about: Step-by-step guidance to migrate to Azure Deployment Stacks and template specs.
+  - name: Azure Blueprints retirement FAQ
+    url: https://aka.ms/AzureBlueprintsRetirementFAQ
+    about: Answers to common questions about the retirement, data export, and deny-assignment impact.
